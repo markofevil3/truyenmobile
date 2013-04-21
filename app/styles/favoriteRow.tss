@@ -1,0 +1,58 @@
+".rows[platform=ios formFactor=handheld]": {
+	height: 100,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/dark-background.png',
+},
+".rows[platform=ios formFactor=tablet]": {
+	height: 200,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/dark-background.png',
+},
+".bookCoverViews": {
+	backgroundColor: 'transparent',
+	width: '19%',
+	height: '90%',
+	left: '1%'
+},
+".bookCovers": {
+	width: '92%',
+	height: '93%',
+	top: '4%',
+	left: '3%'
+},
+".detailViews": {
+	width: '75%',
+	height: '100%',
+	left: '24%',
+	layout: 'vertical',
+},
+".bookTitles[platform=ios formFactor=handheld]": {
+	font: { fontWeight: 'bold', fontSize: 19, fontFamily: 'Chalkboard SE' },
+	left: 0,
+	color: '#fff'
+},
+".bookTitles[platform=ios formFactor=tablet]": {
+	font: { fontWeight: 'bold', fontSize: 38, fontFamily: 'Chalkboard SE' },
+	left: 0,
+	color: '#fff'
+},
+".newestChapters[platform=ios formFactor=handheld]": {
+	font: { fontSize: 17, fontStyle: 'italic', fontFamily: 'Chalkboard SE' },
+	left: 0,
+	color: '#fff'
+},
+".newestChapters[platform=ios formFactor=tablet]": {
+	font: { fontSize: 34, fontStyle: 'italic', fontFamily: 'Chalkboard SE' },
+	left: 0,
+	color: '#fff'
+},
+".bookTypes[platform=ios formFactor=handheld]": {
+	font: { fontStyle: 'italic', fontSize: 15, fontFamily: 'Chalkboard SE' },
+	left: 0,
+	color: '#fff'
+},
+".bookTypes[platform=ios formFactor=tablet]": {
+	font: { fontStyle: 'italic', fontSize: 30, fontFamily: 'Chalkboard SE' },
+	left: 0,
+	color: '#fff'
+}

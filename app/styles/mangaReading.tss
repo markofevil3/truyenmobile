@@ -1,0 +1,123 @@
+"#mangaReadingWindow": {
+	backgroundColor:'#000'
+},
+"#funcBar": {
+	width: "100%",
+	height: "100%",
+	backgroundColor: 'transparent',
+	zIndex: 9999
+},
+"#topBar[platform=ios formFactor=handheld]": {
+	backgroundColor: '#000',
+	height: 40,
+	top: 0,
+},
+"#topBar[platform=ios formFactor=tablet]": {
+	backgroundColor: '#000',
+	height: 70,
+	top: 0,
+},
+"#buttonBar[platform=ios formFactor=handheld]": {
+	top: 50,
+	height: Titanium.UI.SIZE
+},
+"#buttonBar[platform=ios formFactor=tablet]": {
+	top: 80,
+	height: Titanium.UI.SIZE
+},
+".changeButtons[platform=ios formFactor=handheld]": {
+	width: 120,
+	height: 30,
+	font: { fontWeight: 'bold', fontSize: 14 },
+	borderRadius: 5,
+	borderWidth: 1,
+	borderColor: '#0e2774',
+	backgroundColor: '#4f76ff',
+	backgroundImage: 'NONE',
+	selectedColor: '#333',
+	selectedBackgroundColor: '#83b7ff',
+	color: '#CCCCCC'
+},
+".changeButtons[platform=ios formFactor=tablet]": {
+	width: 220,
+	height: 50,
+	font: { fontWeight: 'bold', fontSize: 26 },
+	borderRadius: 10,
+	borderWidth: 2,
+	borderColor: '#0e2774',
+	backgroundColor: '#4f76ff',
+	backgroundImage: 'NONE',
+	selectedColor: '#333',
+	selectedBackgroundColor: '#83b7ff',
+	color: '#CCCCCC'
+},
+"#prevButton": {
+	left: 10,
+	visible: false,
+	backgroundColor: '#05803d',
+	borderColor: '#04622f',
+},
+"#nextButton": {
+	right: 10,
+	visible: false
+},
+"#closeButton[platform=ios formFactor=handheld]": {
+	title: 'close',
+	width: 60,
+	height: 25,
+	right: 10,
+	font: { fontWeight: 'bold', fontSize: 14 },
+	borderRadius: 5,
+	borderWidth: 1,
+	borderColor: '#ffffff',
+	backgroundColor: '#222',
+	backgroundImage: 'NONE',
+	selectedColor: '#fff',
+	color: '#c80500'
+},
+"#closeButton[platform=ios formFactor=tablet]": {
+	title: 'close',
+	width: 100,
+	height: 40,
+	right: 10,
+	font: { fontWeight: 'bold', fontSize: 24 },
+	borderRadius: 10,
+	borderWidth: 2,
+	borderColor: '#ffffff',
+	backgroundColor: '#222',
+	backgroundImage: 'NONE',
+	selectedColor: '#fff',
+	color: '#c80500'
+},
+"#chapterTitle[platform=ios formFactor=handheld]": {
+	color: '#CCCCCC',
+	font: { fontWeight: 'bold', fontSize: 17 }
+},
+"#chapterTitle[platform=ios formFactor=tablet]": {
+	color: '#CCCCCC',
+	font: { fontWeight: 'bold', fontSize: 34 }
+},
+"#pageCount[platform=ios formFactor=handheld]": {
+	color: '#CCCCCC',
+	left: 10,
+	font: { fontSize: 17 }
+},
+"#pageCount[platform=ios formFactor=tablet]": {
+	color: '#CCCCCC',
+	left: 10,
+	font: { fontSize: 34 }
+},
+"#advView2[platform=ios formFactor=handheld]": {
+	width: '100%',
+	height: 50,
+	bottom: 0
+},
+"#advView2[platform=ios formFactor=tablet]": {
+	width: '100%',
+	height: 66,
+	bottom: 0
+},
+"#imageHolderView": {
+	width: '100%',
+	height: '100%'
+}

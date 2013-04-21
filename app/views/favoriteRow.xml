@@ -1,0 +1,12 @@
+<Alloy>
+  <TableViewRow id="row" class="rows">
+    <View id="bookCoverView" class="bookCoverViews">
+      <ImageView id="bookCover" class="bookCovers"/>
+    </View>
+    <View id="detailView" class="detailViews">
+      <Label id="bookTitle" class="bookTitles" />
+      <Label id="newestChapter" class="newestChapters" />
+      <Label id="bookType" class="bookTypes" />
+    </View>
+  </TableViewRow>
+</Alloy>

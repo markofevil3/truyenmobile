@@ -1,0 +1,12 @@
+<Alloy>
+	<Tab id="favoriteTab" icon="/common/favorite.png">
+		<Window class="tabs" id="favoriteWindow" title="Favorites">
+		  <View id="wrapper">
+        <TabbedBar id="filterTabbar"></TabbedBar>
+        <View id="advView" />
+        <TableView id="bookShellTable">
+        </TableView>
+		  </View>
+		</Window>
+	</Tab>
+</Alloy>

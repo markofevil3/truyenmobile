@@ -1,0 +1,9 @@
+<Alloy>
+  <Window id="supportWindow" title="Yêu Cầu Truyện">
+    <ScrollView id="wrapperView">
+      <Label id="textLabel" />
+      <TextArea id="contentTextArea"/>
+      <Button id="sendButton" onClick="sendSupport"/>
+    </ScrollView>
+  </Window>
+</Alloy>

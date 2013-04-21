@@ -1,0 +1,8 @@
+<Alloy>
+	<TabGroup id="tabGroup">
+		<!-- Explicit Window declaration -->
+		<Require src="home"/>
+		<Require src="favorite"/>
+		<Require src="setting"/>
+	</TabGroup>
+</Alloy>

@@ -1,0 +1,12 @@
+<Alloy>
+  <Window id="storyListWindow" title="Story">
+    <Require id="loading" type="widget" src="com.appcelerator.loading"/>
+    <View id="searchView" class="searchView">
+      <SearchBar id="searchButton" class="search"/>
+      <Button id="sortButton" class="sort" />
+    </View>
+    <View id="advView" />
+    <TableView id="bookShellTable">
+    </TableView>
+  </Window>
+</Alloy>

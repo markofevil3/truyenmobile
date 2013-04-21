@@ -1,0 +1,30 @@
+"#favoriteWindow": {
+	// layout: 'vertical'
+},
+"#wrapper": {
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.FILL,
+	top: 0,
+	layout: 'vertical'
+},
+"#filterTabbar": {
+	labels:['Tất Cả', 'Truyện Tranh', 'Truyện Chữ'],
+	index:0,
+	backgroundColor:'#c69656',
+	style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
+	color: '#fff',
+	top: 0
+},
+"#bookShellTable": {
+	editable:true,
+	allowsSelectionDuringEditing:true,
+	backgroundColor: 'transparent',
+	backgroundRepeat: true,
+  separatorColor: 'transparent',
+	style: Ti.UI.iPhone.TableViewStyle.PLAIN,
+  separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+}
+"#advView": {
+	width: '100%',
+	height: 50,
+},

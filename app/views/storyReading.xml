@@ -1,0 +1,14 @@
+<Alloy>
+  <Window id="storyReadingWindow">
+    <View id="topBar">
+      <Button id="textSmallButton" onClick="changeTextSize" dataType="0" />
+      <Button id="textBigButton" onClick="changeTextSize" dataType="1" />
+      <Button id="closeButton" onClick="closeWindow" />
+    </View>
+    <ScrollView id="contentView">
+      <View id="contentWrapper">
+        <TextArea id="contentLabel" />
+      </View>
+    </ScrollView>
+  </Window>
+</Alloy>

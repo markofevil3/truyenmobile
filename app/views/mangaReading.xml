@@ -1,0 +1,18 @@
+<Alloy>
+  <Window id="mangaReadingWindow">
+    <View id="funcBar">
+      <View id="topBar">
+        <Button id="closeButton" onClick="closeWindow" />
+        <Label id="chapterTitle"></Label>
+        <Label id="pageCount"></Label>
+      </View>
+      <View id="buttonBar">
+        <Button id="prevButton" class="changeButtons" title="Chapter Trước" onClick="changeChapter" />
+        <Button id="nextButton" class="changeButtons" title="Chapter Sau" onClick="changeChapter" />
+      </View>
+      <View id="advView2" />
+    </View>
+    <View id="imageHolderView">
+    </View>
+  </Window>
+</Alloy>

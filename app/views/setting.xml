@@ -1,0 +1,18 @@
+<Alloy>
+	<Tab id="settingTab" icon="/common/setting.png">
+		<Window id="settingWindow" class="tabs" title="Settings">
+      <TableView id="settingTableView">
+        <TableViewRow id="account" class="settingRow" title="Tài Khoản" onClick="selectMenu">
+        </TableViewRow>
+        <TableViewRow id="support" class="settingRow" title="Yêu Cầu Truyện" onClick="selectMenu">
+        </TableViewRow>
+        <TableViewRow id="aboutUs" class="settingRow" title="Giới Thiệu" onClick="selectMenu">
+        </TableViewRow>
+        <TableViewRow id="adv">
+        </TableViewRow>
+      </TableView>
+      <WebView id="facebookLikeBox">
+      </WebView>
+		</Window>
+	</Tab>
+</Alloy>

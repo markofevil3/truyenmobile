@@ -1,0 +1,22 @@
+".rows[platform=ios formFactor=handheld]": {
+	height: 40,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/bookshelfBackground.png',
+	// selectedBackgroundColor: 'transparent'
+},
+".rows[platform=ios formFactor=tablet]": {
+	height: 80,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/bookshelfBackground.png',
+	// selectedBackgroundColor: 'transparent'
+},
+".chapters[platform=ios formFactor=handheld]": {
+	color: '#fff',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	font: { fontWeight: 'bold', fontSize: 17, fontFamily: 'Chalkboard SE' }
+},
+".chapters[platform=ios formFactor=tablet]": {
+	color: '#fff',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	font: { fontWeight: 'bold', fontSize: 34, fontFamily: 'Chalkboard SE' }
+}

@@ -1,0 +1,64 @@
+".rows[platform=ios formFactor=handheld]": {
+	height:120,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/bookshelfBackground.png',
+	selectedBackgroundColor: 'transparent',
+	layout: 'horizontal'
+},
+".rows[platform=ios formFactor=tablet]": {
+	height: 240,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/bookshelfBackground.png',
+	selectedBackgroundColor: 'transparent',
+	layout: 'horizontal'
+},
+".bookInfoViews[platform=ios formFactor=handheld]": {
+	width: 90,
+	left: 12.5,
+	layout: 'vertical',
+	selectedBackgroundColor: 'blue',
+},
+".bookInfoViews[platform=ios formFactor=tablet]": {
+	width: 220,
+	left: 25,
+	layout: 'vertical',
+	selectedBackgroundColor: 'blue',
+},
+".nameTagBackgrounds": {
+	backgroundImage: '/common/bg_paper_tournament.png',
+	height: '25%',
+	top: 0,
+	width: '100%',
+},
+".bookNames[platform=ios formFactor=handheld]": {
+	color: '#fff',
+	font: { fontSize: 13, fontWeight: 'bold', fontFamily: 'Chalkboard SE'},
+	textAlign: 'center',
+	horizontalWrap: true,
+},
+".bookNames[platform=ios formFactor=tablet]": {
+	color: '#fff',
+	font: { fontSize: 26, fontWeight: 'bold', fontFamily: 'Chalkboard SE'},
+	textAlign: 'center',
+	horizontalWrap: true,
+},
+".bookCovers": {
+	width: '65%',
+	height: '68%',
+	backgroundImage: '/common/book2.png',
+},
+".coverLinks[platform=ios formFactor=handheld]": {
+	width: '80%',
+	height: 77,
+	top: 0,
+	left: 9,
+	defaultImage: '/common/default_image.jpg',
+},
+".coverLinks[platform=ios formFactor=tablet]": {
+	width: '80%',
+	height: 154,
+	top: 0,
+	left: 18,
+	defaultImage: '/common/default_image.jpg',
+}
+

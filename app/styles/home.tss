@@ -1,0 +1,55 @@
+"TableView": {
+  backgroundColor: 'transparent',
+  separatorColor: 'transparent',
+  style: Ti.UI.iPhone.TableViewStyle.PLAIN,
+  separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
+},
+".homeRow[platform=ios formFactor=handheld]": {
+	height: 120,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/bookshelfBackground.png'
+	// selectedBackgroundColor: 'orange',
+},
+".homeRow[platform=ios formFactor=tablet]": {
+	height: 240,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/bookshelfBackground.png'
+	// selectedBackgroundColor: 'orange',
+},
+".homeRowBackground": {
+	width: '100%',
+	height: '100%',
+	backgroundImage: '/common/bookShelf.png',
+},
+".homeMenuName[platform=ios formFactor=handheld]": {
+	color: '#fff',
+	font: { fontSize: 20, fontWeight: 'bold', fontFamily: 'Chalkboard SE' },
+	zIndex: 2
+},
+".homeMenuName[platform=ios formFactor=tablet]": {
+	color: '#fff',
+	font: { fontSize: 40, fontWeight: 'bold', fontFamily: 'Chalkboard SE' },
+	zIndex: 2
+},
+".homeBackgroundPanel[platform=ios formFactor=handheld]": {
+	width: 181,
+	height: 55,
+},
+".homeBackgroundPanel[platform=ios formFactor=tablet]": {
+	width: 362,
+	height: 110,
+},
+"#advertise[platform=ios formFactor=handheld]": {
+	width: '100%',
+	height: 50,
+	backgroundColor: '#fff',
+	selectedBackgroundColor: 'transparent',
+	name: 'Advertise'
+},
+"#advertise[platform=ios formFactor=tablet]": {
+	width: '100%',
+	height: 66,
+	backgroundColor: '#fff',
+	selectedBackgroundColor: 'transparent',
+	name: 'Advertise'
+}

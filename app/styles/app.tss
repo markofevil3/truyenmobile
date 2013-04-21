@@ -1,0 +1,29 @@
+".tabs": {
+	backgroundImage: '/common/shellBg.png',
+	barImage: '/common/top.png'
+},
+".searchView": {
+	backgroundColor: '#222',
+	height: 40,
+	backgroundImage: '/common/setting_bg.png',
+	backgroundColor: 'transparent',
+	top: 0
+},
+".search": {
+	barColor:'transparent',
+	backgroundImage: '/common/setting_bg.png',
+	hintText:'search',
+	width: '70%',
+	left: 16
+},
+".sort": {
+	color: '#fff',
+	opacity: 0.7,
+	height: 30,
+	width: 30,
+	right: '8%',
+	borderRadius: 4,
+	borderWidth: 1,
+	borderColor: '#9b652e',
+	backgroundImage: '/common/sort-button2.png',
+},

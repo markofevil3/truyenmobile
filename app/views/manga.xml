@@ -1,0 +1,27 @@
+<Alloy>
+  <Window id="mangaWindow">
+    <View id="wrapper">
+      <View id="mangaInfoView">
+        <View id="bookBackgroundView">
+          <ImageView id="bookCover">
+        </View>
+        <View id="bookDetails">
+          <Label id="bookTitle" />
+          <Label id="bookAuthor" />
+          <Label id="newestChapter" />
+          <View id="numView">
+            <ImageView id="numViewIcon">
+            <Label id="numViewText" />
+          </View>
+        </View>
+      </View>
+      <View id="searchView" class="searchView">
+        <SearchBar id="searchButton" class="search"/>
+        <Button id="sortButton" class="sort" />
+      </View>
+      <View id="advView" />
+      <TableView id="bookShellTable">
+      </TableView>
+    </View>
+  </Window>
+</Alloy>

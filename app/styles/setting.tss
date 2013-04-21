@@ -1,0 +1,31 @@
+"#settingTableView": {
+  height: Titanium.UI.SIZE,
+  scrollable: false,
+  backgroundColor: 'transparent',
+  top: 0
+},
+".settingRow[platform=ios formFactor=handheld]": {
+	height: 50,
+	hasChild: true,
+	color: '#fff',
+	font: { fontWeight: 'bold', fontSize: 16, fontFamily: 'Chalkboard SE' },
+},
+".settingRow[platform=ios formFactor=tablet]": {
+	height: 66,
+	hasChild: true,
+	color: '#fff',
+	font: { fontWeight: 'bold', fontSize: 30, fontFamily: 'Chalkboard SE' },
+},
+"#adv[platform=ios formFactor=handheld]": {
+	height: 50,
+},
+"#adv[platform=ios formFactor=tablet]": {
+	height: 66,
+},
+"#facebookLikeBox": {
+	width: '100%',
+	height: Titanium.UI.SIZE,
+	bottom: 0,
+	textAlign:'center', 
+	backgroundColor: 'transparent',
+}
