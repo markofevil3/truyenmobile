@@ -137,10 +137,19 @@ Alloy.Globals.getDeviceToken = function() {
 Alloy.Globals.subscribePush = function(channel) {
     Cloud.PushNotifications.subscribe({
         channel: channel,
-        type: "ios",
-        device_token: deviceToken
+        device_token: Ti.Network.remoteDeviceUUID
     }, function(e) {
         e.success ? alert("Success :" + (e.error && e.message || JSON.stringify(e))) : alert("ErrorSubscribe:" + (e.error && e.message || JSON.stringify(e)));
+    });
+};
+
+Alloy.Globals.unsubscribePush = function(channel) {
+    log(Ti.Network.remoteDeviceUUID);
+    Cloud.PushNotifications.unsubscribe({
+        channel: channel,
+        device_token: Ti.Network.remoteDeviceUUID
+    }, function(e) {
+        e.success ? alert("Success :" + (e.error && e.message || JSON.stringify(e))) : alert("ErrorUnSubscribe:" + (e.error && e.message || JSON.stringify(e)));
     });
 };
 

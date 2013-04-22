@@ -2,6 +2,10 @@ var listFavorites;
 var mangaRows;
 var storyRows;
 var tableView = $.bookShellTable;
+tableView.addEventListener("delete", function(e) {
+	deleteFavorite(e.rowData.dataId);
+	Alloy.Globals.unsubscribePush(e.rowData.dataId);
+});
 
 function setRowData(data, type) {
 	var dataSet = [];
@@ -13,6 +17,16 @@ function setRowData(data, type) {
 	return dataSet;
 };
 
+function deleteFavorite(itemId) {
+	Alloy.Globals.getAjax('/removeFavorite', {
+		'userId': Alloy.Globals.facebook.getUid(),
+		'itemId': itemId
+	},
+	function(response) {
+		log(response);
+	});
+}
+
 function getFavorites() {
 	Alloy.Globals.getAjax('/getFavorites', {
 		'userId': Alloy.Globals.facebook.getUid()
@@ -22,6 +36,7 @@ function getFavorites() {
 		mangaRows = setRowData(listFavorites['manga'], 0);
 		storyRows = setRowData(listFavorites['story'], 1);
 		tableView.data = mangaRows.concat(storyRows);
+		
 		$.filterTabbar.addEventListener('click', function(e) {
 			switch (e.index) {
 				case 0:

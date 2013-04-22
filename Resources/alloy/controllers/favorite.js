@@ -11,6 +11,14 @@ function Controller() {
         }
         return dataSet;
     }
+    function deleteFavorite(itemId) {
+        Alloy.Globals.getAjax("/removeFavorite", {
+            userId: Alloy.Globals.facebook.getUid(),
+            itemId: itemId
+        }, function(response) {
+            log(response);
+        });
+    }
     function getFavorites() {
         Alloy.Globals.getAjax("/getFavorites", {
             userId: Alloy.Globals.facebook.getUid()
@@ -95,6 +103,10 @@ function Controller() {
     var mangaRows;
     var storyRows;
     var tableView = $.bookShellTable;
+    tableView.addEventListener("delete", function(e) {
+        deleteFavorite(e.rowData.dataId);
+        Alloy.Globals.unsubscribePush(e.rowData.dataId);
+    });
     $.favoriteTab.addEventListener("focus", function() {
         Alloy.Globals.CURRENT_TAB = $.favoriteTab;
         0 == Alloy.Globals.facebook.loggedIn ? Alloy.Globals.facebookLogin(function() {
