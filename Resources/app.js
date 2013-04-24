@@ -3,17 +3,7 @@ function log(para) {
 }
 
 function showRequestResult(e) {
-    var s = "";
-    if (e.success) {
-        s = "SUCCESS";
-        e.result && (s += "; " + e.result);
-        e.data && (s += "; " + e.data);
-        e.result || e.data || (s = '"success", but no data from FB.  I am guessing you cancelled the dialog.');
-    } else if (e.cancelled) s = "CANCELLED"; else {
-        s = "FAIL";
-        e.error && (s += "; " + e.error);
-    }
-    alert(s);
+    log(e);
 }
 
 function isHash(obj) {
@@ -36,15 +26,15 @@ Alloy.Globals.TAB_GROUP = null;
 
 Alloy.Globals.currentLoadingView = null;
 
-Alloy.Globals.FBPOST_LINK = "https://www.facebook.com/bui.p.quan?ref=tn_tnmn";
+Alloy.Globals.FBPOST_LINK = "https://www.facebook.com/pages/Truy%E1%BB%87n-tranh-Truy%E1%BB%87n-ng%E1%BA%AFn-Truy%E1%BB%87n-c%C6%B0%E1%BB%9Di/518980604798172";
 
 Alloy.Globals.facebook = require("facebook");
 
 Alloy.Globals.facebook.appid = "514307815249030";
 
-Alloy.Globals.facebook.permissions = [ "publish_stream", "read_stream" ];
+Alloy.Globals.facebook.permissions = [ "read_stream" ];
 
-Alloy.Globals.facebook.forceDialogAuth = true;
+Alloy.Globals.facebook.forceDialogAuth = false;
 
 Alloy.Globals.DEFAULT_PASSWORD = "truyenAlloy";
 
@@ -52,11 +42,17 @@ Alloy.Globals.DEFAULT_PUSH_CHANNEL = "news";
 
 Alloy.Globals.listener = null;
 
+Alloy.Globals.FB_USERNAME = null;
+
 Alloy.Globals.listener = function(e, callback) {
     if (e.success) {
-        Alloy.Globals.loginUser(e.data.username);
+        void 0 == Ti.Network.remoteDeviceUUID && Alloy.Globals.loginUser(e.data.username);
+        Alloy.Globals.FB_USERNAME = e.data.username;
         callback(e);
-    } else e.error ? alert(e.error) : e.cancelled && alert("Cancelled 12312");
+    } else if (e.error) {
+        log("Alloy.Globals.listener:");
+        log(e.error);
+    } else e.cancelled;
     Alloy.Globals.facebook.removeEventListener("click", Alloy.Globals.listener);
 };
 
@@ -68,13 +64,8 @@ Alloy.Globals.facebookLogin = function(callback) {
 };
 
 Alloy.Globals.facebookGetUsername = function(callback) {
-    0 != Alloy.Globals.facebook.loggedIn && Alloy.Globals.facebook.requestWithGraphPath("me", {}, "GET", function(e) {
-        if (e.success) {
-            callback(JSON.parse(e.result).username);
-            return;
-        }
-        e.error ? alert(e.error) : alert("Unknown response");
-        callback("error");
+    0 != Alloy.Globals.facebook.loggedIn && Alloy.Globals.facebook.requestWithGraphPath("/" + Alloy.Globals.facebook.getUid(), {}, "GET", function(user) {
+        callback(JSON.parse(user.result).username);
     });
 };
 
@@ -83,24 +74,26 @@ var Cloud = require("ti.cloud");
 var deviceToken;
 
 Alloy.Globals.facebookGetUsername(function(fbUsername) {
-    "error" != fbUsername && Alloy.Globals.loginUser(fbUsername);
+    Alloy.Globals.loginUser(fbUsername);
 });
 
 Alloy.Globals.registerUser = function(username) {
-    log("regiser:" + username);
     Cloud.Users.create({
         username: username,
         password: Alloy.Globals.DEFAULT_PASSWORD,
         password_confirmation: Alloy.Globals.DEFAULT_PASSWORD
     }, function(e) {
         if (e.success) {
-            alert("User Created");
+            log("Alloy.Globals.registerUser: Created");
             Alloy.Globals.loginUser(username);
-        } else alert("Error :" + e.message);
+        } else {
+            log("Alloy.Globals.registerUser:");
+            log(e.message);
+        }
     });
 };
 
-Alloy.Globals.loginUser = function(username) {
+Alloy.Globals.loginUser = function(username, callback) {
     Cloud.Users.login({
         login: username,
         password: Alloy.Globals.DEFAULT_PASSWORD
@@ -108,8 +101,8 @@ Alloy.Globals.loginUser = function(username) {
         log("login:" + username);
         if (e.success) {
             e.users[0];
-            log("Loggin successfully");
-            Alloy.Globals.getDeviceToken();
+            log("Alloy.Globals.loginUser: successfully");
+            Alloy.Globals.getDeviceToken(callback);
         } else {
             log("Error :");
             log(e.message);
@@ -118,18 +111,19 @@ Alloy.Globals.loginUser = function(username) {
     });
 };
 
-Alloy.Globals.getDeviceToken = function() {
+Alloy.Globals.getDeviceToken = function(callback) {
     Titanium.Network.registerForPushNotifications({
         types: [ Titanium.Network.NOTIFICATION_TYPE_BADGE, Titanium.Network.NOTIFICATION_TYPE_ALERT, Titanium.Network.NOTIFICATION_TYPE_SOUND ],
         success: function(e) {
-            deviceToken = e.deviceToken;
-            alert("deviceToken = " + deviceToken);
+            log(e.deviceToken);
+            callback && callback();
         },
         error: function(e) {
-            alert("ErrorDeviceToken: " + e.message);
+            log("ErrorDeviceToken: ");
+            log(e.message);
         },
         callback: function(e) {
-            alert("push notification received" + JSON.stringify(e.data));
+            log("Alloy.Globals.getDeviceToken:" + JSON.stringify(e.data));
         }
     });
 };
@@ -139,7 +133,7 @@ Alloy.Globals.subscribePush = function(channel) {
         channel: channel,
         device_token: Ti.Network.remoteDeviceUUID
     }, function(e) {
-        e.success ? alert("Success :" + (e.error && e.message || JSON.stringify(e))) : alert("ErrorSubscribe:" + (e.error && e.message || JSON.stringify(e)));
+        e.success ? log("Success :" + (e.error && e.message || JSON.stringify(e))) : log("ErrorSubscribe:" + (e.error && e.message || JSON.stringify(e)));
     });
 };
 
@@ -149,7 +143,7 @@ Alloy.Globals.unsubscribePush = function(channel) {
         channel: channel,
         device_token: Ti.Network.remoteDeviceUUID
     }, function(e) {
-        e.success ? alert("Success :" + (e.error && e.message || JSON.stringify(e))) : alert("ErrorUnSubscribe:" + (e.error && e.message || JSON.stringify(e)));
+        e.success ? log("Success :" + (e.error && e.message || JSON.stringify(e))) : log("ErrorUnSubscribe:" + (e.error && e.message || JSON.stringify(e)));
     });
 };
 
@@ -170,19 +164,21 @@ var loadingView = Titanium.UI.createView({
 loadingView.add(loadingIcon);
 
 Alloy.Globals.fbPost = function(itemTitle, imageLink) {
+    log(imageLink);
     var data = {
         link: Alloy.Globals.FBPOST_LINK,
         name: "TruyệnAlloy",
-        message: "Đang đọc truyện " + itemTitle + " trên điện thoại bằng ",
+        message: "Đang đọc truyện " + itemTitle + " trên điện thoại bằng TruyệnAlloy",
         caption: "Phần mềm đọc truyện hay nhất trên mobile và tablet",
         picture: imageLink,
-        description: "Hãy tải phần mềm để có thể đọc truyện mọi lúc mọi nơi, update liên tục, thông báo mỗi khi có chapter mới và rất nhiều tính năng khác. FREEEEEEE!!!!!",
-        test: [ {
-            foo: "Encoding test",
-            bar: "Durp durp"
-        }, "test" ]
+        description: "Hãy tải phần mềm để có thể đọc truyện mọi lúc mọi nơi, update liên tục, thông báo mỗi khi có chapter mới và rất nhiều tính năng khác. FREEEEEEE!!!!!"
     };
-    Alloy.Globals.facebook.dialog("feed", data, showRequestResult);
+    Alloy.Globals.facebook.reauthorize([ "publish_stream" ], "me", function(e) {
+        if (e.success) Alloy.Globals.facebook.requestWithGraphPath("me/feed", data, "POST", showRequestResult); else if (e.error) {
+            log("Alloy.Globals.facebook.reauthorize:");
+            log(e.error);
+        }
+    });
 };
 
 Alloy.Globals.openLoading = function(window) {
@@ -338,15 +334,15 @@ Alloy.Globals.addFavorite = function(itemId, itemType, user, title, imageLink, c
         username: user.username,
         fullName: user.name,
         itemId: itemId,
-        itemType: itemType,
-        deviceToken: Ti.Network.remoteDeviceUUID
+        itemType: itemType
     }, function(response) {
+        log("DeviceTOKEN:" + Ti.Network.remoteDeviceUUID);
+        void 0 != Ti.Network.remoteDeviceUUID ? Alloy.Globals.subscribePush(itemId) : Alloy.Globals.loginUser(user.username, function() {
+            Alloy.Globals.subscribePush(itemId);
+        });
         var data = JSON.parse(response).data;
         Alloy.Globals.fbPost(title, imageLink);
-        if ("success" == data) {
-            Alloy.Globals.subscribePush(itemId);
-            callback();
-        }
+        "success" == data && callback();
     });
 };
 

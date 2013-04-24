@@ -105,7 +105,9 @@ function Controller() {
     var tableView = $.bookShellTable;
     tableView.addEventListener("delete", function(e) {
         deleteFavorite(e.rowData.dataId);
-        Alloy.Globals.unsubscribePush(e.rowData.dataId);
+        void 0 != Ti.Network.remoteDeviceUUID ? Alloy.Globals.unsubscribePush(e.rowData.dataId) : Alloy.Globals.loginUser(Alloy.Globals.FB_USERNAME, function() {
+            Alloy.Globals.unsubscribePush(e.rowData.dataId);
+        });
     });
     $.favoriteTab.addEventListener("focus", function() {
         Alloy.Globals.CURRENT_TAB = $.favoriteTab;

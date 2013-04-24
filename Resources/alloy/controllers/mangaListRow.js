@@ -109,7 +109,7 @@ function Controller() {
         id: "__alloyId12"
     });
     $.__views.bookInfoView1.add($.__views.__alloyId12);
-    $.__views.coverLink1 = Ti.UI.createImageView(function() {
+    $.__views.coverLink1 = Alloy.createWidget("nl.fokkezb.cachedImageView", "widget", function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -128,11 +128,12 @@ function Controller() {
             defaultImage: "/common/default_image.jpg"
         });
         _.extend(o, {
-            id: "coverLink1"
+            id: "coverLink1",
+            __parentSymbol: $.__views.__alloyId12
         });
         return o;
     }());
-    $.__views.__alloyId12.add($.__views.coverLink1);
+    $.__views.coverLink1.setParent($.__views.__alloyId12);
     $.__views.bookInfoView2 = Ti.UI.createView(function() {
         var o = {};
         _.extend(o, {});
@@ -200,7 +201,7 @@ function Controller() {
         id: "__alloyId14"
     });
     $.__views.bookInfoView2.add($.__views.__alloyId14);
-    $.__views.coverLink2 = Ti.UI.createImageView(function() {
+    $.__views.coverLink2 = Alloy.createWidget("nl.fokkezb.cachedImageView", "widget", function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -219,11 +220,12 @@ function Controller() {
             defaultImage: "/common/default_image.jpg"
         });
         _.extend(o, {
-            id: "coverLink2"
+            id: "coverLink2",
+            __parentSymbol: $.__views.__alloyId14
         });
         return o;
     }());
-    $.__views.__alloyId14.add($.__views.coverLink2);
+    $.__views.coverLink2.setParent($.__views.__alloyId14);
     $.__views.bookInfoView3 = Ti.UI.createView(function() {
         var o = {};
         _.extend(o, {});
@@ -291,7 +293,7 @@ function Controller() {
         id: "__alloyId16"
     });
     $.__views.bookInfoView3.add($.__views.__alloyId16);
-    $.__views.coverLink3 = Ti.UI.createImageView(function() {
+    $.__views.coverLink3 = Alloy.createWidget("nl.fokkezb.cachedImageView", "widget", function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -310,11 +312,12 @@ function Controller() {
             defaultImage: "/common/default_image.jpg"
         });
         _.extend(o, {
-            id: "coverLink3"
+            id: "coverLink3",
+            __parentSymbol: $.__views.__alloyId16
         });
         return o;
     }());
-    $.__views.__alloyId16.add($.__views.coverLink3);
+    $.__views.coverLink3.setParent($.__views.__alloyId16);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
@@ -322,7 +325,9 @@ function Controller() {
         var bookInfoView = $["bookInfoView" + (i + 1)];
         if (args.data[i]) {
             $["bookName" + (i + 1)].text = args.data[i].title;
-            $["coverLink" + (i + 1)].image = Alloy.Globals.SERVER + args.data[i].folder + "/cover.jpg";
+            $["coverLink" + (i + 1)].init({
+                image: Alloy.Globals.SERVER + args.data[i].folder + "/cover.jpg"
+            });
             bookInfoView.dataId = args.data[i]._id;
             selectItem(bookInfoView);
         } else bookInfoView.setVisible(false);

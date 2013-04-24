@@ -38,10 +38,6 @@ function Controller() {
                 animationStyle: Titanium.UI.iPhone.RowAnimationStyle.NONE
             });
             lastRowIndex += MAX_DISPLAY_ROW;
-            tableView.scrollToIndex(lastRowIndex - MAX_DISPLAY_ROW, {
-                animated: true,
-                position: Ti.UI.iPhone.TableViewScrollPosition.BOTTOM
-            });
         }
         var loadingIcon = Titanium.UI.createActivityIndicator({
             style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
@@ -52,7 +48,7 @@ function Controller() {
         });
         loadingView.add(loadingIcon);
         var loadingRow = Ti.UI.createTableViewRow({
-            height: 40,
+            height: 60,
             backgroundColor: "transparent",
             backgroundImage: "NONE"
         });

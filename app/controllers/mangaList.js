@@ -114,7 +114,7 @@ function dynamicLoad(tableView, data) {
 	});
 	loadingView.add(loadingIcon);
 	var loadingRow = Ti.UI.createTableViewRow({
-		height: 40,
+		height: 60,
 		backgroundColor: 'transparent',
 		backgroundImage: 'NONE'
 	});
@@ -142,7 +142,7 @@ function dynamicLoad(tableView, data) {
 			tableView.appendRow(nextRows[i], { animationStyle:Titanium.UI.iPhone.RowAnimationStyle.NONE });
 		}
 		lastRowIndex += MAX_DISPLAY_ROW;
-		tableView.scrollToIndex(lastRowIndex - MAX_DISPLAY_ROW,{animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.BOTTOM});
+		// tableView.scrollToIndex(lastRowIndex - MAX_DISPLAY_ROW,{animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.BOTTOM});
 	};
 	var lastDistance = 0;
 	tableView.addEventListener('scroll',function(e) {

@@ -4,7 +4,13 @@ var storyRows;
 var tableView = $.bookShellTable;
 tableView.addEventListener("delete", function(e) {
 	deleteFavorite(e.rowData.dataId);
-	Alloy.Globals.unsubscribePush(e.rowData.dataId);
+	if (Ti.Network.remoteDeviceUUID != undefined) {
+		Alloy.Globals.unsubscribePush(e.rowData.dataId);
+	} else {
+		Alloy.Globals.loginUser(Alloy.Globals.FB_USERNAME, function() {
+			Alloy.Globals.unsubscribePush(e.rowData.dataId);
+		});
+	}
 });
 
 function setRowData(data, type) {
