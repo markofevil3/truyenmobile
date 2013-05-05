@@ -187,7 +187,7 @@ function Controller() {
     $.__views.storyListWindow.add($.__views.bookShellTable);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    if (Alloy.Globals.isTablet) var MAX_DISPLAY_ROW = 10; else var MAX_DISPLAY_ROW = 5;
+    if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 10; else var MAX_DISPLAY_ROW = 5;
     var search = $.searchButton;
     var table = $.bookShellTable;
     var listStory;

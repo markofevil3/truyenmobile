@@ -375,7 +375,9 @@ function Controller() {
         getNextPrevChapter(listChapters);
         $.mangaWindow.rightNavButton = args.favorite ? favoritedButton : favoriteButton;
         $.mangaWindow.title = args.data.title;
-        $.bookCover.image = Alloy.Globals.SERVER + args.data.folder + "/cover.jpg";
+        var coverName = args.data._id + ".jpg";
+        var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, coverName);
+        coverFile.exists() ? $.bookCover.image = coverFile.nativePath : Alloy.Globals.loadImage($.bookCover, Alloy.Globals.SERVER + args.data.folder + "/cover.jpg", coverName);
         $.bookTitle.text = args.data.title;
         $.bookAuthor.text = "Tác Giả: " + args.data.author;
         $.newestChapter.text = "Chapter Mới: " + getNewestChapter(listChapters);

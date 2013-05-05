@@ -282,6 +282,7 @@ function Controller() {
     $.homeTab.addEventListener("focus", function() {
         Alloy.Globals.CURRENT_TAB = $.homeTab;
     });
+    log(Titanium.Filesystem.getTempDirectory());
     __defers["$.__views.MangaList!click!selectMenu"] && $.__views.MangaList.addEventListener("click", selectMenu);
     __defers["$.__views.StoryList!click!selectMenu"] && $.__views.StoryList.addEventListener("click", selectMenu);
     __defers["$.__views.FunnyList!click!selectMenu"] && $.__views.FunnyList.addEventListener("click", selectMenu);

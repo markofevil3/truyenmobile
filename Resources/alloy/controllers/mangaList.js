@@ -163,7 +163,7 @@ function Controller() {
     $.__views.mangaListWindow.add($.__views.bookShellTable);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    if (Alloy.Globals.isTablet) var MAX_DISPLAY_ROW = 5; else var MAX_DISPLAY_ROW = 3;
+    if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 5; else var MAX_DISPLAY_ROW = 3;
     var search = $.searchButton;
     exports.openMainWindow = function() {
         Alloy.Globals.CURRENT_TAB.open($.mangaListWindow);

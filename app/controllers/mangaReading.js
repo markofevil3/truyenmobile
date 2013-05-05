@@ -79,7 +79,7 @@ function addImageView() {
 	var maxZindex = listImages.length;
 	for (var i = 0; i < listImages.length; i++) {
 		var image = Ti.UI.createImageView({
-			image: Alloy.Globals.SERVER + listImages[i],
+			image: Alloy.Globals.SERVER + listImages[i] + '?time=' + Date.now(),
 			width: '100%',
 			height: 'auto',
 		});

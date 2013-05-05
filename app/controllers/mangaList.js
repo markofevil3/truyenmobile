@@ -1,4 +1,4 @@
-if (Alloy.Globals.isTablet) {
+if (Alloy.Globals.isTablet()) {
 	var MAX_DISPLAY_ROW = 5;
 } else {
 	var MAX_DISPLAY_ROW = 3;

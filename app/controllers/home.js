@@ -7,6 +7,8 @@ $.homeTab.addEventListener('focus', function(e) {
 	Alloy.Globals.CURRENT_TAB = $.homeTab;
 });
 
+log(Titanium.Filesystem.getTempDirectory());
+
 function selectMenu(e) {
 	if (e.rowData.dataName == "funnyList") {
 		alert("Coming Soon!");

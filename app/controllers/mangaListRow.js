@@ -3,7 +3,13 @@ for (var i = 0; i < 3; i++) {
 	var bookInfoView = $['bookInfoView' + (i + 1)];
 	if (args.data[i]) {
 		$['bookName' + (i + 1)].text = args.data[i].title;
-		$['coverLink' + (i + 1)].image = Alloy.Globals.SERVER + args.data[i].folder + '/cover.jpg';
+		var coverName = args.data[i]._id + '.jpg';
+		var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, coverName);
+		if (coverFile.exists()) {
+			$['coverLink' + (i + 1)].image = coverFile.nativePath;
+		} else {
+			Alloy.Globals.loadImage($['coverLink' + (i + 1)], Alloy.Globals.SERVER + args.data[i].folder + '/cover.jpg', coverName);
+		}
 		bookInfoView.dataId = args.data[i]._id;
 		selectItem(bookInfoView);
 	} else {

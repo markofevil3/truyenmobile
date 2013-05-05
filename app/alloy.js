@@ -221,12 +221,12 @@ Alloy.Globals.isNew = function(checkDate) {
 }
 
 Alloy.Globals.isTablet = function() {
-	var osname = Ti.Platform.osname,
-	version = Ti.Platform.version,
-	height = Ti.Platform.displayCaps.platformHeight,
-	width = Ti.Platform.displayCaps.platformWidth;
-	var isTablet = osname === 'ipad' || (osname === 'android' && (width > 899 || height > 899));
-	return isTablet;
+	var osname = Ti.Platform.osname;
+	if (osname.search(/iphone/i) > -1) {
+		return false;
+	} else {
+		return true;
+	}
 };
 
 Alloy.Globals.getDeviceType = function() {
@@ -426,3 +426,20 @@ Alloy.Globals.adv = function(type, callback) {
 function isHash(obj) {
   return obj.constructor == Object;
 };
+
+Alloy.Globals.loadImage = function(imageView, url, newName) {
+	var xhr = Titanium.Network.createHTTPClient({
+		onload: function() {
+			imageView.image = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, newName).nativePath;
+		},
+    onerror: function(e) {
+			Ti.API.info('error loading ' + url);
+    },
+		timeout: 10000
+	});
+	xhr.open('GET', url);
+	// on iOS, you can use the file property to save a downloaded file
+	// though you must set it after calling open()
+	xhr.file = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, newName);
+	xhr.send();
+}

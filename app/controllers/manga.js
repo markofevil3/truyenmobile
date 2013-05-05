@@ -52,7 +52,15 @@ exports.openMainWindow = function() {
 		$.mangaWindow.rightNavButton = favoriteButton; 
 	}
 	$.mangaWindow.title = args.data.title;
-	$.bookCover.image = Alloy.Globals.SERVER + args.data.folder + '/cover.jpg';
+	
+	var coverName = args.data._id + '.jpg';
+	var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, coverName);
+	if (coverFile.exists()) {
+		$.bookCover.image = coverFile.nativePath;
+	} else {
+		Alloy.Globals.loadImage($.bookCover, Alloy.Globals.SERVER + args.data.folder + '/cover.jpg', coverName);
+	}
+	// $.bookCover.image = Alloy.Globals.SERVER + args.data.folder + '/cover.jpg';
 	$.bookTitle.text = args.data.title;
 	$.bookAuthor.text = 'Tác Giả: ' + args.data.author;
 	$.newestChapter.text = 'Chapter Mới: ' + getNewestChapter(listChapters);

@@ -198,9 +198,8 @@ Alloy.Globals.isNew = function(checkDate) {
 };
 
 Alloy.Globals.isTablet = function() {
-    var osname = Ti.Platform.osname, height = (Ti.Platform.version, Ti.Platform.displayCaps.platformHeight), width = Ti.Platform.displayCaps.platformWidth;
-    var isTablet = "ipad" === osname || "android" === osname && (width > 899 || height > 899);
-    return isTablet;
+    var osname = Ti.Platform.osname;
+    return osname.search(/iphone/i) > -1 ? false : true;
 };
 
 Alloy.Globals.getDeviceType = function() {
@@ -367,6 +366,21 @@ Alloy.Globals.adv = function(type, callback) {
         height: 50
     });
     callback(advImage);
+};
+
+Alloy.Globals.loadImage = function(imageView, url, newName) {
+    var xhr = Titanium.Network.createHTTPClient({
+        onload: function() {
+            imageView.image = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, newName).nativePath;
+        },
+        onerror: function() {
+            Ti.API.info("error loading " + url);
+        },
+        timeout: 1e4
+    });
+    xhr.open("GET", url);
+    xhr.file = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, newName);
+    xhr.send();
 };
 
 Alloy.createController("index");
