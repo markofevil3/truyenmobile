@@ -12,53 +12,68 @@
 	selectedBackgroundColor: 'transparent',
 	layout: 'horizontal'
 },
-".bookInfoViews[platform=ios formFactor=handheld]": {
-	width: 90,
-	left: 12.5,
-	layout: 'vertical',
-	selectedBackgroundColor: 'blue',
-},
-".bookInfoViews[platform=ios formFactor=tablet]": {
-	width: 220,
-	left: 25,
-	layout: 'vertical',
-	selectedBackgroundColor: 'blue',
-},
-".nameTagBackgrounds": {
-	backgroundImage: '/common/bg_paper_tournament.png',
-	height: '25%',
-	top: 0,
-	width: '100%',
-},
-".bookNames[platform=ios formFactor=handheld]": {
-	color: '#fff',
-	font: { fontSize: 13, fontWeight: 'bold', fontFamily: 'Chalkboard SE'},
-	textAlign: 'center',
-	horizontalWrap: true,
-},
-".bookNames[platform=ios formFactor=tablet]": {
-	color: '#fff',
-	font: { fontSize: 26, fontWeight: 'bold', fontFamily: 'Chalkboard SE'},
-	textAlign: 'center',
-	horizontalWrap: true,
+".bookInfoViews": {
+	width: Titanium.UI.FILL,
+	layout: 'horizontal',
+	selectedBackgroundColor: 'blue'
 },
 ".bookCovers": {
-	width: '65%',
-	height: '68%',
-	backgroundImage: '/common/book2.png',
+	width: '25%',
+	height: '80%',
+	left: '5%',
+	top: '8%',
+	backgroundImage: '/common/book2.png'
 },
 ".coverLinks[platform=ios formFactor=handheld]": {
-	width: '80%',
-	height: 77,
+	width: '82%',
+	height: '94.5%',
 	top: 0,
 	left: 9,
-	defaultImage: '/common/default_image.jpg',
+	defaultImage: '/common/default_image.jpg'
 },
 ".coverLinks[platform=ios formFactor=tablet]": {
-	width: '80%',
-	height: 154,
+	width: '82%',
+	height: '94.5%',
 	top: 0,
 	left: 18,
 	defaultImage: '/common/default_image.jpg',
+},
+".bookDetails": {
+	layout: "vertical"
+},
+".bookNames[platform=ios formFactor=handheld]": {
+	font: { fontWeight: 'bold', fontSize: 18, fontFamily: 'Chalkboard SE' },
+	top: '5%',
+	color: '#fff',
+  shadowColor: '#603d1c',
+  shadowOffset: {x:2, y:2},
+  width: "90%",
+},
+".bookNames[platform=ios formFactor=tablet]": {
+	font: { fontWeight: 'bold', fontSize: 40, fontFamily: 'Chalkboard SE' },
+	left: 10,
+	top: '5%',
+	color: '#fff',
+  shadowColor: '#603d1c',
+  shadowOffset: {x:2, y:2},
+  width: "90%"
+},
+".icons": {
+	layout: "horizontal",
+	width: "90%",
+	top: 5,
+	left: 10
+},
+".icon": {
+	height: 32,
+	width: 32,
+},
+".newIcons": {
+	image: '/common/new-tag.png',
+},
+".updateIcons": {
+	image: '/common/new-tag.png',
 }
-
+".hotIcons": {
+	image: '/common/new-tag.png',
+}

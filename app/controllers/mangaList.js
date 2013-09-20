@@ -1,10 +1,18 @@
 if (Alloy.Globals.isTablet()) {
-	var MAX_DISPLAY_ROW = 5;
+	var MAX_DISPLAY_ROW = 15;
 } else {
-	var MAX_DISPLAY_ROW = 3;
+	var MAX_DISPLAY_ROW = 10;
 }
 
 var search = $.searchButton;
+
+function setHotManga(mangas) {
+	mangas.sort(Alloy.Globals.dynamicSort('numView', -1));
+	for (var i = 0; i < 5; i++) {
+		mangas[i].top = i + 1;
+	}
+	mangas.sort(Alloy.Globals.dynamicSort('datePost', -1));
+}
 
 exports.openMainWindow = function() {
 	Alloy.Globals.CURRENT_TAB.open($.mangaListWindow);
@@ -20,7 +28,8 @@ exports.openMainWindow = function() {
 	},
 	function(response) {
 		listManga = JSON.parse(response).data;
-		var tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW * 3));
+		setHotManga(listManga);
+		var tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
 		table.data = tbl_data;
 		$.loading.setOpacity(0.0);
 		dynamicLoad(table, listManga);
@@ -63,7 +72,7 @@ exports.openMainWindow = function() {
 				listManga.sort(Alloy.Globals.dynamicSort('title', 1));
 				break;
 			case 1:
-				listManga.sort(Alloy.Globals.dynamicSort('numView', -1));
+				listManga.sort(Alloy.Globals.dynamicSortNumber('numView', -1));
 				break;
 			case 2:
 				listManga.sort(Alloy.Globals.dynamicSort('datePost', -1));
@@ -73,7 +82,7 @@ exports.openMainWindow = function() {
 				break;
 		}
 		table.setData([]);
-		table.setData(setRowData(listManga.slice(0, MAX_DISPLAY_ROW * 3)));
+		table.setData(setRowData(listManga.slice(0, MAX_DISPLAY_ROW)));
 	});
 	$.sortButton.addEventListener('singletap', function(e) {
 		dialog.show();
@@ -86,19 +95,19 @@ exports.openMainWindow = function() {
 
 function setRowData(data) {
 	var dataSet = [];
-	var dataLength = Math.round(data.length / 3);
-	if (dataLength == 0) {
-		dataLength = 1;
-	}
-	for (var i = 0; i < dataLength; i++) {
-		var rowData = [];
-		for (var j = 0; j < 3; j++) {
-			var index = (i * 3) + j;
-			if (data[index]) {
-				rowData.push(data[index]);
-			}
-		}
-		var row = Alloy.createController('mangaListRow', {data: rowData, window: $.mangaListWindow}).getView();
+	// var dataLength = Math.round(data.length / 3);
+	// if (dataLength == 0) {
+		// dataLength = 1;
+	// }
+	for (var i = 0; i < data.length; i++) {
+		// var rowData = [];
+		// for (var j = 0; j < 3; j++) {
+			// var index = (i * 3) + j;
+			// if (data[index]) {
+				// rowData.push(data[index]);
+			// }
+		// }
+		var row = Alloy.createController('mangaListRow', {data: data[i], window: $.mangaListWindow}).getView();
 		dataSet.push(row);
 	}
 	return dataSet;
@@ -133,10 +142,10 @@ function dynamicLoad(tableView, data) {
 		loadingIcon.hide();
 		tableView.deleteRow(lastRowIndex - 1, { animationStyle:Titanium.UI.iPhone.RowAnimationStyle.NONE });
 		var nextRowIndex = lastRowIndex - 1 + MAX_DISPLAY_ROW;
-		if (nextRowIndex > Math.round(data.length / 3)) {
-			nextRowIndex = Math.round(data.length / 3);
+		if (nextRowIndex > data.length) {
+			nextRowIndex = data.length;
 		}
-		var nextRowIndexs = data.slice((lastRowIndex - 1) * 3, nextRowIndex * 3);
+		var nextRowIndexs = data.slice(lastRowIndex - 1, nextRowIndex);
 		var nextRows = setRowData(nextRowIndexs);
 		for (var i = 0; i < nextRows.length; i ++) {
 			tableView.appendRow(nextRows[i], { animationStyle:Titanium.UI.iPhone.RowAnimationStyle.NONE });
@@ -154,7 +163,7 @@ function dynamicLoad(tableView, data) {
 		var distance = theEnd - total;
 		if (distance < lastDistance) {
 			var nearEnd = theEnd * 1;
-			if (!updating && (total >= nearEnd) && lastRowIndex < Math.round(data.length / 3) && lastRowIndex >= MAX_DISPLAY_ROW && (search.value == null || search.value == '')) {
+			if (!updating && (total >= nearEnd) && lastRowIndex < data.length && lastRowIndex >= MAX_DISPLAY_ROW && (search.value == null || search.value == '')) {
 				beginUpdate();
 			}
 		}

@@ -1,27 +1,13 @@
 <Alloy>
   <TableViewRow id="row" class="rows">
-    <View id="bookInfoView1" class="bookInfoViews">
-      <View class="nameTagBackgrounds">
-        <Label id="bookName1" class="bookNames"></Label>
-      </View>
+    <View id="bookInfoView" class="bookInfoViews">
       <View class="bookCovers">
-        <ImageView id="coverLink1" class="coverLinks"/>
+        <ImageView id="coverLink" class="coverLinks"/>
       </View>
-    </View>
-    <View id="bookInfoView2" class="bookInfoViews">
-      <View class="nameTagBackgrounds">
-        <Label id="bookName2" class="bookNames"></Label>
-      </View>
-      <View class="bookCovers">
-        <ImageView id="coverLink2" class="coverLinks"/>
-      </View>
-    </View>
-    <View id="bookInfoView3" class="bookInfoViews">
-      <View class="nameTagBackgrounds">
-        <Label id="bookName3" class="bookNames"></Label>
-      </View>
-      <View class="bookCovers">
-        <ImageView id="coverLink3" class="coverLinks"/>
+      <View class="bookDetails">
+        <Label id="bookName" class="bookNames"></Label>
+        <View id="icon" class="icons">
+        </View>
       </View>
     </View>
   </TableViewRow>

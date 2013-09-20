@@ -6,9 +6,12 @@ function WPATH(s) {
 
 function Controller() {
     new (require("alloy/widget"))("com.appcelerator.loading");
+    this.__widgetId = "com.appcelerator.loading";
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
+    this.__controllerPath = "widget";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
+    arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
     $.__views.loading = Ti.UI.createImageView({

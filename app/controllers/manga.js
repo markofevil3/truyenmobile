@@ -45,6 +45,7 @@ exports.openMainWindow = function() {
 		}
 	});
 	var listChapters = args.data.chapters;
+	listChapters.sort(Alloy.Globals.dynamicSortNumber('chapter', 1));
 	getNextPrevChapter(listChapters);
 	if (args.favorite) {
 		$.mangaWindow.rightNavButton = favoritedButton;
@@ -58,7 +59,8 @@ exports.openMainWindow = function() {
 	if (coverFile.exists()) {
 		$.bookCover.image = coverFile.nativePath;
 	} else {
-		Alloy.Globals.loadImage($.bookCover, Alloy.Globals.SERVER + args.data.folder + '/cover.jpg', coverName);
+		// Alloy.Globals.loadImage($.bookCover, Alloy.Globals.SERVER + args.data.folder + '/cover.jpg', coverName);
+		Alloy.Globals.loadImage($.coverLink, Alloy.Globals.SERVER + "/images/adv/adv0.jpg", coverName);
 	}
 	// $.bookCover.image = Alloy.Globals.SERVER + args.data.folder + '/cover.jpg';
 	$.bookTitle.text = args.data.title;
@@ -102,10 +104,10 @@ exports.openMainWindow = function() {
 	dialog.addEventListener('click',function(e) {
 		switch (e.index) {
 			case 0:
-				listChapters.sort(Alloy.Globals.dynamicSort('chapter', 1));
+				listChapters.sort(Alloy.Globals.dynamicSortNumber('chapter', 1));
 				break;
 			case 1:
-				listChapters.sort(Alloy.Globals.dynamicSort('chapter', -1));
+				listChapters.sort(Alloy.Globals.dynamicSortNumber('chapter', -1));
 				break;
 		}
 		table.setData([]);

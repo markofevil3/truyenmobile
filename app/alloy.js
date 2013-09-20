@@ -9,7 +9,7 @@
 // object. For example:
 //
 // Alloy.Globals.someGlobalFunction = function(){};
-Alloy.Globals.SERVER = 'http://truyen.zapto.org';
+Alloy.Globals.SERVER = 'http://113.190.2.157';
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 Alloy.Globals.NEW_TIME_MILLISECONDS = 259200000;
 Alloy.Globals.RATIO = 1;
@@ -42,14 +42,14 @@ Alloy.Globals.listener = function(e, callback) {
   }
   //#### remove listener after finish
   Alloy.Globals.facebook.removeEventListener('click', Alloy.Globals.listener);
-}
+};
 
 Alloy.Globals.facebookLogin = function(callback) {
 	Alloy.Globals.facebook.authorize();
 	Alloy.Globals.facebook.addEventListener('login', function(e) {
 	  Alloy.Globals.listener(e, callback);
 	});
-}
+};
 
 Alloy.Globals.facebookGetUsername = function(callback) {
 	if (Alloy.Globals.facebook.loggedIn != 0) {
@@ -124,7 +124,7 @@ Alloy.Globals.getDeviceToken = function(callback){
 	    log("Alloy.Globals.getDeviceToken:"+JSON.stringify(e.data));
 	  }
   });
-}
+};
 
 Alloy.Globals.subscribePush = function(channel) {
 	Cloud.PushNotifications.subscribe({
@@ -140,7 +140,7 @@ Alloy.Globals.subscribePush = function(channel) {
 };
 
 Alloy.Globals.unsubscribePush = function(channel) {
-	log(Ti.Network.remoteDeviceUUID)
+	log(Ti.Network.remoteDeviceUUID);
 	Cloud.PushNotifications.unsubscribe({
     channel: channel,
     device_token: Ti.Network.remoteDeviceUUID
@@ -198,7 +198,7 @@ Alloy.Globals.fbPost = function(itemTitle, imageLink) {
         }
       }
   });
-}
+};
 
 Alloy.Globals.openLoading = function(window) {
 	loadingIcon.show();
@@ -209,7 +209,7 @@ Alloy.Globals.openLoading = function(window) {
 Alloy.Globals.closeLoading = function(window) {
 	window.remove(Alloy.Globals.currentLoadingView);
 	Alloy.Globals.currentLoadingView = null;
-}
+};
 
 Alloy.Globals.isNew = function(checkDate) {
 	var today = new Date();
@@ -218,7 +218,7 @@ Alloy.Globals.isNew = function(checkDate) {
 	} else {
 		return false;
 	}
-}
+};
 
 Alloy.Globals.isTablet = function() {
 	var osname = Ti.Platform.osname;
@@ -286,7 +286,13 @@ Alloy.Globals.getAjax = function(url, query, callback) {
 Alloy.Globals.dynamicSort = function(property, type) {
   return function (a,b) {
     return (a[property] < b[property]) ? (-1 * type) : (a[property] > b[property]) ? (1 * type) : 0;
-  }
+  };
+};
+
+Alloy.Globals.dynamicSortNumber = function(property, type) {
+  return function (a,b) {
+    return (parseFloat(a[property]) < parseFloat(b[property])) ? (-1 * type) : (parseFloat(a[property]) > parseFloat(b[property])) ? (1 * type) : 0;
+  };
 };
 
 Alloy.Globals.dynamicLoad = function(tableView, data) {
@@ -430,16 +436,16 @@ function isHash(obj) {
 Alloy.Globals.loadImage = function(imageView, url, newName) {
 	var xhr = Titanium.Network.createHTTPClient({
 		onload: function() {
-			imageView.image = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, newName).nativePath;
+			imageView.image = this.responseData;
 		},
     onerror: function(e) {
 			Ti.API.info('error loading ' + url);
+			imageView.image = "/common/default_image.jpg";
     },
 		timeout: 10000
 	});
 	xhr.open('GET', url);
 	// on iOS, you can use the file property to save a downloaded file
 	// though you must set it after calling open()
-	xhr.file = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, newName);
 	xhr.send();
-}
+};

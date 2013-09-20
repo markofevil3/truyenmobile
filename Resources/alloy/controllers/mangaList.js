@@ -1,16 +1,14 @@
 function Controller() {
+    function setHotManga(mangas) {
+        mangas.sort(Alloy.Globals.dynamicSort("numView", -1));
+        for (var i = 0; 5 > i; i++) mangas[i].top = i + 1;
+        mangas.sort(Alloy.Globals.dynamicSort("datePost", -1));
+    }
     function setRowData(data) {
         var dataSet = [];
-        var dataLength = Math.round(data.length / 3);
-        0 == dataLength && (dataLength = 1);
-        for (var i = 0; dataLength > i; i++) {
-            var rowData = [];
-            for (var j = 0; 3 > j; j++) {
-                var index = 3 * i + j;
-                data[index] && rowData.push(data[index]);
-            }
+        for (var i = 0; data.length > i; i++) {
             var row = Alloy.createController("mangaListRow", {
-                data: rowData,
+                data: data[i],
                 window: $.mangaListWindow
             }).getView();
             dataSet.push(row);
@@ -31,8 +29,8 @@ function Controller() {
                 animationStyle: Titanium.UI.iPhone.RowAnimationStyle.NONE
             });
             var nextRowIndex = lastRowIndex - 1 + MAX_DISPLAY_ROW;
-            nextRowIndex > Math.round(data.length / 3) && (nextRowIndex = Math.round(data.length / 3));
-            var nextRowIndexs = data.slice(3 * (lastRowIndex - 1), 3 * nextRowIndex);
+            nextRowIndex > data.length && (nextRowIndex = data.length);
+            var nextRowIndexs = data.slice(lastRowIndex - 1, nextRowIndex);
             var nextRows = setRowData(nextRowIndexs);
             for (var i = 0; nextRows.length > i; i++) tableView.appendRow(nextRows[i], {
                 animationStyle: Titanium.UI.iPhone.RowAnimationStyle.NONE
@@ -65,14 +63,16 @@ function Controller() {
             var distance = theEnd - total;
             if (lastDistance > distance) {
                 var nearEnd = 1 * theEnd;
-                !updating && total >= nearEnd && Math.round(data.length / 3) > lastRowIndex && lastRowIndex >= MAX_DISPLAY_ROW && (null == search.value || "" == search.value) && beginUpdate();
+                !updating && total >= nearEnd && data.length > lastRowIndex && lastRowIndex >= MAX_DISPLAY_ROW && (null == search.value || "" == search.value) && beginUpdate();
             }
             lastDistance = distance;
         });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
+    this.__controllerPath = "mangaList";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
+    arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
     $.__views.mangaListWindow = Ti.UI.createWindow({
@@ -163,7 +163,7 @@ function Controller() {
     $.__views.mangaListWindow.add($.__views.bookShellTable);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 5; else var MAX_DISPLAY_ROW = 3;
+    if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 15; else var MAX_DISPLAY_ROW = 10;
     var search = $.searchButton;
     exports.openMainWindow = function() {
         Alloy.Globals.CURRENT_TAB.open($.mangaListWindow);
@@ -175,7 +175,8 @@ function Controller() {
             "null": null
         }, function(response) {
             listManga = JSON.parse(response).data;
-            var tbl_data = setRowData(listManga.slice(0, 3 * MAX_DISPLAY_ROW));
+            setHotManga(listManga);
+            var tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
             table.data = tbl_data;
             $.loading.setOpacity(0);
             dynamicLoad(table, listManga);
@@ -215,7 +216,7 @@ function Controller() {
                 break;
 
               case 1:
-                listManga.sort(Alloy.Globals.dynamicSort("numView", -1));
+                listManga.sort(Alloy.Globals.dynamicSortNumber("numView", -1));
                 break;
 
               case 2:
@@ -226,7 +227,7 @@ function Controller() {
                 listManga.sort(Alloy.Globals.dynamicSort("title", -1));
             }
             table.setData([]);
-            table.setData(setRowData(listManga.slice(0, 3 * MAX_DISPLAY_ROW)));
+            table.setData(setRowData(listManga.slice(0, MAX_DISPLAY_ROW)));
         });
         $.sortButton.addEventListener("singletap", function() {
             dialog.show();

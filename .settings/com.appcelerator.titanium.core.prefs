@@ -1,7 +1,10 @@
 eclipse.preferences.version=1
+provisioning_profiles/development/096C52F3-C7C3-40E8-ADA1-BA79504BAB14/appid=com.buiphiquan.dogmap
+provisioning_profiles/development/096C52F3-C7C3-40E8-ADA1-BA79504BAB14/name=PetMap
+provisioning_profiles/development/096C52F3-C7C3-40E8-ADA1-BA79504BAB14/uuid=096C52F3-C7C3-40E8-ADA1-BA79504BAB14
 provisioning_profiles/development/09BBA5BE-F8B3-46E6-8A08-12DCBBBC91F0/appid=com.buiphiquan.newtruyen
 provisioning_profiles/development/09BBA5BE-F8B3-46E6-8A08-12DCBBBC91F0/name=newtruyenProfile
 provisioning_profiles/development/09BBA5BE-F8B3-46E6-8A08-12DCBBBC91F0/uuid=09BBA5BE-F8B3-46E6-8A08-12DCBBBC91F0
-provisioning_profiles/development/A406CF09-70DA-441A-8312-6EFBF22DF976/appid=com.buiphiquan.truyenmobile
-provisioning_profiles/development/A406CF09-70DA-441A-8312-6EFBF22DF976/name=newIphoneAndIpad
-provisioning_profiles/development/A406CF09-70DA-441A-8312-6EFBF22DF976/uuid=A406CF09-70DA-441A-8312-6EFBF22DF976
+provisioning_profiles/development/8F2E61BE-4FDE-4893-AED6-93BA3E48123C/appid=com.buiphiquan.kitchensink
+provisioning_profiles/development/8F2E61BE-4FDE-4893-AED6-93BA3E48123C/name=kitchensink
+provisioning_profiles/development/8F2E61BE-4FDE-4893-AED6-93BA3E48123C/uuid=8F2E61BE-4FDE-4893-AED6-93BA3E48123C

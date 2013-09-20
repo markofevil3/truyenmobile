@@ -65,7 +65,7 @@ exports.openMainWindow = function() {
 				listStory.sort(Alloy.Globals.dynamicSort('title', 1));
 				break;
 			case 1:
-				listStory.sort(Alloy.Globals.dynamicSort('numView', -1));
+				listStory.sort(Alloy.Globals.dynamicSortNumber('numView', -1));
 				break;
 			case 2:
 				listStory.sort(Alloy.Globals.dynamicSort('datePost', -1));

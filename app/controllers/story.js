@@ -108,10 +108,10 @@ exports.openMainWindow = function() {
 	dialog.addEventListener('click',function(e) {
 		switch (e.index) {
 			case 0:
-				listChapters.sort(Alloy.Globals.dynamicSort('chapter', 1));
+				listChapters.sort(Alloy.Globals.dynamicSortNumber('chapter', 1));
 				break;
 			case 1:
-				listChapters.sort(Alloy.Globals.dynamicSort('chapter', -1));
+				listChapters.sort(Alloy.Globals.dynamicSortNumber('chapter', -1));
 				break;
 		}
 		table.setData([]);

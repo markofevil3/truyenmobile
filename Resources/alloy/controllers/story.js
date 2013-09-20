@@ -68,8 +68,10 @@ function Controller() {
         });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
+    this.__controllerPath = "story";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
+    arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
     $.__views.storyWindow = Ti.UI.createWindow({
@@ -351,11 +353,11 @@ function Controller() {
         dialog.addEventListener("click", function(e) {
             switch (e.index) {
               case 0:
-                listChapters.sort(Alloy.Globals.dynamicSort("chapter", 1));
+                listChapters.sort(Alloy.Globals.dynamicSortNumber("chapter", 1));
                 break;
 
               case 1:
-                listChapters.sort(Alloy.Globals.dynamicSort("chapter", -1));
+                listChapters.sort(Alloy.Globals.dynamicSortNumber("chapter", -1));
             }
             table.setData([]);
             table.setData(setRowData(listChapters, MAX_DISPLAY_ROW));

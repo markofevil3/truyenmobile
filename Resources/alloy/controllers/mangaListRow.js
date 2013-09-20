@@ -14,8 +14,10 @@ function Controller() {
         });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
+    this.__controllerPath = "mangaListRow";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
+    arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
     $.__views.row = Ti.UI.createTableViewRow(function() {
@@ -42,293 +44,128 @@ function Controller() {
         return o;
     }());
     $.__views.row && $.addTopLevelView($.__views.row);
-    $.__views.bookInfoView1 = Ti.UI.createView(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: 90,
-            left: 12.5,
-            layout: "vertical",
-            selectedBackgroundColor: "blue"
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: 220,
-            left: 25,
-            layout: "vertical",
-            selectedBackgroundColor: "blue"
-        });
-        _.extend(o, {
-            id: "bookInfoView1"
-        });
-        return o;
-    }());
-    $.__views.row.add($.__views.bookInfoView1);
+    $.__views.bookInfoView = Ti.UI.createView({
+        width: Titanium.UI.FILL,
+        layout: "horizontal",
+        selectedBackgroundColor: "blue",
+        id: "bookInfoView"
+    });
+    $.__views.row.add($.__views.bookInfoView);
     $.__views.__alloyId11 = Ti.UI.createView({
-        backgroundImage: "/common/bg_paper_tournament.png",
-        height: "25%",
-        top: 0,
-        width: "100%",
+        width: "25%",
+        height: "80%",
+        left: "5%",
+        top: "8%",
+        backgroundImage: "/common/book2.png",
         id: "__alloyId11"
     });
-    $.__views.bookInfoView1.add($.__views.__alloyId11);
-    $.__views.bookName1 = Ti.UI.createLabel(function() {
+    $.__views.bookInfoView.add($.__views.__alloyId11);
+    $.__views.coverLink = Ti.UI.createImageView(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
-            color: "#fff",
-            font: {
-                fontSize: 13,
-                fontWeight: "bold",
-                fontFamily: "Chalkboard SE"
-            },
-            textAlign: "center",
-            horizontalWrap: true
+            width: "82%",
+            height: "94.5%",
+            top: 0,
+            left: 9,
+            defaultImage: "/common/default_image.jpg"
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
-            color: "#fff",
-            font: {
-                fontSize: 26,
-                fontWeight: "bold",
-                fontFamily: "Chalkboard SE"
-            },
-            textAlign: "center",
-            horizontalWrap: true
+            width: "82%",
+            height: "94.5%",
+            top: 0,
+            left: 18,
+            defaultImage: "/common/default_image.jpg"
         });
         _.extend(o, {
-            id: "bookName1"
+            id: "coverLink"
         });
         return o;
     }());
-    $.__views.__alloyId11.add($.__views.bookName1);
+    $.__views.__alloyId11.add($.__views.coverLink);
     $.__views.__alloyId12 = Ti.UI.createView({
-        width: "65%",
-        height: "68%",
-        backgroundImage: "/common/book2.png",
+        layout: "vertical",
         id: "__alloyId12"
     });
-    $.__views.bookInfoView1.add($.__views.__alloyId12);
-    $.__views.coverLink1 = Ti.UI.createImageView(function() {
+    $.__views.bookInfoView.add($.__views.__alloyId12);
+    $.__views.bookName = Ti.UI.createLabel(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
-            width: "80%",
-            height: 77,
-            top: 0,
-            left: 9,
-            defaultImage: "/common/default_image.jpg"
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: "80%",
-            height: 154,
-            top: 0,
-            left: 18,
-            defaultImage: "/common/default_image.jpg"
-        });
-        _.extend(o, {
-            id: "coverLink1"
-        });
-        return o;
-    }());
-    $.__views.__alloyId12.add($.__views.coverLink1);
-    $.__views.bookInfoView2 = Ti.UI.createView(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: 90,
-            left: 12.5,
-            layout: "vertical",
-            selectedBackgroundColor: "blue"
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: 220,
-            left: 25,
-            layout: "vertical",
-            selectedBackgroundColor: "blue"
-        });
-        _.extend(o, {
-            id: "bookInfoView2"
-        });
-        return o;
-    }());
-    $.__views.row.add($.__views.bookInfoView2);
-    $.__views.__alloyId13 = Ti.UI.createView({
-        backgroundImage: "/common/bg_paper_tournament.png",
-        height: "25%",
-        top: 0,
-        width: "100%",
-        id: "__alloyId13"
-    });
-    $.__views.bookInfoView2.add($.__views.__alloyId13);
-    $.__views.bookName2 = Ti.UI.createLabel(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            color: "#fff",
             font: {
-                fontSize: 13,
                 fontWeight: "bold",
+                fontSize: 18,
                 fontFamily: "Chalkboard SE"
             },
-            textAlign: "center",
-            horizontalWrap: true
+            top: "5%",
+            color: "#fff",
+            shadowColor: "#603d1c",
+            shadowOffset: {
+                x: 2,
+                y: 2
+            },
+            width: "90%"
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
-            color: "#fff",
             font: {
-                fontSize: 26,
                 fontWeight: "bold",
+                fontSize: 40,
                 fontFamily: "Chalkboard SE"
             },
-            textAlign: "center",
-            horizontalWrap: true
-        });
-        _.extend(o, {
-            id: "bookName2"
-        });
-        return o;
-    }());
-    $.__views.__alloyId13.add($.__views.bookName2);
-    $.__views.__alloyId14 = Ti.UI.createView({
-        width: "65%",
-        height: "68%",
-        backgroundImage: "/common/book2.png",
-        id: "__alloyId14"
-    });
-    $.__views.bookInfoView2.add($.__views.__alloyId14);
-    $.__views.coverLink2 = Ti.UI.createImageView(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: "80%",
-            height: 77,
-            top: 0,
-            left: 9,
-            defaultImage: "/common/default_image.jpg"
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: "80%",
-            height: 154,
-            top: 0,
-            left: 18,
-            defaultImage: "/common/default_image.jpg"
-        });
-        _.extend(o, {
-            id: "coverLink2"
-        });
-        return o;
-    }());
-    $.__views.__alloyId14.add($.__views.coverLink2);
-    $.__views.bookInfoView3 = Ti.UI.createView(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: 90,
-            left: 12.5,
-            layout: "vertical",
-            selectedBackgroundColor: "blue"
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: 220,
-            left: 25,
-            layout: "vertical",
-            selectedBackgroundColor: "blue"
-        });
-        _.extend(o, {
-            id: "bookInfoView3"
-        });
-        return o;
-    }());
-    $.__views.row.add($.__views.bookInfoView3);
-    $.__views.__alloyId15 = Ti.UI.createView({
-        backgroundImage: "/common/bg_paper_tournament.png",
-        height: "25%",
-        top: 0,
-        width: "100%",
-        id: "__alloyId15"
-    });
-    $.__views.bookInfoView3.add($.__views.__alloyId15);
-    $.__views.bookName3 = Ti.UI.createLabel(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
+            left: 10,
+            top: "5%",
             color: "#fff",
-            font: {
-                fontSize: 13,
-                fontWeight: "bold",
-                fontFamily: "Chalkboard SE"
+            shadowColor: "#603d1c",
+            shadowOffset: {
+                x: 2,
+                y: 2
             },
-            textAlign: "center",
-            horizontalWrap: true
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            color: "#fff",
-            font: {
-                fontSize: 26,
-                fontWeight: "bold",
-                fontFamily: "Chalkboard SE"
-            },
-            textAlign: "center",
-            horizontalWrap: true
+            width: "90%"
         });
         _.extend(o, {
-            id: "bookName3"
+            id: "bookName"
         });
         return o;
     }());
-    $.__views.__alloyId15.add($.__views.bookName3);
-    $.__views.__alloyId16 = Ti.UI.createView({
-        width: "65%",
-        height: "68%",
-        backgroundImage: "/common/book2.png",
-        id: "__alloyId16"
+    $.__views.__alloyId12.add($.__views.bookName);
+    $.__views.icon = Ti.UI.createView({
+        layout: "horizontal",
+        width: "90%",
+        top: 5,
+        left: 10,
+        id: "icon"
     });
-    $.__views.bookInfoView3.add($.__views.__alloyId16);
-    $.__views.coverLink3 = Ti.UI.createImageView(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: "80%",
-            height: 77,
-            top: 0,
-            left: 9,
-            defaultImage: "/common/default_image.jpg"
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: "80%",
-            height: 154,
-            top: 0,
-            left: 18,
-            defaultImage: "/common/default_image.jpg"
-        });
-        _.extend(o, {
-            id: "coverLink3"
-        });
-        return o;
-    }());
-    $.__views.__alloyId16.add($.__views.coverLink3);
+    $.__views.__alloyId12.add($.__views.icon);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
-    for (var i = 0; 3 > i; i++) {
-        var bookInfoView = $["bookInfoView" + (i + 1)];
-        if (args.data[i]) {
-            $["bookName" + (i + 1)].text = args.data[i].title;
-            var coverName = args.data[i]._id + ".jpg";
-            var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, coverName);
-            coverFile.exists() ? $["coverLink" + (i + 1)].image = coverFile.nativePath : Alloy.Globals.loadImage($["coverLink" + (i + 1)], Alloy.Globals.SERVER + args.data[i].folder + "/cover.jpg", coverName);
-            bookInfoView.dataId = args.data[i]._id;
-            selectItem(bookInfoView);
-        } else bookInfoView.setVisible(false);
-    }
+    var bookInfoView = $.bookInfoView;
+    $.bookName.text = args.data.title;
+    var coverName = args.data._id + ".jpg";
+    var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, coverName);
+    coverFile.exists() ? $.coverLink.image = coverFile.nativePath : Alloy.Globals.loadImage($.coverLink, Alloy.Globals.SERVER + "/images/adv/adv0.jpg", coverName);
+    var newIconImage = Ti.UI.createImageView({
+        height: 32,
+        width: 32,
+        image: "/common/new-tag.png"
+    });
+    var updateIconImage = Ti.UI.createImageView({
+        height: 32,
+        width: 32,
+        image: "/common/new-tag.png"
+    });
+    var hotIconImage = Ti.UI.createImageView({
+        height: 32,
+        width: 32,
+        image: "/common/new-tag.png"
+    });
+    args.data.datePost && Alloy.Globals.isNew(new Date(args.data.datePost)) && $.icon.add(newIconImage);
+    args.data.updatedAt && Alloy.Globals.isNew(new Date(args.data.updatedAt)) && $.icon.add(updateIconImage);
+    args.data.top && args.data.top > 0 && $.icon.add(hotIconImage);
+    bookInfoView.dataId = args.data._id;
+    selectItem(bookInfoView);
     _.extend($, exports);
 }
 

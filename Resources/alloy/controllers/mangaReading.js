@@ -1,4 +1,8 @@
 function Controller() {
+    function checkEndChapter(e) {
+        pageCount.text = e.currentPage + 1 + "/" + listImages.length;
+        e.currentPage + 1 == listImages.length && showFuncBar();
+    }
     function SetChangeChapterButtons(next, prev) {
         if (null != next) {
             $.nextButton.visible = true;
@@ -30,14 +34,14 @@ function Controller() {
     function showFuncBar() {
         if ($.funcBar.visible) $.funcBar.animate({
             opacity: 0,
-            duration: 1e3
+            duration: 500
         }, function() {
             $.funcBar.hide();
         }); else {
             $.funcBar.show();
             $.funcBar.animate({
                 opacity: 1,
-                duration: 1e3
+                duration: 500
             }, function() {});
         }
     }
@@ -53,13 +57,13 @@ function Controller() {
         });
     }
     function addImageView() {
-        var maxZindex = listImages.length;
         for (var i = 0; listImages.length > i; i++) {
             var image = Ti.UI.createImageView({
-                image: Alloy.Globals.SERVER + listImages[i] + "?time=" + Date.now(),
                 width: "100%",
                 height: "auto"
             });
+            var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, args._id + i + ".jpg");
+            coverFile.exists() ? image.image = coverFile.nativePath : Alloy.Globals.loadImage(image, "http://truyentranhtuan.com" + listImages[i], args._id + i + ".jpg");
             var scrollView = Ti.UI.createScrollView({
                 contentWidth: "100%",
                 contentHeight: "100%",
@@ -68,49 +72,20 @@ function Controller() {
                 showHorizontalScrollIndicator: true,
                 height: "100%",
                 width: "100%",
-                zIndex: maxZindex,
                 index: i,
                 maxZoomScale: 3,
                 minZoomScale: 1
             });
             scrollView.add(image);
             images.push(scrollView);
-            $.imageHolderView.add(scrollView);
-            maxZindex--;
         }
     }
-    function changePage() {
-        $.mangaReadingWindow.addEventListener("swipe", function(e) {
-            if ("left" == e.direction) {
-                var nextImage = images[currentPage.index + 1];
-                nextImage ? $.imageHolderView.animate({
-                    view: nextImage,
-                    transition: Ti.UI.iPhone.AnimationStyle.CURL_UP,
-                    duration: 500
-                }, function() {
-                    nextImage.show();
-                    currentPage = nextImage;
-                    pageCount.text = currentPage.index + 1 + "/" + listImages.length;
-                }) : showFuncBar();
-            }
-            if ("right" == e.direction) {
-                var nextImage = images[currentPage.index - 1];
-                if (nextImage) {
-                    $.imageHolderView.animate({
-                        view: nextImage,
-                        transition: Ti.UI.iPhone.AnimationStyle.CURL_DOWN,
-                        duration: 500
-                    });
-                    nextImage.show();
-                    currentPage = nextImage;
-                    pageCount.text = nextImage.index + "/" + listImages.length;
-                }
-            }
-        });
-    }
+    function changePage() {}
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
+    this.__controllerPath = "mangaReading";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
+    arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
     var __defers = {};
@@ -372,9 +347,11 @@ function Controller() {
         return o;
     }());
     $.__views.funcBar.add($.__views.advView2);
-    $.__views.imageHolderView = Ti.UI.createView({
+    var __alloyId13 = [];
+    $.__views.imageHolderView = Ti.UI.createScrollableView({
         width: "100%",
         height: "100%",
+        views: __alloyId13,
         id: "imageHolderView"
     });
     $.__views.mangaReadingWindow.add($.__views.imageHolderView);
@@ -384,7 +361,6 @@ function Controller() {
     var images = [];
     var listImages;
     var pageCount = $.pageCount;
-    var currentPage;
     exports.openMainWindow = function() {
         listImages = args.pages;
         $.mangaReadingWindow.title = "Chapter " + args.chapter;
@@ -395,10 +371,13 @@ function Controller() {
         });
         SetChangeChapterButtons(args.next, args.prev);
         hideFuncBar();
+        $.imageHolderView.showPagingControl = false;
+        $.imageHolderView.currentPage = 1;
         addImageView();
-        currentPage = images[0];
+        $.imageHolderView.views = images;
         changePage();
         $.mangaReadingWindow.addEventListener("singletap", showFuncBar);
+        $.mangaReadingWindow.addEventListener("scrollend", checkEndChapter);
         $.mangaReadingWindow.open({
             transition: Ti.UI.iPhone.AnimationStyle.CURL_UP
         });

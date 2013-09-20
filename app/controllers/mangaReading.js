@@ -2,7 +2,6 @@ var args = arguments[0] || {};
 var images = [];
 var listImages;
 var pageCount = $.pageCount;
-var currentPage;
 
 exports.openMainWindow = function() {
 	listImages = args.pages;
@@ -14,12 +13,23 @@ exports.openMainWindow = function() {
 	});
 	SetChangeChapterButtons(args.next, args.prev);
 	hideFuncBar();
+	
+	$.imageHolderView.showPagingControl = false;
+	$.imageHolderView.currentPage = 1;
 	addImageView();
-	currentPage = images[0];
+	$.imageHolderView.views = images;
 	changePage();
 	$.mangaReadingWindow.addEventListener('singletap', showFuncBar);
+	$.mangaReadingWindow.addEventListener('scrollend', checkEndChapter);
 	$.mangaReadingWindow.open({ transition: Ti.UI.iPhone.AnimationStyle.CURL_UP });
 };
+
+function checkEndChapter(e) {
+	pageCount.text = (e.currentPage + 1) + '/' + (listImages.length);
+	if (e.currentPage + 1 == listImages.length) {
+		showFuncBar();
+	}
+}
 
 function SetChangeChapterButtons(next, prev) {
 	if (next != null) {
@@ -55,12 +65,12 @@ function hideFuncBar() {
 
 function showFuncBar() {
 	if ($.funcBar.visible) {
-		$.funcBar.animate({opacity: 0, duration: 1000}, function() {
+		$.funcBar.animate({opacity: 0, duration: 500}, function() {
 			$.funcBar.hide();
 		});
 	} else {
 		$.funcBar.show();
-		$.funcBar.animate({opacity: 1, duration: 1000}, function() {
+		$.funcBar.animate({opacity: 1, duration: 500}, function() {
 		});
 	}
 }
@@ -76,13 +86,21 @@ function closeWindow() {
 };
 
 function addImageView() {
-	var maxZindex = listImages.length;
+	
 	for (var i = 0; i < listImages.length; i++) {
 		var image = Ti.UI.createImageView({
-			image: Alloy.Globals.SERVER + listImages[i] + '?time=' + Date.now(),
+			// image: "http://truyentranhtuan.com" + listImages[i],
 			width: '100%',
 			height: 'auto',
 		});
+
+		var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, args._id + i + ".jpg");
+		if (coverFile.exists()) {
+			image.image = coverFile.nativePath;
+		} else {
+			Alloy.Globals.loadImage(image, "http://truyentranhtuan.com" + listImages[i], args._id + i + ".jpg");
+		}
+
 		var scrollView = Ti.UI.createScrollView({
 		  contentWidth: '100%',
 		  contentHeight: '100%',
@@ -91,7 +109,6 @@ function addImageView() {
 		  showHorizontalScrollIndicator: true,
 		  height: '100%',
 		  width: '100%',
-		  zIndex: maxZindex,
 		  index: i,
 		  maxZoomScale: 3,
 			minZoomScale: 1
@@ -99,33 +116,32 @@ function addImageView() {
 		scrollView.add(image);
 		// changePage(scrollView);
 		images.push(scrollView);
-		$.imageHolderView.add(scrollView);
-		maxZindex--;
+		// $.imageHolderView.add(scrollView);
 	}
 };
 
 function changePage() {
-	$.mangaReadingWindow.addEventListener('swipe', function(e) {
-		if (e.direction == 'left') {
-			var nextImage = images[currentPage.index + 1];
-			if (nextImage) {
-				$.imageHolderView.animate({ view: nextImage, transition: Ti.UI.iPhone.AnimationStyle.CURL_UP, duration: 500 }, function() {
-					nextImage.show();
-					currentPage = nextImage;
-					pageCount.text = (currentPage.index + 1) + '/' + (listImages.length);
-				});
-			} else {
-				showFuncBar();
-			}
-		}
-		if (e.direction == 'right') {
-			var nextImage = images[currentPage.index - 1];
-			if (nextImage) {
-				$.imageHolderView.animate({ view: nextImage, transition: Ti.UI.iPhone.AnimationStyle.CURL_DOWN, duration: 500 });
-				nextImage.show();
-				currentPage = nextImage;
-				pageCount.text = nextImage.index + '/' + (listImages.length);
-			}
-		}
-	});
+	// $.mangaReadingWindow.addEventListener('swipe', function(e) {
+		// if (e.direction == 'left') {
+			// var nextImage = images[currentPage.index + 1];
+			// if (nextImage) {
+				// $.imageHolderView.animate({ view: nextImage, transition: Ti.UI.iPhone.AnimationStyle.CURL_UP, duration: 500 }, function() {
+					// nextImage.show();
+					// currentPage = nextImage;
+					// pageCount.text = (currentPage.index + 1) + '/' + (listImages.length);
+				// });
+			// } else {
+				// showFuncBar();
+			// }
+		// }
+		// if (e.direction == 'right') {
+			// var nextImage = images[currentPage.index - 1];
+			// if (nextImage) {
+				// $.imageHolderView.animate({ view: nextImage, transition: Ti.UI.iPhone.AnimationStyle.CURL_DOWN, duration: 500 });
+				// nextImage.show();
+				// currentPage = nextImage;
+				// pageCount.text = nextImage.index + '/' + (listImages.length);
+			// }
+		// }
+	// });
 };

@@ -4,8 +4,10 @@ function Controller() {
         selectedMenuController.openMainWindow();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
+    this.__controllerPath = "setting";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
+    arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
     var __defers = {};
@@ -45,8 +47,8 @@ function Controller() {
         });
         return o;
     }());
-    var __alloyId17 = [];
-    __alloyId17.push($.__views.account);
+    var __alloyId14 = [];
+    __alloyId14.push($.__views.account);
     selectMenu ? $.__views.account.addEventListener("click", selectMenu) : __defers["$.__views.account!click!selectMenu"] = true;
     $.__views.support = Ti.UI.createTableViewRow(function() {
         var o = {};
@@ -78,7 +80,7 @@ function Controller() {
         });
         return o;
     }());
-    __alloyId17.push($.__views.support);
+    __alloyId14.push($.__views.support);
     selectMenu ? $.__views.support.addEventListener("click", selectMenu) : __defers["$.__views.support!click!selectMenu"] = true;
     $.__views.aboutUs = Ti.UI.createTableViewRow(function() {
         var o = {};
@@ -110,7 +112,7 @@ function Controller() {
         });
         return o;
     }());
-    __alloyId17.push($.__views.aboutUs);
+    __alloyId14.push($.__views.aboutUs);
     selectMenu ? $.__views.aboutUs.addEventListener("click", selectMenu) : __defers["$.__views.aboutUs!click!selectMenu"] = true;
     $.__views.adv = Ti.UI.createTableViewRow(function() {
         var o = {};
@@ -127,13 +129,13 @@ function Controller() {
         });
         return o;
     }());
-    __alloyId17.push($.__views.adv);
+    __alloyId14.push($.__views.adv);
     $.__views.settingTableView = Ti.UI.createTableView({
         height: Titanium.UI.SIZE,
         scrollable: false,
         backgroundColor: "transparent",
         top: 0,
-        data: __alloyId17,
+        data: __alloyId14,
         id: "settingTableView"
     });
     $.__views.settingWindow.add($.__views.settingTableView);

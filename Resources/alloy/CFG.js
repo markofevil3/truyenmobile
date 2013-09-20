@@ -1,5 +1,1 @@
-module.exports = {
-    dependencies: {
-        "com.appcelerator.loading": "1.0"
-    }
-};
+module.exports={"dependencies":{"com.appcelerator.loading":"1.0"}};

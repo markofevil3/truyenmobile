@@ -12,7 +12,7 @@ function isHash(obj) {
 
 var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
-Alloy.Globals.SERVER = "http://truyen.zapto.org";
+Alloy.Globals.SERVER = "http://113.190.2.157";
 
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 
@@ -251,6 +251,12 @@ Alloy.Globals.dynamicSort = function(property, type) {
     };
 };
 
+Alloy.Globals.dynamicSortNumber = function(property, type) {
+    return function(a, b) {
+        return parseFloat(a[property]) < parseFloat(b[property]) ? -1 * type : parseFloat(a[property]) > parseFloat(b[property]) ? 1 * type : 0;
+    };
+};
+
 Alloy.Globals.dynamicLoad = function(tableView, data) {
     function beginUpdate() {
         updating = true;
@@ -368,18 +374,18 @@ Alloy.Globals.adv = function(type, callback) {
     callback(advImage);
 };
 
-Alloy.Globals.loadImage = function(imageView, url, newName) {
+Alloy.Globals.loadImage = function(imageView, url) {
     var xhr = Titanium.Network.createHTTPClient({
         onload: function() {
-            imageView.image = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, newName).nativePath;
+            imageView.image = this.responseData;
         },
         onerror: function() {
             Ti.API.info("error loading " + url);
+            imageView.image = "/common/default_image.jpg";
         },
         timeout: 1e4
     });
     xhr.open("GET", url);
-    xhr.file = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, newName);
     xhr.send();
 };
 

@@ -12,7 +12,7 @@
       </View>
       <View id="advView2" />
     </View>
-    <View id="imageHolderView">
-    </View>
+    <ScrollableView id="imageHolderView">
+    </ScrollableView>
   </Window>
 </Alloy>

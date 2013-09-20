@@ -80,8 +80,10 @@ function Controller() {
         });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
+    this.__controllerPath = "manga";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
+    arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
     $.__views.mangaWindow = Ti.UI.createWindow({
@@ -372,12 +374,13 @@ function Controller() {
             });
         });
         var listChapters = args.data.chapters;
+        listChapters.sort(Alloy.Globals.dynamicSortNumber("chapter", 1));
         getNextPrevChapter(listChapters);
         $.mangaWindow.rightNavButton = args.favorite ? favoritedButton : favoriteButton;
         $.mangaWindow.title = args.data.title;
         var coverName = args.data._id + ".jpg";
         var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, coverName);
-        coverFile.exists() ? $.bookCover.image = coverFile.nativePath : Alloy.Globals.loadImage($.bookCover, Alloy.Globals.SERVER + args.data.folder + "/cover.jpg", coverName);
+        coverFile.exists() ? $.bookCover.image = coverFile.nativePath : Alloy.Globals.loadImage($.coverLink, Alloy.Globals.SERVER + "/images/adv/adv0.jpg", coverName);
         $.bookTitle.text = args.data.title;
         $.bookAuthor.text = "Tác Giả: " + args.data.author;
         $.newestChapter.text = "Chapter Mới: " + getNewestChapter(listChapters);
@@ -413,11 +416,11 @@ function Controller() {
         dialog.addEventListener("click", function(e) {
             switch (e.index) {
               case 0:
-                listChapters.sort(Alloy.Globals.dynamicSort("chapter", 1));
+                listChapters.sort(Alloy.Globals.dynamicSortNumber("chapter", 1));
                 break;
 
               case 1:
-                listChapters.sort(Alloy.Globals.dynamicSort("chapter", -1));
+                listChapters.sort(Alloy.Globals.dynamicSortNumber("chapter", -1));
             }
             table.setData([]);
             table.setData(setRowData(listChapters, MAX_DISPLAY_ROW));
