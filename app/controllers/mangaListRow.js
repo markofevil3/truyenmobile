@@ -1,14 +1,8 @@
 var args = arguments[0] || {};
 var bookInfoView = $.bookInfoView;
 $.bookName.text = args.data.title;
-var coverName = args.data._id + '.jpg';
-var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, coverName);
-if (coverFile.exists()) {
-	$.coverLink.image = coverFile.nativePath;
-} else {
-	// Alloy.Globals.loadImage($.coverLink, Alloy.Globals.SERVER + args.data.folder + '/cover.jpg', coverName);
-	Alloy.Globals.loadImage($.coverLink, Alloy.Globals.SERVER + "/images/adv/adv0.jpg", coverName);
-}
+$.coverLink.image = args.data.cover;
+// Alloy.Globals.loadImage($.coverLink, args.data.cover);
 
 var newIconImage = Ti.UI.createImageView({
 	height: 32,

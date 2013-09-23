@@ -24,6 +24,7 @@ function Controller() {
             userId: Alloy.Globals.facebook.getUid()
         }, function(response) {
             listFavorites = JSON.parse(response).data;
+            if (false == listFavorites) return;
             mangaRows = setRowData(listFavorites["manga"], 0);
             storyRows = setRowData(listFavorites["story"], 1);
             tableView.data = mangaRows.concat(storyRows);

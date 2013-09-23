@@ -6,8 +6,7 @@ Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
 $.settingTab.addEventListener('focus', function(e) {
 	Alloy.Globals.CURRENT_TAB = $.settingTab;
 });
-
-$.facebookLikeBox.url = Alloy.Globals.SERVER + '/facebook?type=' + Alloy.Globals.isTablet();
+$.facebookLikeBox.url = Alloy.Globals.SERVER + '/facebook?type=' + Alloy.Globals.getDeviceType();
 function selectMenu(e) {
 	var selectedMenuController = Alloy.createController(e.rowData.id);
 	selectedMenuController.openMainWindow();

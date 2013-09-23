@@ -1,3 +1,10 @@
+Titanium.App.addEventListener('pause', function() {
+	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory);
+	var list = f.getDirectoryListing();
+	for (var i = 0; i < list.length; i++) {
+		Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory+list[i]).deleteFile();
+	}
+});
 var overrideTabs = require('IosCustomTabBar');
 overrideTabs(
   $.tabGroup, // The tab group

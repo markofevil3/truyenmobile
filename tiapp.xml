@@ -6,7 +6,7 @@
     <property name="acs-oauth-secret-development" type="string">ogNOiekqdRCS9mtdpNF5wAXczizY6J0K</property>
     <property name="acs-oauth-key-development" type="string">GCqcKscjSgVIeAH5JJTjfrdpbMboFio6</property>
     <property name="acs-api-key-development" type="string">rlui03MfFtEXzOr9HooyAfDnze0lQb0u</property>
-    <property name="ti.facebook.appid">514307815249030</property>
+    <property name="ti.facebook.appid">517068261714145</property>
     <id>com.buiphiquan.newtruyen</id>
     <name>truyenmobile</name>
     <version>1.0</version>
@@ -45,6 +45,7 @@
     <modules>
         <module platform="commonjs">ti.cloud</module>
         <module platform="iphone">facebook</module>
+        <module platform="android">facebook</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

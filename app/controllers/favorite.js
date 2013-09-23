@@ -39,6 +39,9 @@ function getFavorites() {
 	},
 	function(response) {
 		listFavorites = JSON.parse(response).data;
+		if (listFavorites == false ) {
+			return;
+		}
 		mangaRows = setRowData(listFavorites['manga'], 0);
 		storyRows = setRowData(listFavorites['story'], 1);
 		tableView.data = mangaRows.concat(storyRows);

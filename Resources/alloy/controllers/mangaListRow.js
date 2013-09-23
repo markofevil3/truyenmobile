@@ -143,9 +143,7 @@ function Controller() {
     var args = arguments[0] || {};
     var bookInfoView = $.bookInfoView;
     $.bookName.text = args.data.title;
-    var coverName = args.data._id + ".jpg";
-    var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, coverName);
-    coverFile.exists() ? $.coverLink.image = coverFile.nativePath : Alloy.Globals.loadImage($.coverLink, Alloy.Globals.SERVER + "/images/adv/adv0.jpg", coverName);
+    $.coverLink.image = args.data.cover;
     var newIconImage = Ti.UI.createImageView({
         height: 32,
         width: 32,

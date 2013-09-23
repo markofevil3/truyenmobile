@@ -53,15 +53,8 @@ exports.openMainWindow = function() {
 		$.mangaWindow.rightNavButton = favoriteButton; 
 	}
 	$.mangaWindow.title = args.data.title;
-	
-	var coverName = args.data._id + '.jpg';
-	var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, coverName);
-	if (coverFile.exists()) {
-		$.bookCover.image = coverFile.nativePath;
-	} else {
-		// Alloy.Globals.loadImage($.bookCover, Alloy.Globals.SERVER + args.data.folder + '/cover.jpg', coverName);
-		Alloy.Globals.loadImage($.coverLink, Alloy.Globals.SERVER + "/images/adv/adv0.jpg", coverName);
-	}
+	$.bookCover.image = args.data.cover;
+	Alloy.Globals.loadImage($.bookCover, args.data.cover);
 	// $.bookCover.image = Alloy.Globals.SERVER + args.data.folder + '/cover.jpg';
 	$.bookTitle.text = args.data.title;
 	$.bookAuthor.text = 'Tác Giả: ' + args.data.author;
@@ -144,8 +137,8 @@ function getNextPrevChapter(data) {
 function getNewestChapter(chapters) {
 	var newest = 0;
 	for (var i = 0; i < chapters.length; i++) {
-		if (chapters[i].chapter > newest) {
-			newest = chapters[i].chapter;
+		if (parseFloat(chapters[i].chapter) > newest) {
+			newest = parseFloat(chapters[i].chapter);
 		}
 	}
 	return newest;

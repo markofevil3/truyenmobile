@@ -15,7 +15,7 @@ exports.openMainWindow = function() {
 	hideFuncBar();
 	
 	$.imageHolderView.showPagingControl = false;
-	$.imageHolderView.currentPage = 1;
+	$.imageHolderView.currentPage = 0;
 	addImageView();
 	$.imageHolderView.views = images;
 	changePage();
@@ -93,13 +93,7 @@ function addImageView() {
 			width: '100%',
 			height: 'auto',
 		});
-
-		var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, args._id + i + ".jpg");
-		if (coverFile.exists()) {
-			image.image = coverFile.nativePath;
-		} else {
-			Alloy.Globals.loadImage(image, "http://truyentranhtuan.com" + listImages[i], args._id + i + ".jpg");
-		}
+		Alloy.Globals.loadImage(image, "http://truyentranhtuan.com" + listImages[i], args.mangaId + args.chapter + i + "");
 
 		var scrollView = Ti.UI.createScrollView({
 		  contentWidth: '100%',

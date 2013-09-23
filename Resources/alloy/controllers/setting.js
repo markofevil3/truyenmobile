@@ -162,7 +162,7 @@ function Controller() {
     $.settingTab.addEventListener("focus", function() {
         Alloy.Globals.CURRENT_TAB = $.settingTab;
     });
-    $.facebookLikeBox.url = Alloy.Globals.SERVER + "/facebook?type=" + Alloy.Globals.isTablet();
+    $.facebookLikeBox.url = Alloy.Globals.SERVER + "/facebook?type=" + Alloy.Globals.getDeviceType();
     __defers["$.__views.account!click!selectMenu"] && $.__views.account.addEventListener("click", selectMenu);
     __defers["$.__views.support!click!selectMenu"] && $.__views.support.addEventListener("click", selectMenu);
     __defers["$.__views.aboutUs!click!selectMenu"] && $.__views.aboutUs.addEventListener("click", selectMenu);

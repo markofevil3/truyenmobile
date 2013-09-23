@@ -10,7 +10,7 @@ $.homeTab.addEventListener('focus', function(e) {
 log(Titanium.Filesystem.getTempDirectory());
 
 function selectMenu(e) {
-	if (e.rowData.dataName == "funnyList") {
+	if (e.rowData.dataName == "funnyList" || e.rowData.dataName == "storyList") {
 		alert("Coming Soon!");
 	} else {
 		var selectedMenuController = Alloy.createController(e.rowData.dataName);

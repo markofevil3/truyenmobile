@@ -62,8 +62,7 @@ function Controller() {
                 width: "100%",
                 height: "auto"
             });
-            var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, args._id + i + ".jpg");
-            coverFile.exists() ? image.image = coverFile.nativePath : Alloy.Globals.loadImage(image, "http://truyentranhtuan.com" + listImages[i], args._id + i + ".jpg");
+            Alloy.Globals.loadImage(image, "http://truyentranhtuan.com" + listImages[i], args.mangaId + args.chapter + i + "");
             var scrollView = Ti.UI.createScrollView({
                 contentWidth: "100%",
                 contentHeight: "100%",
@@ -372,7 +371,7 @@ function Controller() {
         SetChangeChapterButtons(args.next, args.prev);
         hideFuncBar();
         $.imageHolderView.showPagingControl = false;
-        $.imageHolderView.currentPage = 1;
+        $.imageHolderView.currentPage = 0;
         addImageView();
         $.imageHolderView.views = images;
         changePage();

@@ -9,7 +9,7 @@
 // object. For example:
 //
 // Alloy.Globals.someGlobalFunction = function(){};
-Alloy.Globals.SERVER = 'http://113.190.2.157';
+Alloy.Globals.SERVER = 'http://54.251.14.29:3000';
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 Alloy.Globals.NEW_TIME_MILLISECONDS = 259200000;
 Alloy.Globals.RATIO = 1;
@@ -18,7 +18,7 @@ Alloy.Globals.TAB_GROUP = null;
 Alloy.Globals.currentLoadingView = null;
 Alloy.Globals.FBPOST_LINK = 'https://www.facebook.com/pages/Truy%E1%BB%87n-tranh-Truy%E1%BB%87n-ng%E1%BA%AFn-Truy%E1%BB%87n-c%C6%B0%E1%BB%9Di/518980604798172';
 Alloy.Globals.facebook = require('facebook');
-Alloy.Globals.facebook.appid = "514307815249030";
+Alloy.Globals.facebook.appid = "517068261714145";
 Alloy.Globals.facebook.permissions = ['read_stream'];
 // Alloy.Globals.facebook.permissions = ['publish_stream', 'read_stream'];
 Alloy.Globals.facebook.forceDialogAuth = false;
@@ -95,7 +95,7 @@ Alloy.Globals.loginUser = function(username, callback) {
  	   	Alloy.Globals.getDeviceToken(callback);
     } else {
       log("Error :");
-      log(e.message);
+      alert(e.message);
       if (e.code == 401) {
       	Alloy.Globals.registerUser(username);
       }
@@ -119,9 +119,11 @@ Alloy.Globals.getDeviceToken = function(callback){
 	  error:function(e) {
 	    log("ErrorDeviceToken: ");
 	    log(e.message);
+	    alert(e.message);
 	  },
 	  callback:function(e) {
 	    log("Alloy.Globals.getDeviceToken:"+JSON.stringify(e.data));
+	    alert('new message from push');
 	  }
   });
 };
@@ -177,27 +179,27 @@ function showRequestResult(e) {
 }
 
 Alloy.Globals.fbPost = function(itemTitle, imageLink) {
-	log(imageLink);
-	var data = {
-		link: Alloy.Globals.FBPOST_LINK,
-		name: "TruyệnAlloy",
-		message: "Đang đọc truyện " + itemTitle + " trên điện thoại bằng TruyệnAlloy",
-		caption: "Phần mềm đọc truyện hay nhất trên mobile và tablet",
-		picture: imageLink,
-		description: "Hãy tải phần mềm để có thể đọc truyện mọi lúc mọi nơi, update liên tục, thông báo mỗi khi có chapter mới và rất nhiều tính năng khác. FREEEEEEE!!!!!",
-	};
-  Alloy.Globals.facebook.reauthorize(['publish_stream'], 'me', function(e){
-      if (e.success) {
-          // If successful, proceed with a publish call
-          // Alloy.Globals.facebook.dialog("feed", data, showRequestResult);
-          Alloy.Globals.facebook.requestWithGraphPath('me/feed', data, 'POST', showRequestResult);
-      } else {
-        if (e.error) {
-        	log("Alloy.Globals.facebook.reauthorize:");
-          log(e.error);
-        }
-      }
-  });
+	// log(imageLink);
+	// var data = {
+		// link: Alloy.Globals.FBPOST_LINK,
+		// name: "TruyệnAlloy",
+		// message: "Đang đọc truyện " + itemTitle + " trên điện thoại bằng TruyệnAlloy",
+		// caption: "Phần mềm đọc truyện hay nhất trên mobile và tablet",
+		// picture: imageLink,
+		// description: "Hãy tải phần mềm để có thể đọc truyện mọi lúc mọi nơi, update liên tục, thông báo mỗi khi có chapter mới và rất nhiều tính năng khác. FREEEEEEE!!!!!",
+	// };
+  // Alloy.Globals.facebook.reauthorize(['publish_stream'], 'me', function(e){
+      // if (e.success) {
+          // // If successful, proceed with a publish call
+          // // Alloy.Globals.facebook.dialog("feed", data, showRequestResult);
+          // Alloy.Globals.facebook.requestWithGraphPath('me/feed', data, 'POST', showRequestResult);
+      // } else {
+        // if (e.error) {
+        	// log("Alloy.Globals.facebook.reauthorize:");
+          // log(e.error);
+        // }
+      // }
+  // });
 };
 
 Alloy.Globals.openLoading = function(window) {
@@ -434,6 +436,7 @@ function isHash(obj) {
 };
 
 Alloy.Globals.loadImage = function(imageView, url, newName) {
+	// newName = newName + "." + Alloy.Globals.getFileExtFromUrl(url);
 	var xhr = Titanium.Network.createHTTPClient({
 		onload: function() {
 			imageView.image = this.responseData;
@@ -448,4 +451,9 @@ Alloy.Globals.loadImage = function(imageView, url, newName) {
 	// on iOS, you can use the file property to save a downloaded file
 	// though you must set it after calling open()
 	xhr.send();
+};
+
+Alloy.Globals.getFileExtFromUrl = function(urlString) {
+	var detectKey = urlString.lastIndexOf(".");
+	return urlString.substr(detectKey + 1, urlString.length);
 };

@@ -30,6 +30,11 @@ function Controller() {
     $.__views.tabGroup && $.addTopLevelView($.__views.tabGroup);
     exports.destroy = function() {};
     _.extend($, $.__views);
+    Titanium.App.addEventListener("pause", function() {
+        var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory);
+        var list = f.getDirectoryListing();
+        for (var i = 0; list.length > i; i++) Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory + list[i]).deleteFile();
+    });
     var overrideTabs = require("IosCustomTabBar");
     overrideTabs($.tabGroup, {
         backgroundImage: "/common/top.png"

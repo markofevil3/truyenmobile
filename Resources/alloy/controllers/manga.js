@@ -19,7 +19,7 @@ function Controller() {
     }
     function getNewestChapter(chapters) {
         var newest = 0;
-        for (var i = 0; chapters.length > i; i++) chapters[i].chapter > newest && (newest = chapters[i].chapter);
+        for (var i = 0; chapters.length > i; i++) parseFloat(chapters[i].chapter) > newest && (newest = parseFloat(chapters[i].chapter));
         return newest;
     }
     function dynamicLoad(tableView, data) {
@@ -378,9 +378,8 @@ function Controller() {
         getNextPrevChapter(listChapters);
         $.mangaWindow.rightNavButton = args.favorite ? favoritedButton : favoriteButton;
         $.mangaWindow.title = args.data.title;
-        var coverName = args.data._id + ".jpg";
-        var coverFile = Titanium.Filesystem.getFile(Titanium.Filesystem.tempDirectory, coverName);
-        coverFile.exists() ? $.bookCover.image = coverFile.nativePath : Alloy.Globals.loadImage($.coverLink, Alloy.Globals.SERVER + "/images/adv/adv0.jpg", coverName);
+        $.bookCover.image = args.data.cover;
+        Alloy.Globals.loadImage($.bookCover, args.data.cover);
         $.bookTitle.text = args.data.title;
         $.bookAuthor.text = "Tác Giả: " + args.data.author;
         $.newestChapter.text = "Chapter Mới: " + getNewestChapter(listChapters);
