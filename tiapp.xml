@@ -18,8 +18,8 @@
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>
-    <statusbar-hidden>false</statusbar-hidden>
-    <fullscreen>false</fullscreen>
+    <statusbar-hidden>true</statusbar-hidden>
+    <fullscreen>true</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
     <guid>1391c75b-ea3d-4725-ac8f-034c5dd9f47e</guid>

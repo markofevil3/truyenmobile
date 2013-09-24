@@ -10,6 +10,7 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 Alloy.Globals.SERVER = 'http://54.251.14.29:3000';
+// Alloy.Globals.SERVER = 'http://113.190.2.157:3000';
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 Alloy.Globals.NEW_TIME_MILLISECONDS = 259200000;
 Alloy.Globals.RATIO = 1;
@@ -241,6 +242,10 @@ Alloy.Globals.getDeviceType = function() {
 	}
 };
 
+Alloy.Globals.getOSType = function() {
+	return Titanium.Platform.name;
+};
+
 Alloy.Globals.backButton = function(window) {
 	var backbutton = Titanium.UI.createButton({
 		backgroundImage:'/common/back.png',
@@ -262,6 +267,7 @@ Alloy.Globals.getAjax = function(url, query, callback) {
     },
     onerror: function(e) {
 			Ti.API.debug(e.error);
+			callback(JSON.stringify({error: true}));
     },
     timeout: 10000
 	});
@@ -427,6 +433,13 @@ Alloy.Globals.adv = function(type, callback) {
 	var advImage = Ti.UI.iOS.createAdView({
 	 width: 'auto',
 	 height: 50
+	});
+	advImage.addEventListener("load", function() {
+	});
+	advImage.addEventListener("error", function(e) {
+		if (e.code != 2) {
+			// use another adv
+		}
 	});
 	callback(advImage);
 };

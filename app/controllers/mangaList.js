@@ -15,6 +15,10 @@ function setHotManga(mangas) {
 }
 
 exports.openMainWindow = function() {
+	if (Alloy.Globals.getOSType() == "iPhone OS") {
+		Titanium.UI.iPhone.appBadge = null;
+	}
+
 	Alloy.Globals.CURRENT_TAB.open($.mangaListWindow);
 	//#### back button
 	$.mangaListWindow.leftNavButton = Alloy.Globals.backButton($.mangaListWindow);
@@ -35,7 +39,7 @@ exports.openMainWindow = function() {
 		dynamicLoad(table, listManga);
 	});
 	//#### search bar
-	search.addEventListener('change', function(e) {
+	search.addEventListener('return', function(e) {
 		var results = [];
 		var regexValue = new RegExp(Alloy.Globals.removeUTF8(e.value), 'i');
 		for (var i in listManga) {
@@ -47,17 +51,17 @@ exports.openMainWindow = function() {
 		tbl_data = setRowData(results);
 		table.setData([]);
 		table.setData(tbl_data);
+		search.showCancel = false;
+		search.blur();
 	});
 	search.addEventListener('focus', function(e) {
 		search.showCancel = true;
 	});
-	search.addEventListener('return', function(e) {
-		search.showCancel = false;
-		search.blur();
-	});
 	search.addEventListener('cancel', function(e) {
 		search.showCancel = false;
 		search.blur();
+		table.setData([]);
+		table.setData(setRowData(listManga.slice(0, MAX_DISPLAY_ROW)));
 	});
 	//#### sort button
 	var optionsDialogOpts = {

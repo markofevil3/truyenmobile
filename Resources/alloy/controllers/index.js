@@ -1,4 +1,25 @@
 function Controller() {
+    function openStoreLink(data) {
+        "iPhone OS" == Alloy.Globals.getOSType() ? Ti.Platform.openURL(data.iosLink) : Ti.Platform.openURL(data.androidLink);
+    }
+    function startApp() {
+        var overrideTabs = require("IosCustomTabBar");
+        overrideTabs($.tabGroup, {
+            backgroundImage: "/common/top.png"
+        }, {
+            backgroundImage: "/common/top-active.png",
+            backgroundColor: "transparent",
+            color: "#000",
+            style: 0
+        }, {
+            backgroundImage: "/common/top.png",
+            backgroundColor: "transparent",
+            color: "#888",
+            style: 0
+        });
+        Alloy.Globals.TAB_GROUP = $.tapGroup;
+        $.tabGroup.open();
+    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "index";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
@@ -35,22 +56,38 @@ function Controller() {
         var list = f.getDirectoryListing();
         for (var i = 0; list.length > i; i++) Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory + list[i]).deleteFile();
     });
-    var overrideTabs = require("IosCustomTabBar");
-    overrideTabs($.tabGroup, {
-        backgroundImage: "/common/top.png"
-    }, {
-        backgroundImage: "/common/top-active.png",
-        backgroundColor: "transparent",
-        color: "#000",
-        style: 0
-    }, {
-        backgroundImage: "/common/top.png",
-        backgroundColor: "transparent",
-        color: "#888",
-        style: 0
+    log("########## " + Titanium.App.version);
+    Alloy.Globals.getAjax("/appVersion", {
+        "null": null
+    }, function(response) {
+        var data = JSON.parse(response);
+        if (data.error || data.version == Titanium.App.version) startApp(); else {
+            log(data);
+            var dialog;
+            if (data.force) {
+                dialog = Ti.UI.createAlertDialog({
+                    message: "Có phiên bản mới!!!",
+                    buttonNames: [ "Nâng Cấp" ],
+                    title: "Nâng Cấp"
+                });
+                dialog.show();
+                dialog.addEventListener("click", function() {
+                    openStoreLink(response);
+                });
+            } else {
+                dialog = Ti.UI.createAlertDialog({
+                    cancel: 0,
+                    buttonNames: [ "Bỏ Qua", "Nâng Cấp" ],
+                    message: "Có phiên bản mới!!!",
+                    title: "Nâng Cấp"
+                });
+                dialog.show();
+            }
+            dialog.addEventListener("click", function(e) {
+                1 == e.index ? openStoreLink(response) : startApp();
+            });
+        }
     });
-    Alloy.Globals.TAB_GROUP = $.tapGroup;
-    $.tabGroup.open();
     _.extend($, exports);
 }
 

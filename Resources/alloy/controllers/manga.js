@@ -387,24 +387,24 @@ function Controller() {
         var tbl_data = setRowData(listChapters, MAX_DISPLAY_ROW);
         table.data = tbl_data;
         dynamicLoad(table, listChapters);
-        search.addEventListener("change", function(e) {
+        search.addEventListener("return", function(e) {
             var results = [];
             var regexValue = new RegExp(Alloy.Globals.removeUTF8(e.value), "i");
             for (var i in listChapters) regexValue.test(listChapters[i].chapter) && results.push(listChapters[i]);
             tbl_data = setRowData(results, results.length);
             table.setData([]);
             table.setData(tbl_data);
+            search.showCancel = false;
+            search.blur();
         });
         search.addEventListener("focus", function() {
             search.showCancel = true;
         });
-        search.addEventListener("return", function() {
-            search.showCancel = false;
-            search.blur();
-        });
         search.addEventListener("cancel", function() {
             search.showCancel = false;
             search.blur();
+            table.setData([]);
+            table.setData(setRowData(listChapters, MAX_DISPLAY_ROW));
         });
         var optionsDialogOpts = {
             options: [ "A -> Z", "Z -> A" ],

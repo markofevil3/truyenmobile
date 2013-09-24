@@ -193,6 +193,10 @@ Alloy.Globals.getDeviceType = function() {
     return isTablet ? 1 : 0;
 };
 
+Alloy.Globals.getOSType = function() {
+    return "iPhone OS";
+};
+
 Alloy.Globals.backButton = function(window) {
     var backbutton = Titanium.UI.createButton({
         backgroundImage: "/common/back.png",
@@ -214,6 +218,9 @@ Alloy.Globals.getAjax = function(url, query, callback) {
         },
         onerror: function(e) {
             Ti.API.debug(e.error);
+            callback(JSON.stringify({
+                error: true
+            }));
         },
         timeout: 1e4
     });
@@ -356,6 +363,10 @@ Alloy.Globals.adv = function(type, callback) {
     var advImage = Ti.UI.iOS.createAdView({
         width: "auto",
         height: 50
+    });
+    advImage.addEventListener("load", function() {});
+    advImage.addEventListener("error", function(e) {
+        2 != e.code;
     });
     callback(advImage);
 };

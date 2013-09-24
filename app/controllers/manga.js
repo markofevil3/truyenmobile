@@ -64,7 +64,7 @@ exports.openMainWindow = function() {
 	table.data = tbl_data;
 	dynamicLoad(table, listChapters);
 	//#### search bar
-	search.addEventListener('change', function(e) {
+	search.addEventListener('return', function(e) {
 		var results = [];
 		var regexValue = new RegExp(Alloy.Globals.removeUTF8(e.value), 'i');
 		for (var i in listChapters) {
@@ -75,17 +75,17 @@ exports.openMainWindow = function() {
 		tbl_data = setRowData(results, results.length);
 		table.setData([]);
 		table.setData(tbl_data);
+		search.showCancel = false;
+		search.blur();
 	});
 	search.addEventListener('focus', function(e) {
 		search.showCancel = true;
 	});
-	search.addEventListener('return', function(e) {
-		search.showCancel = false;
-		search.blur();
-	});
 	search.addEventListener('cancel', function(e) {
 		search.showCancel = false;
 		search.blur();
+		table.setData([]);
+		table.setData(setRowData(listChapters, MAX_DISPLAY_ROW));
 	});
 	//#### sort button
 	var optionsDialogOpts = {

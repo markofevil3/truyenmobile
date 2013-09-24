@@ -181,7 +181,7 @@ function Controller() {
             $.loading.setOpacity(0);
             dynamicLoad(table, listManga);
         });
-        search.addEventListener("change", function(e) {
+        search.addEventListener("return", function(e) {
             var results = [];
             var regexValue = new RegExp(Alloy.Globals.removeUTF8(e.value), "i");
             for (var i in listManga) {
@@ -191,17 +191,17 @@ function Controller() {
             tbl_data = setRowData(results);
             table.setData([]);
             table.setData(tbl_data);
+            search.showCancel = false;
+            search.blur();
         });
         search.addEventListener("focus", function() {
             search.showCancel = true;
         });
-        search.addEventListener("return", function() {
-            search.showCancel = false;
-            search.blur();
-        });
         search.addEventListener("cancel", function() {
             search.showCancel = false;
             search.blur();
+            table.setData([]);
+            table.setData(setRowData(listManga.slice(0, MAX_DISPLAY_ROW)));
         });
         var optionsDialogOpts = {
             options: [ "A -> Z", "Most View", "Newest", "Z -> A" ],
