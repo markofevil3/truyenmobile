@@ -1,6 +1,7 @@
 //## ADVERTISE
 Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
 	$.advertise.add(advImage);
+	$.advertise.height = Alloy.Globals.getAdvHeight();
 });
 
 $.homeTab.addEventListener('focus', function(e) {

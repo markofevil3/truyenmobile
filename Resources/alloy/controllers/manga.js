@@ -317,7 +317,7 @@ function Controller() {
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             width: "100%",
-            height: 66
+            height: 90
         });
         _.extend(o, {
             id: "advView"
@@ -364,11 +364,11 @@ function Controller() {
         });
         favoriteButton.addEventListener("click", function() {
             0 == Alloy.Globals.facebook.loggedIn ? Alloy.Globals.facebookLogin(function(e) {
-                Alloy.Globals.addFavorite(favoriteButton.itemId, 0, e.data, args.data.title, Alloy.Globals.SERVER + args.data.folder + "/cover.jpg", function() {
+                Alloy.Globals.addFavorite(favoriteButton.itemId, 0, e.data, args.data.title, args.data.cover, function() {
                     $.mangaWindow.rightNavButton = favoritedButton;
                 });
             }) : Alloy.Globals.facebook.requestWithGraphPath("/" + Alloy.Globals.facebook.getUid(), {}, "GET", function(user) {
-                Alloy.Globals.addFavorite(favoriteButton.itemId, 0, JSON.parse(user.result), args.data.title, Alloy.Globals.SERVER + args.data.folder + "/cover.jpg", function() {
+                Alloy.Globals.addFavorite(favoriteButton.itemId, 0, JSON.parse(user.result), args.data.title, args.data.cover, function() {
                     $.mangaWindow.rightNavButton = favoritedButton;
                 });
             });

@@ -1,4 +1,53 @@
 function Controller() {
+    function appPause() {
+        var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory);
+        var list = f.getDirectoryListing();
+        for (var i = 0; list.length > i; i++) Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory + list[i]).deleteFile();
+        Ti.App.Properties.setInt("pausedTime", new Date().getTime());
+    }
+    function appResume() {
+        var pausedTime = Ti.App.Properties.getInt("pausedTime");
+        if (new Date().getTime() - pausedTime > 108e5) {
+            var indexController = Alloy.createController("index");
+            indexController.openMainWindow();
+        }
+    }
+    function appStart() {
+        Alloy.Globals.getAjax("/appVersion", {
+            "null": null
+        }, function(response) {
+            void 0 == response && alert("Không có kết nối Internet!");
+            var data = JSON.parse(response);
+            if (data.error || data.version == Titanium.App.version) {
+                "iPhone OS" == Alloy.Globals.getOSType() ? void 0 != data.iosLink && (Alloy.Globals.FBPOST_LINK = data.iosLink) : void 0 != data.androidLink && (Alloy.Globals.FBPOST_LINK = data.androidLink);
+                startApp();
+            } else {
+                var dialog;
+                if (data.force) {
+                    dialog = Ti.UI.createAlertDialog({
+                        message: "Có phiên bản mới!!!",
+                        buttonNames: [ "Nâng Cấp" ],
+                        title: "Nâng Cấp"
+                    });
+                    dialog.show();
+                    dialog.addEventListener("click", function() {
+                        openStoreLink(response);
+                    });
+                } else {
+                    dialog = Ti.UI.createAlertDialog({
+                        cancel: 0,
+                        buttonNames: [ "Bỏ Qua", "Nâng Cấp" ],
+                        message: "Có phiên bản mới!!!",
+                        title: "Nâng Cấp"
+                    });
+                    dialog.show();
+                }
+                dialog.addEventListener("click", function(e) {
+                    1 == e.index ? openStoreLink(response) : startApp();
+                });
+            }
+        });
+    }
     function openStoreLink(data) {
         "iPhone OS" == Alloy.Globals.getOSType() ? Ti.Platform.openURL(data.iosLink) : Ti.Platform.openURL(data.androidLink);
     }
@@ -52,42 +101,15 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     Titanium.App.addEventListener("pause", function() {
-        var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory);
-        var list = f.getDirectoryListing();
-        for (var i = 0; list.length > i; i++) Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory + list[i]).deleteFile();
+        appPause();
     });
-    log("########## " + Titanium.App.version);
-    Alloy.Globals.getAjax("/appVersion", {
-        "null": null
-    }, function(response) {
-        var data = JSON.parse(response);
-        if (data.error || data.version == Titanium.App.version) startApp(); else {
-            log(data);
-            var dialog;
-            if (data.force) {
-                dialog = Ti.UI.createAlertDialog({
-                    message: "Có phiên bản mới!!!",
-                    buttonNames: [ "Nâng Cấp" ],
-                    title: "Nâng Cấp"
-                });
-                dialog.show();
-                dialog.addEventListener("click", function() {
-                    openStoreLink(response);
-                });
-            } else {
-                dialog = Ti.UI.createAlertDialog({
-                    cancel: 0,
-                    buttonNames: [ "Bỏ Qua", "Nâng Cấp" ],
-                    message: "Có phiên bản mới!!!",
-                    title: "Nâng Cấp"
-                });
-                dialog.show();
-            }
-            dialog.addEventListener("click", function(e) {
-                1 == e.index ? openStoreLink(response) : startApp();
-            });
-        }
+    Ti.App.addEventListener("resumed", function() {
+        appResume();
     });
+    exports.openMainWindow = function() {
+        appStart();
+    };
+    appStart();
     _.extend($, exports);
 }
 

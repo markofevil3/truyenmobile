@@ -32,13 +32,13 @@ exports.openMainWindow = function() {
 	favoriteButton.addEventListener('click', function() {
 		if (Alloy.Globals.facebook.loggedIn == 0) {
 			Alloy.Globals.facebookLogin(function(e) {
-				Alloy.Globals.addFavorite(favoriteButton.itemId, 0, e.data, args.data.title, Alloy.Globals.SERVER + args.data.folder + '/cover.jpg', function() {
+				Alloy.Globals.addFavorite(favoriteButton.itemId, 0, e.data, args.data.title, args.data.cover, function() {
 					$.mangaWindow.rightNavButton = favoritedButton;
 				});
 			});
 		} else {
 			Alloy.Globals.facebook.requestWithGraphPath('/' + Alloy.Globals.facebook.getUid(), {}, 'GET', function(user) {
-				Alloy.Globals.addFavorite(favoriteButton.itemId, 0, JSON.parse(user.result), args.data.title, Alloy.Globals.SERVER + args.data.folder + '/cover.jpg', function() {
+				Alloy.Globals.addFavorite(favoriteButton.itemId, 0, JSON.parse(user.result), args.data.title, args.data.cover, function() {
 					$.mangaWindow.rightNavButton = favoritedButton;
 				});
 			});

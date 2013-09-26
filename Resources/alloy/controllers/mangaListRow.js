@@ -56,7 +56,6 @@ function Controller() {
         height: "80%",
         left: "5%",
         top: "8%",
-        backgroundImage: "/common/book2.png",
         id: "__alloyId11"
     });
     $.__views.bookInfoView.add($.__views.__alloyId11);

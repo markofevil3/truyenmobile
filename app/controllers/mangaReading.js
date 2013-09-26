@@ -2,7 +2,7 @@ var args = arguments[0] || {};
 var images = [];
 var listImages;
 var pageCount = $.pageCount;
-
+var currentPage = 0;
 exports.openMainWindow = function() {
 	listImages = args.pages;
 	$.mangaReadingWindow.title = "Chapter " + args.chapter;
@@ -26,6 +26,7 @@ exports.openMainWindow = function() {
 
 function checkEndChapter(e) {
 	pageCount.text = (e.currentPage + 1) + '/' + (listImages.length);
+	currentPage = e.currentPage;
 	if (e.currentPage + 1 == listImages.length) {
 		showFuncBar();
 	}
@@ -63,7 +64,7 @@ function hideFuncBar() {
 	$.funcBar.opacity = 0;
 };
 
-function showFuncBar() {
+function showFuncBar(e) {
 	if ($.funcBar.visible) {
 		$.funcBar.animate({opacity: 0, duration: 500}, function() {
 			$.funcBar.hide();
@@ -72,6 +73,9 @@ function showFuncBar() {
 		$.funcBar.show();
 		$.funcBar.animate({opacity: 1, duration: 500}, function() {
 		});
+		if (currentPage + 1 == listImages.length) {
+			Revmob.showFullscreen();
+		}
 	}
 }
 
@@ -115,27 +119,4 @@ function addImageView() {
 };
 
 function changePage() {
-	// $.mangaReadingWindow.addEventListener('swipe', function(e) {
-		// if (e.direction == 'left') {
-			// var nextImage = images[currentPage.index + 1];
-			// if (nextImage) {
-				// $.imageHolderView.animate({ view: nextImage, transition: Ti.UI.iPhone.AnimationStyle.CURL_UP, duration: 500 }, function() {
-					// nextImage.show();
-					// currentPage = nextImage;
-					// pageCount.text = (currentPage.index + 1) + '/' + (listImages.length);
-				// });
-			// } else {
-				// showFuncBar();
-			// }
-		// }
-		// if (e.direction == 'right') {
-			// var nextImage = images[currentPage.index - 1];
-			// if (nextImage) {
-				// $.imageHolderView.animate({ view: nextImage, transition: Ti.UI.iPhone.AnimationStyle.CURL_DOWN, duration: 500 });
-				// nextImage.show();
-				// currentPage = nextImage;
-				// pageCount.text = nextImage.index + '/' + (listImages.length);
-			// }
-		// }
-	// });
 };

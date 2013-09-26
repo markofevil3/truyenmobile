@@ -31,6 +31,9 @@ exports.openMainWindow = function() {
 		'null': null
 	},
 	function(response) {
+		if (response == undefined) {
+			alert("Không có kết nối Internet!");
+		}
 		listManga = JSON.parse(response).data;
 		setHotManga(listManga);
 		var tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
@@ -94,6 +97,7 @@ exports.openMainWindow = function() {
 	//#### advertise view
 	Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
 		$.advView.add(advImage);
+		$.advView.height = Alloy.Globals.getAdvHeight();
 	});
 };
 

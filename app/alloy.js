@@ -9,8 +9,8 @@
 // object. For example:
 //
 // Alloy.Globals.someGlobalFunction = function(){};
-Alloy.Globals.SERVER = 'http://54.251.14.29:3000';
-// Alloy.Globals.SERVER = 'http://113.190.2.157:3000';
+Alloy.Globals.SERVER = 'http://54.251.14.29';
+// Alloy.Globals.SERVER = 'http://162.243.22.172';
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 Alloy.Globals.NEW_TIME_MILLISECONDS = 259200000;
 Alloy.Globals.RATIO = 1;
@@ -27,6 +27,16 @@ Alloy.Globals.DEFAULT_PASSWORD = "truyenAlloy";
 Alloy.Globals.DEFAULT_PUSH_CHANNEL = "news"; 
 Alloy.Globals.listener = null;
 Alloy.Globals.FB_USERNAME = null;
+
+var Admob = require('ti.admob');
+
+function RevMob(appIds) {
+  var moduleNames = { 'iPhone OS': 'com.revmob.titanium',  'android': 'com.revmob.ti.android' };
+  var revmobModule = require(moduleNames[Ti.Platform.name]);
+  revmobModule.startSession(appIds[Ti.Platform.name]);
+  return revmobModule;
+};
+var Revmob = new RevMob({ 'iPhone OS': '52443a8f95b82813ab000035',  'android': 'copy your RevMob Android App ID here' });
 
 Alloy.Globals.listener = function(e, callback) {
 	if (e.success) {
@@ -180,27 +190,27 @@ function showRequestResult(e) {
 }
 
 Alloy.Globals.fbPost = function(itemTitle, imageLink) {
-	// log(imageLink);
-	// var data = {
-		// link: Alloy.Globals.FBPOST_LINK,
-		// name: "TruyệnAlloy",
-		// message: "Đang đọc truyện " + itemTitle + " trên điện thoại bằng TruyệnAlloy",
-		// caption: "Phần mềm đọc truyện hay nhất trên mobile và tablet",
-		// picture: imageLink,
-		// description: "Hãy tải phần mềm để có thể đọc truyện mọi lúc mọi nơi, update liên tục, thông báo mỗi khi có chapter mới và rất nhiều tính năng khác. FREEEEEEE!!!!!",
-	// };
-  // Alloy.Globals.facebook.reauthorize(['publish_stream'], 'me', function(e){
-      // if (e.success) {
-          // // If successful, proceed with a publish call
-          // // Alloy.Globals.facebook.dialog("feed", data, showRequestResult);
-          // Alloy.Globals.facebook.requestWithGraphPath('me/feed', data, 'POST', showRequestResult);
-      // } else {
-        // if (e.error) {
-        	// log("Alloy.Globals.facebook.reauthorize:");
-          // log(e.error);
-        // }
-      // }
-  // });
+	log(imageLink);
+	var data = {
+		link: Alloy.Globals.FBPOST_LINK,
+		name: "TruyệnAlloy",
+		message: 'Đang đọc truyện "' + itemTitle + '" trên điện thoại bằng Truyện Mobile',
+		caption: "Phần mềm đọc truyện hay nhất trên mobile và tablet",
+		picture: imageLink,
+		description: "Hãy tải phần mềm để có thể đọc truyện mọi lúc mọi nơi, update liên tục, thông báo mỗi khi có chapter mới và rất nhiều tính năng khác. FREEEEEEE!!!!!",
+	};
+  Alloy.Globals.facebook.reauthorize(['publish_stream'], 'me', function(e){
+      if (e.success) {
+          // If successful, proceed with a publish call
+          // Alloy.Globals.facebook.dialog("feed", data, showRequestResult);
+          Alloy.Globals.facebook.requestWithGraphPath('me/feed', data, 'POST', showRequestResult);
+      } else {
+        if (e.error) {
+        	log("Alloy.Globals.facebook.reauthorize:");
+          log(e.error);
+        }
+      }
+  });
 };
 
 Alloy.Globals.openLoading = function(window) {
@@ -267,7 +277,12 @@ Alloy.Globals.getAjax = function(url, query, callback) {
     },
     onerror: function(e) {
 			Ti.API.debug(e.error);
-			callback(JSON.stringify({error: true}));
+			if (Titanium.Network.networkType == Titanium.Network.NETWORK_NONE){
+				alert("Không có internet!");
+				return;
+			} else {
+				callback(JSON.stringify({error: true}));
+			}
     },
     timeout: 10000
 	});
@@ -424,24 +439,76 @@ Alloy.Globals.removeUTF8 = function(str) {
   return str;  
 };
 
+Alloy.Globals.getAdvPublisherId = function() {
+	switch(Titanium.Platform.osname) {
+		case 'android':
+			return null;
+			break;
+		case 'iphone':
+			return 'a15242fc9991b03';
+			break;
+		case 'ipad':
+			return 'a15242fe704686c';
+			break;
+	}
+};
+
+Alloy.Globals.getAdvHeight = function() {
+	switch(Titanium.Platform.osname) {
+	case 'android':
+		return 50;
+		break;
+	case 'iphone':
+		return 50;
+		break;
+	case 'ipad':
+		return 90;
+		break;
+	}
+};
+
 Alloy.Globals.adv = function(type, callback) {
-	// var advImage = Ti.UI.createImageView({
-		// width: '100%',
-		// height: 40,
-		// image: Alloy.Globals.SERVER + '/images/adv/adv1.jpg',
+	// var advImage = Ti.UI.iOS.createAdView({
+	 // width: 'auto',
+	 // height: 50
 	// });
-	var advImage = Ti.UI.iOS.createAdView({
-	 width: 'auto',
-	 height: 50
+	// advImage.addEventListener("load", function() {
+	// });
+	// advImage.addEventListener("error", function(e) {
+		// if (e.code != 2) {
+			// // use another adv
+		// }
+	// });
+	Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
+	Ti.Geolocation.distanceFilter = 0;
+	Ti.Geolocation.purpose = 'To show you local ads, of course!';
+	Ti.Geolocation.getCurrentPosition(function reportPosition(e) {
+		var advImage;
+    if (!e.success || e.error) {
+  		advImage = Admob.createView({
+		    width: Ti.Platform.displayCaps.platformWidth,
+		    height: Alloy.Globals.getAdvHeight(),
+		    publisherId: Alloy.Globals.getAdvPublisherId(), // You can get your own at http: //www.admob.com/
+		    testing: false,
+		    dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
+		    gender: 'male',
+		    keywords: ''
+		 	});
+    }
+    else {
+			advImage = Admob.createView({
+		    width: Ti.Platform.displayCaps.platformWidth,
+		    height: Alloy.Globals.getAdvHeight(),
+		    publisherId: Alloy.Globals.getAdvPublisherId(), // You can get your own at http: //www.admob.com/
+		    testing: false,
+		    dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
+		    gender: 'male',
+		    keywords: '',
+		    location: e.coords
+		 	});
+    }
+    callback(advImage);
 	});
-	advImage.addEventListener("load", function() {
-	});
-	advImage.addEventListener("error", function(e) {
-		if (e.code != 2) {
-			// use another adv
-		}
-	});
-	callback(advImage);
 };
 
 function isHash(obj) {

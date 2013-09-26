@@ -280,6 +280,7 @@ function Controller() {
     _.extend($, $.__views);
     Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
         $.advertise.add(advImage);
+        $.advertise.height = Alloy.Globals.getAdvHeight();
     });
     $.homeTab.addEventListener("focus", function() {
         Alloy.Globals.CURRENT_TAB = $.homeTab;

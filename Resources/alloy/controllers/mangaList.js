@@ -153,7 +153,7 @@ function Controller() {
             separatorColor: "transparent",
             style: Ti.UI.iPhone.TableViewStyle.PLAIN,
             separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-            top: 106
+            top: 130
         });
         _.extend(o, {
             id: "bookShellTable"
@@ -166,6 +166,7 @@ function Controller() {
     if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 15; else var MAX_DISPLAY_ROW = 10;
     var search = $.searchButton;
     exports.openMainWindow = function() {
+        "iPhone OS" == Alloy.Globals.getOSType() && (Titanium.UI.iPhone.appBadge = null);
         Alloy.Globals.CURRENT_TAB.open($.mangaListWindow);
         $.mangaListWindow.leftNavButton = Alloy.Globals.backButton($.mangaListWindow);
         var table = $.bookShellTable;
@@ -174,6 +175,7 @@ function Controller() {
         Alloy.Globals.getAjax("/mangaList", {
             "null": null
         }, function(response) {
+            void 0 == response && alert("Không có kết nối Internet!");
             listManga = JSON.parse(response).data;
             setHotManga(listManga);
             var tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
@@ -234,6 +236,7 @@ function Controller() {
         });
         Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
             $.advView.add(advImage);
+            $.advView.height = Alloy.Globals.getAdvHeight();
         });
     };
     _.extend($, exports);

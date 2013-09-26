@@ -2,13 +2,7 @@ var args = arguments[0] || {};
 
 $.row.dataId = args.data._id;
 $.row.dataType = args.data.bookType;
-var coverLink;
-if (args.data.bookType == 0) {
-	coverLink = Alloy.Globals.SERVER + args.data.folder + '/cover.jpg';
-} else {
-	coverLink = Alloy.Globals.SERVER + '/images/story/sample/cover.jpg';
-}
-$.bookCover.image = coverLink;
+$.bookCover.image = args.data.cover;
 $.bookTitle.text = args.data.title;
 $.newestChapter.text = 'Newest: ' + args.data.chapters[args.data.chapters.length - 1].chapter;
 $.bookType.text = 'Thể loại: ' + getTypeText(args.data.bookType);

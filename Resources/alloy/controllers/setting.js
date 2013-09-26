@@ -122,7 +122,7 @@ function Controller() {
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
-            height: 66
+            height: 90
         });
         _.extend(o, {
             id: "adv"

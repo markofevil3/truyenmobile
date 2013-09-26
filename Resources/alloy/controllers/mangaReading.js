@@ -1,6 +1,7 @@
 function Controller() {
     function checkEndChapter(e) {
         pageCount.text = e.currentPage + 1 + "/" + listImages.length;
+        currentPage = e.currentPage;
         e.currentPage + 1 == listImages.length && showFuncBar();
     }
     function SetChangeChapterButtons(next, prev) {
@@ -43,6 +44,7 @@ function Controller() {
                 opacity: 1,
                 duration: 500
             }, function() {});
+            currentPage + 1 == listImages.length && Revmob.showFullscreen();
         }
     }
     function closeWindowNoAnimation() {
@@ -337,7 +339,7 @@ function Controller() {
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             width: "100%",
-            height: 66,
+            height: 90,
             bottom: 0
         });
         _.extend(o, {
@@ -360,6 +362,7 @@ function Controller() {
     var images = [];
     var listImages;
     var pageCount = $.pageCount;
+    var currentPage = 0;
     exports.openMainWindow = function() {
         listImages = args.pages;
         $.mangaReadingWindow.title = "Chapter " + args.chapter;

@@ -1,50 +1,87 @@
-Titanium.App.addEventListener('pause', function() {
+function appPause() {
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory);
 	var list = f.getDirectoryListing();
 	for (var i = 0; i < list.length; i++) {
 		Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory+list[i]).deleteFile();
 	}
+	Ti.App.Properties.setInt('pausedTime', new Date().getTime());
+};
+
+function appResume() {
+	var pausedTime = Ti.App.Properties.getInt('pausedTime');
+	if (new Date().getTime() - pausedTime > 10800000) {
+		var indexController = Alloy.createController('index');
+		indexController.openMainWindow();	}
+};
+
+Titanium.App.addEventListener('pause', function() {
+	appPause();
 });
-Alloy.Globals.getAjax('/appVersion', {
+
+Ti.App.addEventListener('resumed', function (e) {
+	appResume();
+});
+
+
+exports.openMainWindow = function() {
+	appStart();
+};
+
+function appStart() {
+	Alloy.Globals.getAjax('/appVersion', {
 	'null': null
-},
-function(response) {
-	var data = JSON.parse(response);
-
-	if (data.error || data.version == Titanium.App.version) {
-		startApp();
-	} else {
-		// update app
-		var dialog;
-		if (data.force) {
-			dialog = Ti.UI.createAlertDialog({
-		    message: 'Có phiên bản mới!!!',
-		    buttonNames: ['Nâng Cấp',],
-		    title: 'Nâng Cấp'
-			});
-		  dialog.show();
-      dialog.addEventListener('click', function(e){
-    		openStoreLink(response);
-	  	});
-		} else {
-		  dialog = Ti.UI.createAlertDialog({
-		    cancel: 0,
-		    buttonNames: ['Bỏ Qua', 'Nâng Cấp'],
-		    message: 'Có phiên bản mới!!!',
-		    title: 'Nâng Cấp'
-		  });
-		  dialog.show();
+	},
+	function(response) {
+		if (response == undefined) {
+			alert("Không có kết nối Internet!");
 		}
-    dialog.addEventListener('click', function(e){
-    	if (e.index == 1) {
-    		openStoreLink(response);
-    	} else {
-    		startApp();
-    	}
-  	});
-	}
-});
+		var data = JSON.parse(response);
+	
+		if (data.error || data.version == Titanium.App.version) {
+			if (Alloy.Globals.getOSType() == "iPhone OS") {
+				if (data.iosLink != undefined) {
+					Alloy.Globals.FBPOST_LINK = data.iosLink;
+				}
+			} else {
+				if (data.androidLink != undefined) {
+					Alloy.Globals.FBPOST_LINK = data.androidLink;
+				}
+			}
+			startApp();
+		} else {
+			// update app
+			var dialog;
+			if (data.force) {
+				dialog = Ti.UI.createAlertDialog({
+			    message: 'Có phiên bản mới!!!',
+			    buttonNames: ['Nâng Cấp',],
+			    title: 'Nâng Cấp'
+				});
+			  dialog.show();
+	      dialog.addEventListener('click', function(e){
+	    		openStoreLink(response);
+		  	});
+			} else {
+			  dialog = Ti.UI.createAlertDialog({
+			    cancel: 0,
+			    buttonNames: ['Bỏ Qua', 'Nâng Cấp'],
+			    message: 'Có phiên bản mới!!!',
+			    title: 'Nâng Cấp'
+			  });
+			  dialog.show();
+			}
+	    dialog.addEventListener('click', function(e){
+	    	if (e.index == 1) {
+	    		openStoreLink(response);
+	    	} else {
+	    		startApp();
+	    	}
+	  	});
+		}
+	});
+};
 
+appStart();
 
 function openStoreLink(data) {
 	if (Alloy.Globals.getOSType() == "iPhone OS") {

@@ -20,7 +20,7 @@
 	height: 50,
 },
 "#adv[platform=ios formFactor=tablet]": {
-	height: 66,
+	height: 90,
 },
 "#facebookLikeBox": {
 	width: '100%',

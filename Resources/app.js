@@ -1,3 +1,13 @@
+function RevMob(appIds) {
+    var moduleNames = {
+        "iPhone OS": "com.revmob.titanium",
+        android: "com.revmob.ti.android"
+    };
+    var revmobModule = require(moduleNames["iPhone OS"]);
+    revmobModule.startSession(appIds["iPhone OS"]);
+    return revmobModule;
+}
+
 function log(para) {
     Ti.API.debug(JSON.stringify(para));
 }
@@ -12,7 +22,7 @@ function isHash(obj) {
 
 var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
-Alloy.Globals.SERVER = "http://54.251.14.29:3000";
+Alloy.Globals.SERVER = "http://54.251.14.29";
 
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 
@@ -43,6 +53,13 @@ Alloy.Globals.DEFAULT_PUSH_CHANNEL = "news";
 Alloy.Globals.listener = null;
 
 Alloy.Globals.FB_USERNAME = null;
+
+var Admob = require("ti.admob");
+
+var Revmob = new RevMob({
+    "iPhone OS": "52443a8f95b82813ab000035",
+    android: "copy your RevMob Android App ID here"
+});
 
 Alloy.Globals.listener = function(e, callback) {
     if (e.success) {
@@ -165,7 +182,23 @@ var loadingView = Titanium.UI.createView({
 
 loadingView.add(loadingIcon);
 
-Alloy.Globals.fbPost = function() {};
+Alloy.Globals.fbPost = function(itemTitle, imageLink) {
+    log(imageLink);
+    var data = {
+        link: Alloy.Globals.FBPOST_LINK,
+        name: "TruyệnAlloy",
+        message: 'Đang đọc truyện "' + itemTitle + '" trên điện thoại bằng Truyện Mobile',
+        caption: "Phần mềm đọc truyện hay nhất trên mobile và tablet",
+        picture: imageLink,
+        description: "Hãy tải phần mềm để có thể đọc truyện mọi lúc mọi nơi, update liên tục, thông báo mỗi khi có chapter mới và rất nhiều tính năng khác. FREEEEEEE!!!!!"
+    };
+    Alloy.Globals.facebook.reauthorize([ "publish_stream" ], "me", function(e) {
+        if (e.success) Alloy.Globals.facebook.requestWithGraphPath("me/feed", data, "POST", showRequestResult); else if (e.error) {
+            log("Alloy.Globals.facebook.reauthorize:");
+            log(e.error);
+        }
+    });
+};
 
 Alloy.Globals.openLoading = function(window) {
     loadingIcon.show();
@@ -218,6 +251,10 @@ Alloy.Globals.getAjax = function(url, query, callback) {
         },
         onerror: function(e) {
             Ti.API.debug(e.error);
+            if (Titanium.Network.networkType == Titanium.Network.NETWORK_NONE) {
+                alert("Không có internet!");
+                return;
+            }
             callback(JSON.stringify({
                 error: true
             }));
@@ -359,16 +396,58 @@ Alloy.Globals.removeUTF8 = function(str) {
     return str;
 };
 
+Alloy.Globals.getAdvPublisherId = function() {
+    switch (Titanium.Platform.osname) {
+      case "android":
+        return null;
+
+      case "iphone":
+        return "a15242fc9991b03";
+
+      case "ipad":
+        return "a15242fe704686c";
+    }
+};
+
+Alloy.Globals.getAdvHeight = function() {
+    switch (Titanium.Platform.osname) {
+      case "android":
+        return 50;
+
+      case "iphone":
+        return 50;
+
+      case "ipad":
+        return 90;
+    }
+};
+
 Alloy.Globals.adv = function(type, callback) {
-    var advImage = Ti.UI.iOS.createAdView({
-        width: "auto",
-        height: 50
+    Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
+    Ti.Geolocation.distanceFilter = 0;
+    Ti.Geolocation.purpose = "To show you local ads, of course!";
+    Ti.Geolocation.getCurrentPosition(function(e) {
+        var advImage;
+        advImage = !e.success || e.error ? Admob.createView({
+            width: Ti.Platform.displayCaps.platformWidth,
+            height: Alloy.Globals.getAdvHeight(),
+            publisherId: Alloy.Globals.getAdvPublisherId(),
+            testing: false,
+            dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
+            gender: "male",
+            keywords: ""
+        }) : Admob.createView({
+            width: Ti.Platform.displayCaps.platformWidth,
+            height: Alloy.Globals.getAdvHeight(),
+            publisherId: Alloy.Globals.getAdvPublisherId(),
+            testing: false,
+            dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
+            gender: "male",
+            keywords: "",
+            location: e.coords
+        });
+        callback(advImage);
     });
-    advImage.addEventListener("load", function() {});
-    advImage.addEventListener("error", function(e) {
-        2 != e.code;
-    });
-    callback(advImage);
 };
 
 Alloy.Globals.loadImage = function(imageView, url) {

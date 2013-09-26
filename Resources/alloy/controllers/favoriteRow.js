@@ -170,9 +170,7 @@ function Controller() {
     var args = arguments[0] || {};
     $.row.dataId = args.data._id;
     $.row.dataType = args.data.bookType;
-    var coverLink;
-    coverLink = 0 == args.data.bookType ? Alloy.Globals.SERVER + args.data.folder + "/cover.jpg" : Alloy.Globals.SERVER + "/images/story/sample/cover.jpg";
-    $.bookCover.image = coverLink;
+    $.bookCover.image = args.data.cover;
     $.bookTitle.text = args.data.title;
     $.newestChapter.text = "Newest: " + args.data.chapters[args.data.chapters.length - 1].chapter;
     $.bookType.text = "Thể loại: " + getTypeText(args.data.bookType);

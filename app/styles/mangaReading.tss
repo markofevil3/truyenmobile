@@ -114,7 +114,7 @@
 },
 "#advView2[platform=ios formFactor=tablet]": {
 	width: '100%',
-	height: 66,
+	height: 90,
 	bottom: 0
 },
 "#imageHolderView": {

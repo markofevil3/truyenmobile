@@ -46,6 +46,9 @@
         <module platform="commonjs">ti.cloud</module>
         <module platform="iphone">facebook</module>
         <module platform="android">facebook</module>
+        <module platform="android" version="2.1.0">ti.admob</module>
+        <module platform="iphone" version="1.5.0">ti.admob</module>
+        <module platform="iphone">com.revmob.titanium</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

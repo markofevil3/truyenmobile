@@ -22,7 +22,7 @@
 	height: '80%',
 	left: '5%',
 	top: '8%',
-	backgroundImage: '/common/book2.png'
+	// backgroundImage: '/common/book2.png'
 },
 ".coverLinks[platform=ios formFactor=handheld]": {
 	width: '82%',
