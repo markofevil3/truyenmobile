@@ -1,9 +1,9 @@
 <Alloy>
   <Window id="aboutUsWindow" title="Giới Thiệu">
     <View id="wrapperView">
-      <Label id="appNameLabel" text="S Truyện"/>
+      <Label id="appNameLabel" text="Truyện"/>
       <Label id="versionLabel" />
-      <Label id="emailLabel" text="Support: struyen@gmail.com" />
+      <Label id="emailLabel" text="Support: fulltruyen@gmail.com" />
     </View>
   </Window>
 </Alloy>

@@ -19,6 +19,7 @@ function selectItem(item, type) {
 			},
 			function(response) {
 				var json = JSON.parse(response);
+				Alloy.Globals.track("Favorite", "Open Manga", json.data.title);
 				var mangaController = Alloy.createController('manga', json);
 				Alloy.Globals.closeLoading(args.window);
 				mangaController.openMainWindow();

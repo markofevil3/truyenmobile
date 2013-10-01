@@ -31,7 +31,7 @@ function Controller() {
         textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
         top: "30%",
         id: "appNameLabel",
-        text: "S Truyện"
+        text: "Truyện"
     });
     $.__views.wrapperView.add($.__views.appNameLabel);
     $.__views.versionLabel = Ti.UI.createLabel({
@@ -51,7 +51,7 @@ function Controller() {
         textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
         color: "#008AE6",
         id: "emailLabel",
-        text: "Support: struyen@gmail.com"
+        text: "Support: fulltruyen@gmail.com"
     });
     $.__views.wrapperView.add($.__views.emailLabel);
     exports.destroy = function() {};

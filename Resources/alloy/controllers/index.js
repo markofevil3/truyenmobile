@@ -9,6 +9,7 @@ function Controller() {
         var pausedTime = Ti.App.Properties.getInt("pausedTime");
         if (new Date().getTime() - pausedTime > 108e5) {
             var indexController = Alloy.createController("index");
+            indexController.closeWindow();
             indexController.openMainWindow();
         }
     }
@@ -108,6 +109,9 @@ function Controller() {
     });
     exports.openMainWindow = function() {
         appStart();
+    };
+    exports.closeWindow = function() {
+        $.tabGroup.close();
     };
     appStart();
     _.extend($, exports);

@@ -23,7 +23,9 @@ function Controller() {
             json.data.next = json.nextPrevChapters.next;
             json.data.prev = json.nextPrevChapters.prev;
             json.data.mangaId = args.mangaId;
+            Alloy.Globals.track("Manga", "Reading", args.mangaId);
             closeWindowNoAnimation();
+            Alloy.Globals.readChapter++;
             var mangaReadingController = Alloy.createController("mangaReading", json.data);
             mangaReadingController.openMainWindow();
         });
@@ -44,7 +46,7 @@ function Controller() {
                 opacity: 1,
                 duration: 500
             }, function() {});
-            currentPage + 1 == listImages.length && Revmob.showFullscreen();
+            currentPage + 1 == listImages.length && 0 == Alloy.Globals.readChapter % 3 && Revmob.showFullscreen();
         }
     }
     function closeWindowNoAnimation() {

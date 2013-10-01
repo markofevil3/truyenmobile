@@ -15,7 +15,7 @@ function Controller() {
         backgroundImage: "/common/shellBg.png",
         barImage: "/common/top.png",
         id: "settingWindow",
-        title: "Settings"
+        title: "Tuỳ Chỉnh"
     });
     $.__views.account = Ti.UI.createTableViewRow(function() {
         var o = {};

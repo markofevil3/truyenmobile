@@ -27,8 +27,7 @@ module.exports = [ {
     priority: 10000.0003,
     key: "search",
     style: {
-        barColor: "transparent",
-        backgroundImage: "/common/setting_bg.png",
+        barColor: "#c79351",
         hintText: "search",
         width: "70%",
         left: 16

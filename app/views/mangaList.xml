@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="mangaListWindow" title="Manga">
+	<Window id="mangaListWindow" title="Truyện Tranh">
     <Require id="loading" type="widget" src="com.appcelerator.loading"/>
 		<View id="searchView" class="searchView">
 		  <SearchBar id="searchButton" class="search"/>

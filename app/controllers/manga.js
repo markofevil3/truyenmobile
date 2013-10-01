@@ -39,6 +39,7 @@ exports.openMainWindow = function() {
 		} else {
 			Alloy.Globals.facebook.requestWithGraphPath('/' + Alloy.Globals.facebook.getUid(), {}, 'GET', function(user) {
 				Alloy.Globals.addFavorite(favoriteButton.itemId, 0, JSON.parse(user.result), args.data.title, args.data.cover, function() {
+					Alloy.Globals.track("Favorite", "Add", args.data.title);
 					$.mangaWindow.rightNavButton = favoritedButton;
 				});
 			});

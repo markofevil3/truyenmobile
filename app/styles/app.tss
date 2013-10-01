@@ -10,8 +10,8 @@
 	top: 0
 },
 ".search": {
-	barColor:'transparent',
-	backgroundImage: '/common/setting_bg.png',
+	barColor:'#c79351',
+	// backgroundImage: '/common/setting_bg.png',
 	hintText:'search',
 	width: '70%',
 	left: 16

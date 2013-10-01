@@ -11,7 +11,9 @@ function appResume() {
 	var pausedTime = Ti.App.Properties.getInt('pausedTime');
 	if (new Date().getTime() - pausedTime > 10800000) {
 		var indexController = Alloy.createController('index');
-		indexController.openMainWindow();	}
+		indexController.closeWindow();
+		indexController.openMainWindow();	
+	}
 };
 
 Titanium.App.addEventListener('pause', function() {
@@ -25,6 +27,10 @@ Ti.App.addEventListener('resumed', function (e) {
 
 exports.openMainWindow = function() {
 	appStart();
+};
+
+exports.closeWindow = function() {
+	$.tabGroup.close();
 };
 
 function appStart() {

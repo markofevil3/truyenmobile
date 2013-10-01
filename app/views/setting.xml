@@ -1,6 +1,6 @@
 <Alloy>
 	<Tab id="settingTab" icon="/common/setting.png">
-		<Window id="settingWindow" class="tabs" title="Settings">
+		<Window id="settingWindow" class="tabs" title="Tuỳ Chỉnh">
       <TableView id="settingTableView">
         <TableViewRow id="account" class="settingRow" title="Tài Khoản" onClick="selectMenu">
         </TableViewRow>

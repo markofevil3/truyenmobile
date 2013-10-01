@@ -79,7 +79,7 @@ function Controller() {
         backgroundImage: "/common/shellBg.png",
         barImage: "/common/top.png",
         id: "mangaListWindow",
-        title: "Manga"
+        title: "Truyện Tranh"
     });
     $.__views.mangaListWindow && $.addTopLevelView($.__views.mangaListWindow);
     $.__views.loading = Alloy.createWidget("com.appcelerator.loading", "widget", {
@@ -96,8 +96,7 @@ function Controller() {
     });
     $.__views.mangaListWindow.add($.__views.searchView);
     $.__views.searchButton = Ti.UI.createSearchBar({
-        barColor: "transparent",
-        backgroundImage: "/common/setting_bg.png",
+        barColor: "#c79351",
         hintText: "search",
         width: "70%",
         left: 16,

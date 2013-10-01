@@ -1,6 +1,6 @@
 <Alloy>
 	<Tab id="favoriteTab" icon="/common/favorite.png">
-		<Window class="tabs" id="favoriteWindow" title="Favorites">
+		<Window class="tabs" id="favoriteWindow" title="Sở Thích">
 		  <View id="wrapper">
         <TabbedBar id="filterTabbar"></TabbedBar>
         <View id="advView" />

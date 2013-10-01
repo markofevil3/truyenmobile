@@ -96,7 +96,7 @@ function Controller() {
             zIndex: 2
         });
         _.extend(o, {
-            text: "Manga",
+            text: "Truyện Tranh",
             id: "__alloyId2"
         });
         return o;
@@ -166,7 +166,7 @@ function Controller() {
             zIndex: 2
         });
         _.extend(o, {
-            text: "Truyen Chu",
+            text: "Truyện Chữ",
             id: "__alloyId4"
         });
         return o;
@@ -236,7 +236,7 @@ function Controller() {
             zIndex: 2
         });
         _.extend(o, {
-            text: "Truyen Cuoi",
+            text: "Truyện Cười",
             id: "__alloyId6"
         });
         return o;

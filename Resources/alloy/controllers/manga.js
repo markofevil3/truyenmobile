@@ -286,8 +286,7 @@ function Controller() {
     });
     $.__views.wrapper.add($.__views.searchView);
     $.__views.searchButton = Ti.UI.createSearchBar({
-        barColor: "transparent",
-        backgroundImage: "/common/setting_bg.png",
+        barColor: "#c79351",
         hintText: "search",
         width: "70%",
         left: 16,
@@ -369,6 +368,7 @@ function Controller() {
                 });
             }) : Alloy.Globals.facebook.requestWithGraphPath("/" + Alloy.Globals.facebook.getUid(), {}, "GET", function(user) {
                 Alloy.Globals.addFavorite(favoriteButton.itemId, 0, JSON.parse(user.result), args.data.title, args.data.cover, function() {
+                    Alloy.Globals.track("Favorite", "Add", args.data.title);
                     $.mangaWindow.rightNavButton = favoritedButton;
                 });
             });

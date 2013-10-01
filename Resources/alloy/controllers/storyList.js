@@ -122,8 +122,7 @@ function Controller() {
     });
     $.__views.storyListWindow.add($.__views.searchView);
     $.__views.searchButton = Ti.UI.createSearchBar({
-        barColor: "transparent",
-        backgroundImage: "/common/setting_bg.png",
+        barColor: "#c79351",
         hintText: "search",
         width: "70%",
         left: 16,

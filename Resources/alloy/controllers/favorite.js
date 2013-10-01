@@ -57,7 +57,7 @@ function Controller() {
         backgroundImage: "/common/shellBg.png",
         barImage: "/common/top.png",
         id: "favoriteWindow",
-        title: "Favorites"
+        title: "Sở Thích"
     });
     $.__views.wrapper = Ti.UI.createView({
         width: Titanium.UI.FILL,

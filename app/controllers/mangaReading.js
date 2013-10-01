@@ -53,7 +53,9 @@ function changeChapter(e) {
 		json.data.next = json.nextPrevChapters.next;
 		json.data.prev = json.nextPrevChapters.prev;
 		json.data.mangaId = args.mangaId;
+		Alloy.Globals.track("Manga", "Reading", args.mangaId);
 		closeWindowNoAnimation();
+		Alloy.Globals.readChapter++;
 		var mangaReadingController = Alloy.createController('mangaReading', json.data);
 		mangaReadingController.openMainWindow();
 	});
@@ -73,7 +75,7 @@ function showFuncBar(e) {
 		$.funcBar.show();
 		$.funcBar.animate({opacity: 1, duration: 500}, function() {
 		});
-		if (currentPage + 1 == listImages.length) {
+		if (currentPage + 1 == listImages.length && Alloy.Globals.readChapter % 3 == 0) {
 			Revmob.showFullscreen();
 		}
 	}
