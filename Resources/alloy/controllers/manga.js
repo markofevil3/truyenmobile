@@ -340,6 +340,10 @@ function Controller() {
     var search = $.searchButton;
     exports.openMainWindow = function() {
         Alloy.Globals.CURRENT_TAB.open($.mangaWindow);
+        Alloy.Globals.homeWindowStack.push($.mangaWindow);
+        $.mangaWindow.addEventListener("close", function() {
+            Alloy.Globals.homeWindowStack.pop();
+        });
         $.mangaWindow.leftNavButton = Alloy.Globals.backButton($.mangaWindow);
         Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
             $.advView.add(advImage);

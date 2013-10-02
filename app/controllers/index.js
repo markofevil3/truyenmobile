@@ -1,3 +1,4 @@
+var tabGroup = $.tabGroup;
 function appPause() {
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory);
 	var list = f.getDirectoryListing();
@@ -9,95 +10,17 @@ function appPause() {
 
 function appResume() {
 	var pausedTime = Ti.App.Properties.getInt('pausedTime');
-	if (new Date().getTime() - pausedTime > 10800000) {
-		var indexController = Alloy.createController('index');
-		indexController.closeWindow();
-		indexController.openMainWindow();	
-	}
-};
-
-Titanium.App.addEventListener('pause', function() {
-	appPause();
-});
-
-Ti.App.addEventListener('resumed', function (e) {
-	appResume();
-});
-
-
-exports.openMainWindow = function() {
-	appStart();
-};
-
-exports.closeWindow = function() {
-	$.tabGroup.close();
-};
-
-function appStart() {
-	Alloy.Globals.getAjax('/appVersion', {
-	'null': null
-	},
-	function(response) {
-		if (response == undefined) {
-			alert("Không có kết nối Internet!");
+	if (new Date().getTime() - pausedTime > 1000) {
+		tabGroup.setActiveTab(0);
+		for (var i = 0; i < Alloy.Globals.homeWindowStack.length; i++) {
+			Alloy.Globals.homeWindowStack[i].close();
 		}
-		var data = JSON.parse(response);
-	
-		if (data.error || data.version == Titanium.App.version) {
-			if (Alloy.Globals.getOSType() == "iPhone OS") {
-				if (data.iosLink != undefined) {
-					Alloy.Globals.FBPOST_LINK = data.iosLink;
-				}
-			} else {
-				if (data.androidLink != undefined) {
-					Alloy.Globals.FBPOST_LINK = data.androidLink;
-				}
-			}
-			startApp();
-		} else {
-			// update app
-			var dialog;
-			if (data.force) {
-				dialog = Ti.UI.createAlertDialog({
-			    message: 'Có phiên bản mới!!!',
-			    buttonNames: ['Nâng Cấp',],
-			    title: 'Nâng Cấp'
-				});
-			  dialog.show();
-	      dialog.addEventListener('click', function(e){
-	    		openStoreLink(response);
-		  	});
-			} else {
-			  dialog = Ti.UI.createAlertDialog({
-			    cancel: 0,
-			    buttonNames: ['Bỏ Qua', 'Nâng Cấp'],
-			    message: 'Có phiên bản mới!!!',
-			    title: 'Nâng Cấp'
-			  });
-			  dialog.show();
-			}
-	    dialog.addEventListener('click', function(e){
-	    	if (e.index == 1) {
-	    		openStoreLink(response);
-	    	} else {
-	    		startApp();
-	    	}
-	  	});
-		}
-	});
-};
-
-appStart();
-
-function openStoreLink(data) {
-	if (Alloy.Globals.getOSType() == "iPhone OS") {
-		Ti.Platform.openURL(data.iosLink);
-	} else {
-		Ti.Platform.openURL(data.androidLink);
 	}
 };
 
 function startApp() {
+	Ti.App.addEventListener('pause', appPause);
+	Ti.App.addEventListener('resumed', appResume);
 	var overrideTabs = require('IosCustomTabBar');
 	overrideTabs(
 	  $.tabGroup, // The tab group
@@ -108,3 +31,5 @@ function startApp() {
 	Alloy.Globals.TAB_GROUP = $.tapGroup;
 	$.tabGroup.open();
 }
+
+startApp();

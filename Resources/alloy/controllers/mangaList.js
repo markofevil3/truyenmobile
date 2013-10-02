@@ -167,6 +167,11 @@ function Controller() {
     exports.openMainWindow = function() {
         "iPhone OS" == Alloy.Globals.getOSType() && (Titanium.UI.iPhone.appBadge = null);
         Alloy.Globals.CURRENT_TAB.open($.mangaListWindow);
+        Alloy.Globals.homeWindowStack.push($.mangaListWindow);
+        $.mangaListWindow.addEventListener("close", function() {
+            Alloy.Globals.homeWindowStack.pop();
+            Ti.App.fireEvent("app:reload");
+        });
         $.mangaListWindow.leftNavButton = Alloy.Globals.backButton($.mangaListWindow);
         var table = $.bookShellTable;
         var listManga;

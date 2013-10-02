@@ -56,6 +56,8 @@ Alloy.Globals.FB_USERNAME = null;
 
 Alloy.Globals.readChapter = 0;
 
+Alloy.Globals.homeWindowStack = [];
+
 var Admob = require("ti.admob");
 
 var GA = require("analytics.google");

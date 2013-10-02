@@ -5,6 +5,51 @@ function Controller() {
             selectedMenuController.openMainWindow();
         }
     }
+    function appStart() {
+        Alloy.Globals.getAjax("/appVersion", {
+            "null": null
+        }, function(response) {
+            void 0 == response && alert("Không có kết nối Internet!");
+            var data = JSON.parse(response);
+            if (data.error || data.version == Titanium.App.version) {
+                "iPhone OS" == Alloy.Globals.getOSType() ? void 0 != data.iosLink && (Alloy.Globals.FBPOST_LINK = data.iosLink) : void 0 != data.androidLink && (Alloy.Globals.FBPOST_LINK = data.androidLink);
+                startHome();
+            } else {
+                var dialog;
+                if (data.force) {
+                    dialog = Ti.UI.createAlertDialog({
+                        message: "Có phiên bản mới!!!",
+                        buttonNames: [ "Nâng Cấp" ],
+                        title: "Nâng Cấp"
+                    });
+                    dialog.show();
+                    dialog.addEventListener("click", function() {
+                        openStoreLink(response);
+                    });
+                } else {
+                    dialog = Ti.UI.createAlertDialog({
+                        cancel: 0,
+                        buttonNames: [ "Bỏ Qua", "Nâng Cấp" ],
+                        message: "Có phiên bản mới!!!",
+                        title: "Nâng Cấp"
+                    });
+                    dialog.show();
+                }
+                dialog.addEventListener("click", function(e) {
+                    1 == e.index ? openStoreLink(response) : startHome();
+                });
+            }
+        });
+    }
+    function openStoreLink(data) {
+        "iPhone OS" == Alloy.Globals.getOSType() ? Ti.Platform.openURL(data.iosLink) : Ti.Platform.openURL(data.androidLink);
+    }
+    function startHome() {
+        Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+            $.advertise.add(advImage);
+            $.advertise.height = Alloy.Globals.getAdvHeight();
+        });
+    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "home";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
@@ -278,14 +323,15 @@ function Controller() {
     $.__views.homeTab && $.addTopLevelView($.__views.homeTab);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-        $.advertise.add(advImage);
-        $.advertise.height = Alloy.Globals.getAdvHeight();
+    var homeTab = $.homeTab;
+    homeTab.addEventListener("focus", function() {
+        Alloy.Globals.CURRENT_TAB = homeTab;
+        appStart();
     });
-    $.homeTab.addEventListener("focus", function() {
-        Alloy.Globals.CURRENT_TAB = $.homeTab;
+    Ti.App.addEventListener("app:reload", function() {
+        Alloy.Globals.CURRENT_TAB = homeTab;
+        appStart();
     });
-    log(Titanium.Filesystem.getTempDirectory());
     __defers["$.__views.MangaList!click!selectMenu"] && $.__views.MangaList.addEventListener("click", selectMenu);
     __defers["$.__views.StoryList!click!selectMenu"] && $.__views.StoryList.addEventListener("click", selectMenu);
     __defers["$.__views.FunnyList!click!selectMenu"] && $.__views.FunnyList.addEventListener("click", selectMenu);

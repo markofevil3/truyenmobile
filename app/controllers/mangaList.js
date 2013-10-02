@@ -20,6 +20,11 @@ exports.openMainWindow = function() {
 	}
 
 	Alloy.Globals.CURRENT_TAB.open($.mangaListWindow);
+	Alloy.Globals.homeWindowStack.push($.mangaListWindow);
+	$.mangaListWindow.addEventListener("close", function() {
+		Alloy.Globals.homeWindowStack.pop();
+		Ti.App.fireEvent('app:reload');
+	});
 	//#### back button
 	$.mangaListWindow.leftNavButton = Alloy.Globals.backButton($.mangaListWindow);
 	

@@ -7,52 +7,14 @@ function Controller() {
     }
     function appResume() {
         var pausedTime = Ti.App.Properties.getInt("pausedTime");
-        if (new Date().getTime() - pausedTime > 108e5) {
-            var indexController = Alloy.createController("index");
-            indexController.closeWindow();
-            indexController.openMainWindow();
+        if (new Date().getTime() - pausedTime > 1e3) {
+            tabGroup.setActiveTab(0);
+            for (var i = 0; Alloy.Globals.homeWindowStack.length > i; i++) Alloy.Globals.homeWindowStack[i].close();
         }
     }
-    function appStart() {
-        Alloy.Globals.getAjax("/appVersion", {
-            "null": null
-        }, function(response) {
-            void 0 == response && alert("Không có kết nối Internet!");
-            var data = JSON.parse(response);
-            if (data.error || data.version == Titanium.App.version) {
-                "iPhone OS" == Alloy.Globals.getOSType() ? void 0 != data.iosLink && (Alloy.Globals.FBPOST_LINK = data.iosLink) : void 0 != data.androidLink && (Alloy.Globals.FBPOST_LINK = data.androidLink);
-                startApp();
-            } else {
-                var dialog;
-                if (data.force) {
-                    dialog = Ti.UI.createAlertDialog({
-                        message: "Có phiên bản mới!!!",
-                        buttonNames: [ "Nâng Cấp" ],
-                        title: "Nâng Cấp"
-                    });
-                    dialog.show();
-                    dialog.addEventListener("click", function() {
-                        openStoreLink(response);
-                    });
-                } else {
-                    dialog = Ti.UI.createAlertDialog({
-                        cancel: 0,
-                        buttonNames: [ "Bỏ Qua", "Nâng Cấp" ],
-                        message: "Có phiên bản mới!!!",
-                        title: "Nâng Cấp"
-                    });
-                    dialog.show();
-                }
-                dialog.addEventListener("click", function(e) {
-                    1 == e.index ? openStoreLink(response) : startApp();
-                });
-            }
-        });
-    }
-    function openStoreLink(data) {
-        "iPhone OS" == Alloy.Globals.getOSType() ? Ti.Platform.openURL(data.iosLink) : Ti.Platform.openURL(data.androidLink);
-    }
     function startApp() {
+        Ti.App.addEventListener("pause", appPause);
+        Ti.App.addEventListener("resumed", appResume);
         var overrideTabs = require("IosCustomTabBar");
         overrideTabs($.tabGroup, {
             backgroundImage: "/common/top.png"
@@ -101,19 +63,8 @@ function Controller() {
     $.__views.tabGroup && $.addTopLevelView($.__views.tabGroup);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    Titanium.App.addEventListener("pause", function() {
-        appPause();
-    });
-    Ti.App.addEventListener("resumed", function() {
-        appResume();
-    });
-    exports.openMainWindow = function() {
-        appStart();
-    };
-    exports.closeWindow = function() {
-        $.tabGroup.close();
-    };
-    appStart();
+    var tabGroup = $.tabGroup;
+    startApp();
     _.extend($, exports);
 }
 
