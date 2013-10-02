@@ -32,9 +32,25 @@ function Controller() {
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
-    $.__views.row = Ti.UI.createTableViewRow({
-        id: "row"
-    });
+    $.__views.row = Ti.UI.createTableViewRow(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            height: 100,
+            backgroundColor: "transparent",
+            backgroundImage: "/common/dark-background.png"
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            height: 200,
+            backgroundColor: "transparent",
+            backgroundImage: "/common/dark-background.png"
+        });
+        _.extend(o, {
+            id: "row"
+        });
+        return o;
+    }());
     $.__views.row && $.addTopLevelView($.__views.row);
     $.__views.bookCoverView = Ti.UI.createView({
         backgroundColor: "transparent",
@@ -60,17 +76,89 @@ function Controller() {
         id: "detailView"
     });
     $.__views.row.add($.__views.detailView);
-    $.__views.storyTitle = Ti.UI.createLabel({
-        id: "storyTitle"
-    });
+    $.__views.storyTitle = Ti.UI.createLabel(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            font: {
+                fontWeight: "bold",
+                fontSize: 19,
+                fontFamily: "Chalkboard SE"
+            },
+            left: 0,
+            color: "#fff"
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            font: {
+                fontWeight: "bold",
+                fontSize: 38,
+                fontFamily: "Chalkboard SE"
+            },
+            left: 0,
+            color: "#fff"
+        });
+        _.extend(o, {
+            id: "storyTitle"
+        });
+        return o;
+    }());
     $.__views.detailView.add($.__views.storyTitle);
-    $.__views.storyAuthor = Ti.UI.createLabel({
-        id: "storyAuthor"
-    });
+    $.__views.storyAuthor = Ti.UI.createLabel(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            font: {
+                fontSize: 17,
+                fontStyle: "italic",
+                fontFamily: "Chalkboard SE"
+            },
+            left: 0,
+            color: "#fff"
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            font: {
+                fontSize: 34,
+                fontStyle: "italic",
+                fontFamily: "Chalkboard SE"
+            },
+            left: 0,
+            color: "#fff"
+        });
+        _.extend(o, {
+            id: "storyAuthor"
+        });
+        return o;
+    }());
     $.__views.detailView.add($.__views.storyAuthor);
-    $.__views.storyType = Ti.UI.createLabel({
-        id: "storyType"
-    });
+    $.__views.storyType = Ti.UI.createLabel(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            font: {
+                fontStyle: "italic",
+                fontSize: 15,
+                fontFamily: "Chalkboard SE"
+            },
+            left: 0,
+            color: "#fff"
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            font: {
+                fontStyle: "italic",
+                fontSize: 30,
+                fontFamily: "Chalkboard SE"
+            },
+            left: 0,
+            color: "#fff"
+        });
+        _.extend(o, {
+            id: "storyType"
+        });
+        return o;
+    }());
     $.__views.detailView.add($.__views.storyType);
     exports.destroy = function() {};
     _.extend($, $.__views);

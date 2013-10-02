@@ -10,7 +10,7 @@ function appPause() {
 
 function appResume() {
 	var pausedTime = Ti.App.Properties.getInt('pausedTime');
-	if (new Date().getTime() - pausedTime > 1000) {
+	if (new Date().getTime() - pausedTime > 10800000) {
 		tabGroup.setActiveTab(0);
 		for (var i = 0; i < Alloy.Globals.homeWindowStack.length; i++) {
 			Alloy.Globals.homeWindowStack[i].close();

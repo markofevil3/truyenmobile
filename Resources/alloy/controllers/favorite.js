@@ -77,9 +77,23 @@ function Controller() {
         id: "filterTabbar"
     });
     $.__views.wrapper.add($.__views.filterTabbar);
-    $.__views.advView = Ti.UI.createView({
-        id: "advView"
-    });
+    $.__views.advView = Ti.UI.createView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: "100%",
+            height: 50
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: "100%",
+            height: 90
+        });
+        _.extend(o, {
+            id: "advView"
+        });
+        return o;
+    }());
     $.__views.wrapper.add($.__views.advView);
     $.__views.bookShellTable = Ti.UI.createTableView({
         editable: true,
