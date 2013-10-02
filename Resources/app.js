@@ -3,8 +3,8 @@ function RevMob(appIds) {
         "iPhone OS": "com.revmob.titanium",
         android: "com.revmob.ti.android"
     };
-    var revmobModule = require(moduleNames["iPhone OS"]);
-    revmobModule.startSession(appIds["iPhone OS"]);
+    var revmobModule = require(moduleNames["android"]);
+    revmobModule.startSession(appIds["android"]);
     return revmobModule;
 }
 
@@ -232,7 +232,7 @@ Alloy.Globals.isNew = function(checkDate) {
 };
 
 Alloy.Globals.isTablet = function() {
-    var osname = Ti.Platform.osname;
+    var osname = "android";
     return osname.search(/iphone/i) > -1 ? false : true;
 };
 
@@ -242,7 +242,7 @@ Alloy.Globals.getDeviceType = function() {
 };
 
 Alloy.Globals.getOSType = function() {
-    return "iPhone OS";
+    return "android";
 };
 
 Alloy.Globals.backButton = function(window) {
@@ -412,29 +412,11 @@ Alloy.Globals.removeUTF8 = function(str) {
 };
 
 Alloy.Globals.getAdvPublisherId = function() {
-    switch (Titanium.Platform.osname) {
-      case "android":
-        return null;
-
-      case "iphone":
-        return "a15242fc9991b03";
-
-      case "ipad":
-        return "a15242fe704686c";
-    }
+    return null;
 };
 
 Alloy.Globals.getAdvHeight = function() {
-    switch (Titanium.Platform.osname) {
-      case "android":
-        return 50;
-
-      case "iphone":
-        return 50;
-
-      case "ipad":
-        return 90;
-    }
+    return 50;
 };
 
 Alloy.Globals.adv = function(type, callback) {
