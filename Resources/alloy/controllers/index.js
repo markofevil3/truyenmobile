@@ -7,7 +7,7 @@ function Controller() {
     }
     function appResume() {
         var pausedTime = Ti.App.Properties.getInt("pausedTime");
-        if (new Date().getTime() - pausedTime > 1e3) {
+        if (new Date().getTime() - pausedTime > 108e5) {
             tabGroup.setActiveTab(0);
             for (var i = 0; Alloy.Globals.homeWindowStack.length > i; i++) Alloy.Globals.homeWindowStack[i].close();
         }
