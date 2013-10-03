@@ -1,6 +1,6 @@
 ".tabs": {
 	backgroundImage: '/common/shellBg.png',
-	barImage: '/common/top.png'
+	barImage: '/common/top.png',
 },
 ".searchView": {
 	backgroundColor: '#222',

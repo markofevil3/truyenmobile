@@ -150,8 +150,15 @@ function getNewestChapter(chapters) {
 };
 
 function dynamicLoad(tableView, data) {
+  var style;
+  if (Ti.Platform.name === 'iPhone OS'){
+    style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
+  }
+  else {
+    style = Ti.UI.ActivityIndicatorStyle.DARK;
+  }
 	var loadingIcon = Titanium.UI.createActivityIndicator({
-		style:Ti.UI.iPhone.ActivityIndicatorStyle.DARK,
+		style: style
 	});
 	var loadingView = Titanium.UI.createView();
 	loadingView.add(loadingIcon);
@@ -184,8 +191,10 @@ function dynamicLoad(tableView, data) {
 			tableView.appendRow(row, { animationStyle:Titanium.UI.iPhone.RowAnimationStyle.NONE });
 		}
 		lastRowIndex += MAX_DISPLAY_ROW;
-		tableView.scrollToIndex(lastRowIndex - MAX_DISPLAY_ROW,{animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.BOTTOM});
-	};
+    if (Alloy.Globals.getOSType() == "iPhone OS") {
+      tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW,{animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.BOTTOM});
+    }
+  };
 	var lastDistance = 0;
 	tableView.addEventListener('scroll',function(e) {
 		lastRowIndex = tableView.data[0].rowCount;

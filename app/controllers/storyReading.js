@@ -2,7 +2,11 @@ var args = arguments[0] || {};
 
 exports.openMainWindow = function() {
 	$.contentLabel.value = args.content;
-	$.storyReadingWindow.open({ transition: Ti.UI.iPhone.AnimationStyle.CURL_UP });
+  if (Alloy.Globals.getOSType() == "iPhone OS") {
+    $.storyReadingWindow.open({ transition: Ti.UI.iPhone.AnimationStyle.CURL_UP });
+  } else {
+    $.storyReadingWindow.open();
+  }
 };
 
 function closeWindow() {

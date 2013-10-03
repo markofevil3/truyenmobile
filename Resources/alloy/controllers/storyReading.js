@@ -242,9 +242,9 @@ function Controller() {
     var args = arguments[0] || {};
     exports.openMainWindow = function() {
         $.contentLabel.value = args.content;
-        $.storyReadingWindow.open({
+        "iPhone OS" == Alloy.Globals.getOSType() ? $.storyReadingWindow.open({
             transition: Ti.UI.iPhone.AnimationStyle.CURL_UP
-        });
+        }) : $.storyReadingWindow.open();
     };
     __defers["$.__views.textSmallButton!click!changeTextSize"] && $.__views.textSmallButton.addEventListener("click", changeTextSize);
     __defers["$.__views.textBigButton!click!changeTextSize"] && $.__views.textBigButton.addEventListener("click", changeTextSize);

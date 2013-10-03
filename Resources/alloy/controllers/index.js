@@ -7,7 +7,7 @@ function Controller() {
     }
     function appResume() {
         var pausedTime = Ti.App.Properties.getInt("pausedTime");
-        if (new Date().getTime() - pausedTime > 1e3) {
+        if (new Date().getTime() - pausedTime > 108e5) {
             tabGroup.setActiveTab(0);
             for (var i = 0; Alloy.Globals.homeWindowStack.length > i; i++) Alloy.Globals.homeWindowStack[i].close();
         }
@@ -15,20 +15,22 @@ function Controller() {
     function startApp() {
         Ti.App.addEventListener("pause", appPause);
         Ti.App.addEventListener("resumed", appResume);
-        var overrideTabs = require("IosCustomTabBar");
-        overrideTabs($.tabGroup, {
-            backgroundImage: "/common/top.png"
-        }, {
-            backgroundImage: "/common/top-active.png",
-            backgroundColor: "transparent",
-            color: "#000",
-            style: 0
-        }, {
-            backgroundImage: "/common/top.png",
-            backgroundColor: "transparent",
-            color: "#888",
-            style: 0
-        });
+        if ("iPhone OS" == Alloy.Globals.getOSType()) {
+            var overrideTabs = require("IosCustomTabBar");
+            overrideTabs($.tabGroup, {
+                backgroundImage: "/common/top.png"
+            }, {
+                backgroundImage: "/common/top-active.png",
+                backgroundColor: "transparent",
+                color: "#000",
+                style: 0
+            }, {
+                backgroundImage: "/common/top.png",
+                backgroundColor: "transparent",
+                color: "#888",
+                style: 0
+            });
+        }
         Alloy.Globals.TAB_GROUP = $.tapGroup;
         $.tabGroup.open();
     }
@@ -42,22 +44,22 @@ function Controller() {
     $.__views.tabGroup = Ti.UI.createTabGroup({
         id: "tabGroup"
     });
-    $.__views.__alloyId8 = Alloy.createController("home", {
+    $.__views.__alloyId7 = Alloy.createController("home", {
+        id: "__alloyId7"
+    });
+    $.__views.tabGroup.addTab($.__views.__alloyId7.getViewEx({
+        recurse: true
+    }));
+    $.__views.__alloyId8 = Alloy.createController("favorite", {
         id: "__alloyId8"
     });
     $.__views.tabGroup.addTab($.__views.__alloyId8.getViewEx({
         recurse: true
     }));
-    $.__views.__alloyId9 = Alloy.createController("favorite", {
+    $.__views.__alloyId9 = Alloy.createController("setting", {
         id: "__alloyId9"
     });
     $.__views.tabGroup.addTab($.__views.__alloyId9.getViewEx({
-        recurse: true
-    }));
-    $.__views.__alloyId10 = Alloy.createController("setting", {
-        id: "__alloyId10"
-    });
-    $.__views.tabGroup.addTab($.__views.__alloyId10.getViewEx({
         recurse: true
     }));
     $.__views.tabGroup && $.addTopLevelView($.__views.tabGroup);

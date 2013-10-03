@@ -111,14 +111,7 @@ function Controller() {
     }());
     __alloyId0.push($.__views.MangaList);
     selectMenu ? $.__views.MangaList.addEventListener("click", selectMenu) : __defers["$.__views.MangaList!click!selectMenu"] = true;
-    $.__views.__alloyId1 = Ti.UI.createView({
-        width: "100%",
-        height: "100%",
-        backgroundImage: "/common/bookShelf.png",
-        id: "__alloyId1"
-    });
-    $.__views.MangaList.add($.__views.__alloyId1);
-    $.__views.__alloyId2 = Ti.UI.createLabel(function() {
+    $.__views.__alloyId1 = Ti.UI.createLabel(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -142,12 +135,12 @@ function Controller() {
         });
         _.extend(o, {
             text: "Truyện Tranh",
-            id: "__alloyId2"
+            id: "__alloyId1"
         });
         return o;
     }());
-    $.__views.__alloyId1.add($.__views.__alloyId2);
-    $.__views.__alloyId3 = Ti.UI.createImageView(function() {
+    $.__views.MangaList.add($.__views.__alloyId1);
+    $.__views.__alloyId2 = Ti.UI.createImageView(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -161,11 +154,11 @@ function Controller() {
         });
         _.extend(o, {
             image: "/common/bg_blue.png",
-            id: "__alloyId3"
+            id: "__alloyId2"
         });
         return o;
     }());
-    $.__views.__alloyId1.add($.__views.__alloyId3);
+    $.__views.MangaList.add($.__views.__alloyId2);
     $.__views.StoryList = Ti.UI.createTableViewRow(function() {
         var o = {};
         _.extend(o, {});
@@ -188,7 +181,7 @@ function Controller() {
     }());
     __alloyId0.push($.__views.StoryList);
     selectMenu ? $.__views.StoryList.addEventListener("click", selectMenu) : __defers["$.__views.StoryList!click!selectMenu"] = true;
-    $.__views.__alloyId4 = Ti.UI.createLabel(function() {
+    $.__views.__alloyId3 = Ti.UI.createLabel(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -212,12 +205,12 @@ function Controller() {
         });
         _.extend(o, {
             text: "Truyện Chữ",
-            id: "__alloyId4"
+            id: "__alloyId3"
         });
         return o;
     }());
-    $.__views.StoryList.add($.__views.__alloyId4);
-    $.__views.__alloyId5 = Ti.UI.createImageView(function() {
+    $.__views.StoryList.add($.__views.__alloyId3);
+    $.__views.__alloyId4 = Ti.UI.createImageView(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -231,11 +224,11 @@ function Controller() {
         });
         _.extend(o, {
             image: "/common/bg_pink.png",
-            id: "__alloyId5"
+            id: "__alloyId4"
         });
         return o;
     }());
-    $.__views.StoryList.add($.__views.__alloyId5);
+    $.__views.StoryList.add($.__views.__alloyId4);
     $.__views.FunnyList = Ti.UI.createTableViewRow(function() {
         var o = {};
         _.extend(o, {});
@@ -258,7 +251,7 @@ function Controller() {
     }());
     __alloyId0.push($.__views.FunnyList);
     selectMenu ? $.__views.FunnyList.addEventListener("click", selectMenu) : __defers["$.__views.FunnyList!click!selectMenu"] = true;
-    $.__views.__alloyId6 = Ti.UI.createLabel(function() {
+    $.__views.__alloyId5 = Ti.UI.createLabel(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -282,12 +275,12 @@ function Controller() {
         });
         _.extend(o, {
             text: "Truyện Cười",
-            id: "__alloyId6"
+            id: "__alloyId5"
         });
         return o;
     }());
-    $.__views.FunnyList.add($.__views.__alloyId6);
-    $.__views.__alloyId7 = Ti.UI.createImageView(function() {
+    $.__views.FunnyList.add($.__views.__alloyId5);
+    $.__views.__alloyId6 = Ti.UI.createImageView(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -301,11 +294,11 @@ function Controller() {
         });
         _.extend(o, {
             image: "/common/bg_green.png",
-            id: "__alloyId7"
+            id: "__alloyId6"
         });
         return o;
     }());
-    $.__views.FunnyList.add($.__views.__alloyId7);
+    $.__views.FunnyList.add($.__views.__alloyId6);
     $.__views.homeTableView = Ti.UI.createTableView({
         backgroundColor: "transparent",
         separatorColor: "transparent",

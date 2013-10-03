@@ -15,6 +15,23 @@
 	color: '#fff',
 	top: 0
 },
+"#buttonBar": {
+  backgroundColor:'transparent',
+  top: 0,
+  width: Titanium.UI.SIZE,
+  height: 25,
+  layout: 'horizontal'
+},
+".filterButtons": {
+  color: '#fff',
+  height: 25,
+  width: 65,
+  borderRadius: 4,
+  borderWidth: 1,
+  borderColor: '#c69656',
+  backgroundColor: 'red',
+  font: { fontWeight: 'bold', fontFamily: 'Chalkboard SE' },
+},
 "#bookShellTable": {
 	editable:true,
 	allowsSelectionDuringEditing:true,

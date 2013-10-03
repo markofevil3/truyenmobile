@@ -181,7 +181,7 @@ Alloy.Globals.unsubscribePush = function(channel) {
 
 //############### END PUSH NOTIFICATIOn
 var loadingIcon = Titanium.UI.createActivityIndicator({
-	style:Ti.UI.iPhone.ActivityIndicatorStyle.BIG,
+	style:Ti.Platform.name == 'iPhone OS' ? Ti.UI.iPhone.ActivityIndicatorStyle.BIG : Ti.UI.ActivityIndicatorStyle.DARK
 });
 var loadingView = Titanium.UI.createView({
 	backgroundColor: 'rgba(0,0,0,0.5)',
@@ -333,7 +333,7 @@ Alloy.Globals.dynamicSortNumber = function(property, type) {
 
 Alloy.Globals.dynamicLoad = function(tableView, data) {
 	var loadingIcon = Titanium.UI.createActivityIndicator({
-		style:Ti.UI.iPhone.ActivityIndicatorStyle.DARK,
+		style: Ti.Platform.name == 'iPhone OS' ? Ti.UI.iPhone.ActivityIndicatorStyle.DARK : Ti.UI.ActivityIndicatorStyle.DARK,
 	});
 	var loadingView = Titanium.UI.createView();
 	loadingView.add(loadingIcon);
@@ -387,7 +387,9 @@ Alloy.Globals.dynamicLoad = function(tableView, data) {
 			tableView.appendRow(row, { animationStyle:Titanium.UI.iPhone.RowAnimationStyle.NONE });
 		}
 		lastRowIndex += Alloy.Globals.MAX_DISPLAY_ROW;
-		tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW,{animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.BOTTOM});
+    if (Alloy.Globals.getOSType() == "iPhone OS") {
+  		tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW,{animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.BOTTOM});
+  	}
 	};
 	var lastDistance = 0;
 	tableView.addEventListener('scroll',function(e) {
@@ -455,7 +457,7 @@ Alloy.Globals.removeUTF8 = function(str) {
 Alloy.Globals.getAdvPublisherId = function() {
 	switch(Titanium.Platform.osname) {
 		case 'android':
-			return null;
+			return 'a1524cf9df9881d';
 			break;
 		case 'iphone':
 			return 'a15242fc9991b03';

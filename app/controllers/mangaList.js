@@ -128,7 +128,7 @@ function setRowData(data) {
 
 function dynamicLoad(tableView, data) {
 	var loadingIcon = Titanium.UI.createActivityIndicator({
-		style:Ti.UI.iPhone.ActivityIndicatorStyle.DARK,
+		style: Ti.Platform.name == 'iPhone OS' ? Ti.UI.iPhone.ActivityIndicatorStyle.DARK : Ti.UI.ActivityIndicatorStyle.DARK,
 	});
 	var loadingView = Titanium.UI.createView({
 		backgroundColor: 'transparent',

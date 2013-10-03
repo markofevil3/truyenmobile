@@ -348,7 +348,7 @@ Alloy.Globals.dynamicLoad = function(tableView, data) {
             });
         }
         lastRowIndex += Alloy.Globals.MAX_DISPLAY_ROW;
-        tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW, {
+        "iPhone OS" == Alloy.Globals.getOSType() && tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW, {
             animated: true,
             position: Ti.UI.iPhone.TableViewScrollPosition.BOTTOM
         });
@@ -416,7 +416,7 @@ Alloy.Globals.removeUTF8 = function(str) {
 Alloy.Globals.getAdvPublisherId = function() {
     switch (Titanium.Platform.osname) {
       case "android":
-        return null;
+        return "a1524cf9df9881d";
 
       case "iphone":
         return "a15242fc9991b03";

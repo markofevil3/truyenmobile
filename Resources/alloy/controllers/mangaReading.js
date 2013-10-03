@@ -350,11 +350,11 @@ function Controller() {
         return o;
     }());
     $.__views.funcBar.add($.__views.advView2);
-    var __alloyId13 = [];
+    var __alloyId12 = [];
     $.__views.imageHolderView = Ti.UI.createScrollableView({
         width: "100%",
         height: "100%",
-        views: __alloyId13,
+        views: __alloyId12,
         id: "imageHolderView"
     });
     $.__views.mangaReadingWindow.add($.__views.imageHolderView);
@@ -382,9 +382,9 @@ function Controller() {
         changePage();
         $.mangaReadingWindow.addEventListener("singletap", showFuncBar);
         $.mangaReadingWindow.addEventListener("scrollend", checkEndChapter);
-        $.mangaReadingWindow.open({
+        "iPhone OS" == Alloy.Globals.getOSType() ? $.mangaReadingWindow.open({
             transition: Ti.UI.iPhone.AnimationStyle.CURL_UP
-        });
+        }) : $.mangaReadingWindow.open();
     };
     __defers["$.__views.closeButton!click!closeWindow"] && $.__views.closeButton.addEventListener("click", closeWindow);
     __defers["$.__views.prevButton!click!changeChapter"] && $.__views.prevButton.addEventListener("click", changeChapter);

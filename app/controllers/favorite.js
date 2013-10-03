@@ -46,21 +46,21 @@ function getFavorites() {
 		storyRows = setRowData(listFavorites['story'], 1);
 		tableView.data = mangaRows.concat(storyRows);
 		
-		$.filterTabbar.addEventListener('click', function(e) {
-			switch (e.index) {
-				case 0:
-					var mangaRows = setRowData(listFavorites['manga'], 0);
-					var storyRows = setRowData(listFavorites['story'], 1);
-					tableView.data = mangaRows.concat(storyRows);
-					break;
-				case 1:
-					tableView.data = setRowData(listFavorites['manga'], 0);
-					break;
-				case 2:
-					tableView.data = setRowData(listFavorites['story'], 1);
-					break;
-			}
-		});
+		// $.filterTabbar.addEventListener('click', function(e) {
+			// switch (e.index) {
+				// case 0:
+					// var mangaRows = setRowData(listFavorites['manga'], 0);
+					// var storyRows = setRowData(listFavorites['story'], 1);
+					// tableView.data = mangaRows.concat(storyRows);
+					// break;
+				// case 1:
+					// tableView.data = setRowData(listFavorites['manga'], 0);
+					// break;
+				// case 2:
+					// tableView.data = setRowData(listFavorites['story'], 1);
+					// break;
+			// }
+		// });
 	});
 };
 

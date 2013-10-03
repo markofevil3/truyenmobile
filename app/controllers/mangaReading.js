@@ -21,7 +21,11 @@ exports.openMainWindow = function() {
 	changePage();
 	$.mangaReadingWindow.addEventListener('singletap', showFuncBar);
 	$.mangaReadingWindow.addEventListener('scrollend', checkEndChapter);
-	$.mangaReadingWindow.open({ transition: Ti.UI.iPhone.AnimationStyle.CURL_UP });
+  if (Alloy.Globals.getOSType() == "iPhone OS") {
+    $.mangaReadingWindow.open({ transition: Ti.UI.iPhone.AnimationStyle.CURL_UP });
+  } else {
+    $.mangaReadingWindow.open();
+  }
 };
 
 function checkEndChapter(e) {

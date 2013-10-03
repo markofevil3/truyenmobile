@@ -36,7 +36,7 @@ function Controller() {
                 });
             }
             lastRowIndex += MAX_DISPLAY_ROW;
-            tableView.scrollToIndex(lastRowIndex - MAX_DISPLAY_ROW, {
+            "iPhone OS" == Alloy.Globals.getOSType() && tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW, {
                 animated: true,
                 position: Ti.UI.iPhone.TableViewScrollPosition.BOTTOM
             });

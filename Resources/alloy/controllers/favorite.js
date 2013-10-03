@@ -28,22 +28,6 @@ function Controller() {
             mangaRows = setRowData(listFavorites["manga"], 0);
             storyRows = setRowData(listFavorites["story"], 1);
             tableView.data = mangaRows.concat(storyRows);
-            $.filterTabbar.addEventListener("click", function(e) {
-                switch (e.index) {
-                  case 0:
-                    var mangaRows = setRowData(listFavorites["manga"], 0);
-                    var storyRows = setRowData(listFavorites["story"], 1);
-                    tableView.data = mangaRows.concat(storyRows);
-                    break;
-
-                  case 1:
-                    tableView.data = setRowData(listFavorites["manga"], 0);
-                    break;
-
-                  case 2:
-                    tableView.data = setRowData(listFavorites["story"], 1);
-                }
-            });
         });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
@@ -67,16 +51,63 @@ function Controller() {
         id: "wrapper"
     });
     $.__views.favoriteWindow.add($.__views.wrapper);
-    $.__views.filterTabbar = Ti.UI.iOS.createTabbedBar({
-        labels: [ "Tất Cả", "Truyện Tranh", "Truyện Chữ" ],
-        index: 0,
-        backgroundColor: "#c69656",
-        style: Titanium.UI.iPhone.SystemButtonStyle.BAR,
-        color: "#fff",
+    $.__views.buttonBar = Ti.UI.createView({
+        backgroundColor: "transparent",
         top: 0,
-        id: "filterTabbar"
+        width: Titanium.UI.SIZE,
+        height: 25,
+        layout: "horizontal",
+        id: "buttonBar"
     });
-    $.__views.wrapper.add($.__views.filterTabbar);
+    $.__views.wrapper.add($.__views.buttonBar);
+    $.__views.filterAll = Ti.UI.createButton({
+        color: "#fff",
+        height: 25,
+        width: 65,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "#c69656",
+        backgroundColor: "red",
+        font: {
+            fontWeight: "bold",
+            fontFamily: "Chalkboard SE"
+        },
+        id: "filterAll",
+        title: "Tất Cả"
+    });
+    $.__views.buttonBar.add($.__views.filterAll);
+    $.__views.filterManga = Ti.UI.createButton({
+        color: "#fff",
+        height: 25,
+        width: 65,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "#c69656",
+        backgroundColor: "red",
+        font: {
+            fontWeight: "bold",
+            fontFamily: "Chalkboard SE"
+        },
+        id: "filterManga",
+        title: "T.Tranh"
+    });
+    $.__views.buttonBar.add($.__views.filterManga);
+    $.__views.filterStory = Ti.UI.createButton({
+        color: "#fff",
+        height: 25,
+        width: 65,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "#c69656",
+        backgroundColor: "red",
+        font: {
+            fontWeight: "bold",
+            fontFamily: "Chalkboard SE"
+        },
+        id: "filterStory",
+        title: "T.Chữ"
+    });
+    $.__views.buttonBar.add($.__views.filterStory);
     $.__views.advView = Ti.UI.createView(function() {
         var o = {};
         _.extend(o, {});
