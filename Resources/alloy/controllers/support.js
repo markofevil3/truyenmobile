@@ -74,6 +74,10 @@ function Controller() {
             fontSize: 14,
             fontWeight: "bold"
         },
+        backgroundColor: "33CC33",
+        borderWidth: 1,
+        borderColor: "#2EB82E",
+        borderRadius: 5,
         id: "sendButton"
     });
     $.__views.wrapperView.add($.__views.sendButton);

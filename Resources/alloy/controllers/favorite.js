@@ -28,7 +28,7 @@ function Controller() {
             mangaRows = setRowData(listFavorites["manga"], 0);
             storyRows = setRowData(listFavorites["story"], 1);
             tableView.data = mangaRows.concat(storyRows);
-            $.filterTabbar.addEventListener("click", function(e) {
+            "iPhone OS" == Alloy.Globals.getOSType() && $.filterTabbar.addEventListener("click", function(e) {
                 switch (e.index) {
                   case 0:
                     var mangaRows = setRowData(listFavorites["manga"], 0);
@@ -67,33 +67,66 @@ function Controller() {
         id: "wrapper"
     });
     $.__views.favoriteWindow.add($.__views.wrapper);
-    $.__views.filterTabbar = Ti.UI.iOS.createTabbedBar({
-        labels: [ "Tất Cả", "Truyện Tranh", "Truyện Chữ" ],
-        index: 0,
-        backgroundColor: "#c69656",
-        style: Titanium.UI.iPhone.SystemButtonStyle.BAR,
-        color: "#fff",
+    $.__views.buttonBar = Ti.UI.createView({
+        backgroundColor: "transparent",
         top: 0,
-        id: "filterTabbar"
+        width: Titanium.UI.SIZE,
+        height: 25,
+        layout: "horizontal",
+        id: "buttonBar"
     });
-    $.__views.wrapper.add($.__views.filterTabbar);
-    $.__views.advView = Ti.UI.createView(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: "100%",
-            height: 50
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: "100%",
-            height: 90
-        });
-        _.extend(o, {
-            id: "advView"
-        });
-        return o;
-    }());
+    $.__views.wrapper.add($.__views.buttonBar);
+    $.__views.filterAll = Ti.UI.createButton({
+        color: "#fff",
+        height: 25,
+        width: 65,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "#c69656",
+        backgroundColor: "red",
+        font: {
+            fontWeight: "bold",
+            fontFamily: "Chalkboard SE"
+        },
+        id: "filterAll",
+        title: "Tất Cả"
+    });
+    $.__views.buttonBar.add($.__views.filterAll);
+    $.__views.filterManga = Ti.UI.createButton({
+        color: "#fff",
+        height: 25,
+        width: 65,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "#c69656",
+        backgroundColor: "red",
+        font: {
+            fontWeight: "bold",
+            fontFamily: "Chalkboard SE"
+        },
+        id: "filterManga",
+        title: "T.Tranh"
+    });
+    $.__views.buttonBar.add($.__views.filterManga);
+    $.__views.filterStory = Ti.UI.createButton({
+        color: "#fff",
+        height: 25,
+        width: 65,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "#c69656",
+        backgroundColor: "red",
+        font: {
+            fontWeight: "bold",
+            fontFamily: "Chalkboard SE"
+        },
+        id: "filterStory",
+        title: "T.Chữ"
+    });
+    $.__views.buttonBar.add($.__views.filterStory);
+    $.__views.advView = Ti.UI.createView({
+        id: "advView"
+    });
     $.__views.wrapper.add($.__views.advView);
     $.__views.bookShellTable = Ti.UI.createTableView({
         editable: true,
@@ -118,6 +151,10 @@ function Controller() {
     var mangaRows;
     var storyRows;
     var tableView = $.bookShellTable;
+    if ("iPhone OS" == Alloy.Globals.getOSType()) if (parseFloat(Ti.Platform.version) >= 7) $.filterTabbar.tintColor = "#CCCCCC"; else {
+        $.filterTabbar.backgroundColor = "#c69656";
+        $.filterTabbar.style = Titanium.UI.iPhone.SystemButtonStyle.BAR;
+    }
     tableView.addEventListener("delete", function(e) {
         deleteFavorite(e.rowData.dataId);
         void 0 != Ti.Network.remoteDeviceUUID ? Alloy.Globals.unsubscribePush(e.rowData.dataId) : Alloy.Globals.loginUser(Alloy.Globals.FB_USERNAME, function() {

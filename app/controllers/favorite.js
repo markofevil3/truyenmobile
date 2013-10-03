@@ -2,6 +2,14 @@ var listFavorites;
 var mangaRows;
 var storyRows;
 var tableView = $.bookShellTable;
+if (Alloy.Globals.getOSType() == "iPhone OS") {
+	if (parseFloat(Ti.Platform.version) >= 7) {
+		$.filterTabbar.tintColor = '#CCCCCC';
+	} else {
+		$.filterTabbar.backgroundColor = '#c69656';
+		$.filterTabbar.style = Titanium.UI.iPhone.SystemButtonStyle.BAR;
+	}
+}
 tableView.addEventListener("delete", function(e) {
 	deleteFavorite(e.rowData.dataId);
 	if (Ti.Network.remoteDeviceUUID != undefined) {
@@ -45,22 +53,23 @@ function getFavorites() {
 		mangaRows = setRowData(listFavorites['manga'], 0);
 		storyRows = setRowData(listFavorites['story'], 1);
 		tableView.data = mangaRows.concat(storyRows);
-		
-		$.filterTabbar.addEventListener('click', function(e) {
-			switch (e.index) {
-				case 0:
-					var mangaRows = setRowData(listFavorites['manga'], 0);
-					var storyRows = setRowData(listFavorites['story'], 1);
-					tableView.data = mangaRows.concat(storyRows);
-					break;
-				case 1:
-					tableView.data = setRowData(listFavorites['manga'], 0);
-					break;
-				case 2:
-					tableView.data = setRowData(listFavorites['story'], 1);
-					break;
-			}
-		});
+		if (Alloy.Globals.getOSType() == "iPhone OS") {
+			$.filterTabbar.addEventListener('click', function(e) {
+				switch (e.index) {
+					case 0:
+						var mangaRows = setRowData(listFavorites['manga'], 0);
+						var storyRows = setRowData(listFavorites['story'], 1);
+						tableView.data = mangaRows.concat(storyRows);
+						break;
+					case 1:
+						tableView.data = setRowData(listFavorites['manga'], 0);
+						break;
+					case 2:
+						tableView.data = setRowData(listFavorites['story'], 1);
+						break;
+				}
+			});
+		}
 	});
 };
 

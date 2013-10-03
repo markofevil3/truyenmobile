@@ -63,7 +63,7 @@ function Controller() {
                 animationStyle: Titanium.UI.iPhone.RowAnimationStyle.NONE
             });
             lastRowIndex += MAX_DISPLAY_ROW;
-            tableView.scrollToIndex(lastRowIndex - MAX_DISPLAY_ROW, {
+            "iPhone OS" == Alloy.Globals.getOSType() && tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW, {
                 animated: true,
                 position: Ti.UI.iPhone.TableViewScrollPosition.BOTTOM
             });
@@ -142,49 +142,13 @@ function Controller() {
         id: "sortButton"
     });
     $.__views.searchView.add($.__views.sortButton);
-    $.__views.advView = Ti.UI.createView(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: "100%",
-            height: 50,
-            top: 40
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: "100%",
-            height: 66,
-            top: 40
-        });
-        _.extend(o, {
-            id: "advView"
-        });
-        return o;
-    }());
+    $.__views.advView = Ti.UI.createView({
+        id: "advView"
+    });
     $.__views.storyListWindow.add($.__views.advView);
-    $.__views.bookShellTable = Ti.UI.createTableView(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            backgroundColor: "transparent",
-            separatorColor: "transparent",
-            style: Ti.UI.iPhone.TableViewStyle.PLAIN,
-            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-            top: 90
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            backgroundColor: "transparent",
-            separatorColor: "transparent",
-            style: Ti.UI.iPhone.TableViewStyle.PLAIN,
-            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-            top: 106
-        });
-        _.extend(o, {
-            id: "bookShellTable"
-        });
-        return o;
-    }());
+    $.__views.bookShellTable = Ti.UI.createTableView({
+        id: "bookShellTable"
+    });
     $.__views.storyListWindow.add($.__views.bookShellTable);
     exports.destroy = function() {};
     _.extend($, $.__views);

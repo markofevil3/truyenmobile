@@ -41,10 +41,15 @@ exports.openMainWindow = function() {
 		}
 		listManga = JSON.parse(response).data;
 		setHotManga(listManga);
-		var tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
+		var tbl_data;
+		if (Alloy.Globals.getOSType == "iPhone OS") {
+			tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
+			dynamicLoad(table, listManga);
+		} else {
+			tbl_data = setRowData(listManga);
+		}
 		table.data = tbl_data;
 		$.loading.setOpacity(0.0);
-		dynamicLoad(table, listManga);
 	});
 	//#### search bar
 	search.addEventListener('return', function(e) {
@@ -128,7 +133,7 @@ function setRowData(data) {
 
 function dynamicLoad(tableView, data) {
 	var loadingIcon = Titanium.UI.createActivityIndicator({
-		style:Ti.UI.iPhone.ActivityIndicatorStyle.DARK,
+		style: Ti.Platform.name == 'iPhone OS' ? Ti.UI.iPhone.ActivityIndicatorStyle.DARK : Ti.UI.ActivityIndicatorStyle.DARK,
 	});
 	var loadingView = Titanium.UI.createView({
 		backgroundColor: 'transparent',

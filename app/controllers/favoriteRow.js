@@ -4,7 +4,7 @@ $.row.dataId = args.data._id;
 $.row.dataType = args.data.bookType;
 $.bookCover.image = args.data.cover;
 $.bookTitle.text = args.data.title;
-$.newestChapter.text = 'Newest: ' + args.data.chapters[args.data.chapters.length - 1].chapter;
+$.newestChapter.text = 'Newest: ' + Alloy.Globals.getNewestChapter(args.data.chapters) + " - Reading: 1";
 $.bookType.text = 'Thể loại: ' + getTypeText(args.data.bookType);
 $.bookCoverView.backgroundImage = (args.data.bookType == 0) ? '/common/book5.png' : '/common/book5.png';
 selectItem($.row, args.data.bookType);

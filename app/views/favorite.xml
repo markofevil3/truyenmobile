@@ -2,11 +2,16 @@
 	<Tab id="favoriteTab" icon="/common/favorite.png">
 		<Window class="tabs" id="favoriteWindow" title="Sở Thích">
 		  <View id="wrapper">
-        <TabbedBar id="filterTabbar"></TabbedBar>
+  			<View id="buttonBar" platform='android'>
+  				<Button id="filterAll" class="filterButtons" title="Tất Cả"/>
+  				<Button id="filterManga" class="filterButtons" title="T.Tranh"/>
+  				<Button id="filterStory" class="filterButtons" title="T.Chữ"/>
+  			</View>
+        <TabbedBar id="filterTabbar" platform='ios'></TabbedBar>
         <View id="advView" />
         <TableView id="bookShellTable">
         </TableView>
-		  </View>
+	  	</View>
 		</Window>
 	</Tab>
 </Alloy>

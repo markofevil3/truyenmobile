@@ -5,10 +5,10 @@
 			  <TableViewRow id="advertise">
 			  </TableViewRow>
 			  <TableViewRow id="MangaList" class="homeRow" dataName="mangaList" onClick="selectMenu">
-			    <View class="homeRowBackground">
+			    <!-- <View class="homeRowBackground"> -->
             <Label class="homeMenuName"> Truyện Tranh </Label>
             <ImageView class="homeBackgroundPanel" image="/common/bg_blue.png"/>
-			    </View>
+			    <!-- </View> -->
 			  </TableViewRow>
 			  <TableViewRow id="StoryList" class="homeRow" dataName="storyList" onClick="selectMenu">
 			    <Label class="homeMenuName"> Truyện Chữ </Label>

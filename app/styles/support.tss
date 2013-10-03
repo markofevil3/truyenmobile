@@ -36,4 +36,8 @@
 	height: 30,
 	top: 10,
 	font: {fontSize: 14, fontWeight: 'bold'},
+	backgroundColor: "33CC33",
+	borderWidth: 1,
+	borderColor: '#2EB82E',
+	borderRadius: 5,
 }

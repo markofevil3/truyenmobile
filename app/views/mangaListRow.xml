@@ -1,7 +1,7 @@
 <Alloy>
   <TableViewRow id="row" class="rows">
     <View id="bookInfoView" class="bookInfoViews">
-      <View class="bookCovers">
+      <View class="bookCovers" platform="ios">
         <ImageView id="coverLink" class="coverLinks"/>
       </View>
       <View class="bookDetails">

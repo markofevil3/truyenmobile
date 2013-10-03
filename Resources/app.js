@@ -3,8 +3,8 @@ function RevMob(appIds) {
         "iPhone OS": "com.revmob.titanium",
         android: "com.revmob.ti.android"
     };
-    var revmobModule = require(moduleNames["iPhone OS"]);
-    revmobModule.startSession(appIds["iPhone OS"]);
+    var revmobModule = require(moduleNames["android"]);
+    revmobModule.startSession(appIds["android"]);
     return revmobModule;
 }
 
@@ -184,7 +184,7 @@ Alloy.Globals.unsubscribePush = function(channel) {
 };
 
 var loadingIcon = Titanium.UI.createActivityIndicator({
-    style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG
+    style: Ti.UI.ActivityIndicatorStyle.DARK
 });
 
 var loadingView = Titanium.UI.createView({
@@ -234,7 +234,7 @@ Alloy.Globals.isNew = function(checkDate) {
 };
 
 Alloy.Globals.isTablet = function() {
-    var osname = Ti.Platform.osname;
+    var osname = "android";
     return osname.search(/iphone/i) > -1 ? false : true;
 };
 
@@ -244,7 +244,7 @@ Alloy.Globals.getDeviceType = function() {
 };
 
 Alloy.Globals.getOSType = function() {
-    return "iPhone OS";
+    return "android";
 };
 
 Alloy.Globals.backButton = function(window) {
@@ -348,13 +348,13 @@ Alloy.Globals.dynamicLoad = function(tableView, data) {
             });
         }
         lastRowIndex += Alloy.Globals.MAX_DISPLAY_ROW;
-        tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW, {
+        "iPhone OS" == Alloy.Globals.getOSType() && tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW, {
             animated: true,
             position: Ti.UI.iPhone.TableViewScrollPosition.BOTTOM
         });
     }
     var loadingIcon = Titanium.UI.createActivityIndicator({
-        style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
+        style: Ti.UI.ActivityIndicatorStyle.DARK
     });
     var loadingView = Titanium.UI.createView();
     loadingView.add(loadingIcon);
@@ -414,29 +414,11 @@ Alloy.Globals.removeUTF8 = function(str) {
 };
 
 Alloy.Globals.getAdvPublisherId = function() {
-    switch (Titanium.Platform.osname) {
-      case "android":
-        return null;
-
-      case "iphone":
-        return "a15242fc9991b03";
-
-      case "ipad":
-        return "a15242fe704686c";
-    }
+    return "a1524cf9df9881d";
 };
 
 Alloy.Globals.getAdvHeight = function() {
-    switch (Titanium.Platform.osname) {
-      case "android":
-        return 50;
-
-      case "iphone":
-        return 50;
-
-      case "ipad":
-        return 90;
-    }
+    return 50;
 };
 
 Alloy.Globals.adv = function(type, callback) {
@@ -485,6 +467,12 @@ Alloy.Globals.loadImage = function(imageView, url) {
 Alloy.Globals.getFileExtFromUrl = function(urlString) {
     var detectKey = urlString.lastIndexOf(".");
     return urlString.substr(detectKey + 1, urlString.length);
+};
+
+Alloy.Globals.getNewestChapter = function(chapters) {
+    var newest = 0;
+    for (var i = 0; chapters.length > i; i++) parseFloat(chapters[i].chapter) > newest && (newest = parseFloat(chapters[i].chapter));
+    return newest;
 };
 
 Alloy.createController("index");

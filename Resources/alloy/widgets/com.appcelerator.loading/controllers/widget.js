@@ -1,7 +1,7 @@
 function WPATH(s) {
     var index = s.lastIndexOf("/");
     var path = -1 === index ? "com.appcelerator.loading/" + s : s.substring(0, index) + "/com.appcelerator.loading/" + s.substring(index + 1);
-    return path;
+    return true && 0 !== path.indexOf("/") ? "/" + path : path;
 }
 
 function Controller() {
@@ -25,7 +25,6 @@ function Controller() {
     _.extend($, $.__views);
     var args = arguments[0] || {};
     for (var k in args) $.loading[k] = args[k];
-    "mobileweb" === Ti.Platform.osname && ($.loading.duration = 100);
     $.loading.start();
     exports.setOpacity = function(opacity) {
         $.loading.opacity = opacity;

@@ -17,125 +17,35 @@ function Controller() {
         id: "settingWindow",
         title: "Tuỳ Chỉnh"
     });
-    $.__views.account = Ti.UI.createTableViewRow(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            height: 50,
-            hasChild: true,
-            color: "#fff",
-            font: {
-                fontWeight: "bold",
-                fontSize: 16,
-                fontFamily: "Chalkboard SE"
-            }
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            height: 66,
-            hasChild: true,
-            color: "#fff",
-            font: {
-                fontWeight: "bold",
-                fontSize: 30,
-                fontFamily: "Chalkboard SE"
-            }
-        });
-        _.extend(o, {
-            id: "account",
-            title: "Tài Khoản"
-        });
-        return o;
-    }());
-    var __alloyId14 = [];
-    __alloyId14.push($.__views.account);
+    $.__views.account = Ti.UI.createTableViewRow({
+        id: "account",
+        title: "Tài Khoản"
+    });
+    var __alloyId13 = [];
+    __alloyId13.push($.__views.account);
     selectMenu ? $.__views.account.addEventListener("click", selectMenu) : __defers["$.__views.account!click!selectMenu"] = true;
-    $.__views.support = Ti.UI.createTableViewRow(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            height: 50,
-            hasChild: true,
-            color: "#fff",
-            font: {
-                fontWeight: "bold",
-                fontSize: 16,
-                fontFamily: "Chalkboard SE"
-            }
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            height: 66,
-            hasChild: true,
-            color: "#fff",
-            font: {
-                fontWeight: "bold",
-                fontSize: 30,
-                fontFamily: "Chalkboard SE"
-            }
-        });
-        _.extend(o, {
-            id: "support",
-            title: "Yêu Cầu Truyện"
-        });
-        return o;
-    }());
-    __alloyId14.push($.__views.support);
+    $.__views.support = Ti.UI.createTableViewRow({
+        id: "support",
+        title: "Yêu Cầu Truyện"
+    });
+    __alloyId13.push($.__views.support);
     selectMenu ? $.__views.support.addEventListener("click", selectMenu) : __defers["$.__views.support!click!selectMenu"] = true;
-    $.__views.aboutUs = Ti.UI.createTableViewRow(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            height: 50,
-            hasChild: true,
-            color: "#fff",
-            font: {
-                fontWeight: "bold",
-                fontSize: 16,
-                fontFamily: "Chalkboard SE"
-            }
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            height: 66,
-            hasChild: true,
-            color: "#fff",
-            font: {
-                fontWeight: "bold",
-                fontSize: 30,
-                fontFamily: "Chalkboard SE"
-            }
-        });
-        _.extend(o, {
-            id: "aboutUs",
-            title: "Giới Thiệu"
-        });
-        return o;
-    }());
-    __alloyId14.push($.__views.aboutUs);
+    $.__views.aboutUs = Ti.UI.createTableViewRow({
+        id: "aboutUs",
+        title: "Giới Thiệu"
+    });
+    __alloyId13.push($.__views.aboutUs);
     selectMenu ? $.__views.aboutUs.addEventListener("click", selectMenu) : __defers["$.__views.aboutUs!click!selectMenu"] = true;
-    $.__views.adv = Ti.UI.createTableViewRow(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            height: 50
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            height: 90
-        });
-        _.extend(o, {
-            id: "adv"
-        });
-        return o;
-    }());
-    __alloyId14.push($.__views.adv);
+    $.__views.adv = Ti.UI.createTableViewRow({
+        id: "adv"
+    });
+    __alloyId13.push($.__views.adv);
     $.__views.settingTableView = Ti.UI.createTableView({
         height: Titanium.UI.SIZE,
         scrollable: false,
         backgroundColor: "transparent",
         top: 0,
-        data: __alloyId14,
+        data: __alloyId13,
         id: "settingTableView"
     });
     $.__views.settingWindow.add($.__views.settingTableView);
