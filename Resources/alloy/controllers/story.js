@@ -42,7 +42,7 @@ function Controller() {
             });
         }
         var loadingIcon = Titanium.UI.createActivityIndicator({
-            style: Ti.UI.ActivityIndicatorStyle.DARK
+            style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
         });
         var loadingView = Titanium.UI.createView();
         loadingView.add(loadingIcon);
@@ -88,9 +88,29 @@ function Controller() {
         id: "wrapper"
     });
     $.__views.storyWindow.add($.__views.wrapper);
-    $.__views.storyInfoView = Ti.UI.createView({
-        id: "storyInfoView"
-    });
+    $.__views.storyInfoView = Ti.UI.createView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: "100%",
+            height: 120,
+            backgroundColor: "#d8cdc0",
+            backgroundImage: "/common/whitePaper.png",
+            layout: "horizontal"
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: "100%",
+            height: 240,
+            backgroundColor: "#d8cdc0",
+            backgroundImage: "/common/whitePaper.png",
+            layout: "horizontal"
+        });
+        _.extend(o, {
+            id: "storyInfoView"
+        });
+        return o;
+    }());
     $.__views.wrapper.add($.__views.storyInfoView);
     $.__views.bookBackgroundView = Ti.UI.createView({
         width: "25%",
@@ -119,17 +139,95 @@ function Controller() {
         id: "bookDetails"
     });
     $.__views.storyInfoView.add($.__views.bookDetails);
-    $.__views.bookTitle = Ti.UI.createLabel({
-        id: "bookTitle"
-    });
+    $.__views.bookTitle = Ti.UI.createLabel(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            color: "#fff",
+            font: {
+                fontWeight: "bold",
+                fontSize: 19,
+                fontFamily: "Chalkboard SE"
+            },
+            left: 0,
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            color: "#fff",
+            font: {
+                fontWeight: "bold",
+                fontSize: 38,
+                fontFamily: "Chalkboard SE"
+            },
+            left: 0,
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
+        });
+        _.extend(o, {
+            id: "bookTitle"
+        });
+        return o;
+    }());
     $.__views.bookDetails.add($.__views.bookTitle);
-    $.__views.bookAuthor = Ti.UI.createLabel({
-        id: "bookAuthor"
-    });
+    $.__views.bookAuthor = Ti.UI.createLabel(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            font: {
+                fontSize: 16,
+                fontStyle: "italic"
+            },
+            left: 0
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            font: {
+                fontSize: 32,
+                fontStyle: "italic"
+            },
+            left: 0
+        });
+        _.extend(o, {
+            id: "bookAuthor"
+        });
+        return o;
+    }());
     $.__views.bookDetails.add($.__views.bookAuthor);
-    $.__views.shortDesc = Ti.UI.createLabel({
-        id: "shortDesc"
-    });
+    $.__views.shortDesc = Ti.UI.createLabel(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: "100%",
+            textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+            font: {
+                fontSize: 14
+            },
+            height: "55%",
+            bottom: 20
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: "100%",
+            textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+            font: {
+                fontSize: 28
+            },
+            height: "55%",
+            bottom: 40
+        });
+        _.extend(o, {
+            id: "shortDesc"
+        });
+        return o;
+    }());
     $.__views.bookDetails.add($.__views.shortDesc);
     $.__views.searchView = Ti.UI.createView({
         backgroundColor: "transparent",
@@ -160,9 +258,23 @@ function Controller() {
         id: "sortButton"
     });
     $.__views.searchView.add($.__views.sortButton);
-    $.__views.advView = Ti.UI.createView({
-        id: "advView"
-    });
+    $.__views.advView = Ti.UI.createView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: "100%",
+            height: 50
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: "100%",
+            height: 66
+        });
+        _.extend(o, {
+            id: "advView"
+        });
+        return o;
+    }());
     $.__views.wrapper.add($.__views.advView);
     $.__views.bookShellTable = Ti.UI.createTableView({
         backgroundColor: "transparent",
@@ -215,7 +327,7 @@ function Controller() {
         var listChapters = args.data.chapters;
         $.storyWindow.rightNavButton = args.favorite ? favoritedButton : favoriteButton;
         $.storyWindow.title = args.data.title;
-        $.bookCover.image = Alloy.Globals.SERVER + args.data.folder + "/cover.jpg";
+        $.bookCover.image = Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg";
         $.bookTitle.text = args.data.title;
         $.bookAuthor.text = "Tác Giả: " + args.data.author;
         $.shortDesc.text = args.data.shortDes;

@@ -9,8 +9,8 @@
 // object. For example:
 //
 // Alloy.Globals.someGlobalFunction = function(){};
-Alloy.Globals.SERVER = 'http://54.251.14.29';
-// Alloy.Globals.SERVER = 'http://162.243.22.172';
+// Alloy.Globals.SERVER = 'http://54.251.14.29';
+Alloy.Globals.SERVER = 'http://localhost:3000';
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 Alloy.Globals.NEW_TIME_MILLISECONDS = 259200000;
 Alloy.Globals.RATIO = 1;
@@ -29,6 +29,12 @@ Alloy.Globals.listener = null;
 Alloy.Globals.FB_USERNAME = null;
 Alloy.Globals.readChapter = 0;
 Alloy.Globals.homeWindowStack = [];
+Alloy.Globals.readingChapters = {};
+
+Alloy.Globals.saveUserData = function() {
+	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'userData.txt');
+	f.write(JSON.stringify(Alloy.Globals.readingChapters));
+};
 
 var Admob = require('ti.admob');
 var GA = require('analytics.google');
@@ -195,7 +201,7 @@ var loadingView = Titanium.UI.createView({
 loadingView.add(loadingIcon);
 
 function log(para) {
-	Ti.API.debug(JSON.stringify(para));
+	Ti.API.info(JSON.stringify(para));
 };
 
 function showRequestResult(e) {
@@ -314,7 +320,7 @@ Alloy.Globals.getAjax = function(url, query, callback) {
     }
   }
   
-  fullUrl += '&timestamp=' + Date.now();
+  // fullUrl += '&timestamp=' + Date.now();
 	xhr.open("GET", fullUrl);
 	xhr.send();
 };

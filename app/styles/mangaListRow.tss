@@ -45,8 +45,8 @@
 	font: { fontWeight: 'bold', fontSize: 18, fontFamily: 'Chalkboard SE' },
 	top: '5%',
 	color: '#fff',
-  shadowColor: '#603d1c',
-  shadowOffset: {x:2, y:2},
+  shadowColor: '#000',
+  shadowOffset: {x:1, y:1},
   width: "90%",
 },
 ".bookNames[platform=ios formFactor=tablet]": {
@@ -54,8 +54,8 @@
 	left: 10,
 	top: '5%',
 	color: '#fff',
-  shadowColor: '#603d1c',
-  shadowOffset: {x:2, y:2},
+  shadowColor: '#000',
+  shadowOffset: {x:1, y:1},
   width: "90%"
 },
 ".icons": {

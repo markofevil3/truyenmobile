@@ -2,11 +2,11 @@ var args = arguments[0] || {};
 
 $.row.dataId = args.data._id;
 $.row.dataType = args.data.type;
-$.bookCover.image = Alloy.Globals.SERVER + '/images/story/sample/cover.jpg';
+$.bookCover.image = Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg";
 $.storyTitle.text = args.data.title;
 $.storyAuthor.text = 'Tác giả: ' + args.data.author;
 $.storyType.text = 'Thể loại: ' + getTypeText(args.data.type);
-$.bookCoverView.backgroundImage = (args.data.type == 0) ? '/common/book5.png' : '/common/book5.png';
+// $.bookCoverView.backgroundImage = (args.data.type == 0) ? '/common/book5.png' : '/common/book5.png';
 selectItem($.row);
 
 function selectItem(item) {
@@ -20,9 +20,11 @@ function selectItem(item) {
 			},
 			function(response) {
 				var json = JSON.parse(response);
-				var storyReadingController = Alloy.createController('storyReading', json.data);
-				Alloy.Globals.closeLoading(args.window);
-				storyReadingController.openMainWindow();
+				setTimeout(function() {
+					var storyReadingController = Alloy.createController('storyReading', json.data);
+					Alloy.Globals.closeLoading(args.window);
+					storyReadingController.openMainWindow();
+				}, 300);
 			});
 		} else {
 			Alloy.Globals.getAjax('/getStory', {
@@ -31,9 +33,11 @@ function selectItem(item) {
 			},
 			function(response) {
 				var json = JSON.parse(response);
-				var storyController = Alloy.createController('story', json);
-				Alloy.Globals.closeLoading(args.window);
-				storyController.openMainWindow();
+				setTimeout(function() {
+					var storyController = Alloy.createController('story', json);
+					Alloy.Globals.closeLoading(args.window);
+					storyController.openMainWindow();
+				}, 300);
 			});
 		}
 	});

@@ -65,7 +65,7 @@ exports.openMainWindow = function() {
 		$.storyWindow.rightNavButton = favoriteButton; 
 	}
 	$.storyWindow.title = args.data.title;
-	$.bookCover.image = Alloy.Globals.SERVER + args.data.folder + '/cover.jpg';
+	$.bookCover.image = Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg";
 	$.bookTitle.text = args.data.title;
 	$.bookAuthor.text = 'Tác Giả: ' + args.data.author;
 	$.shortDesc.text = args.data.shortDes;

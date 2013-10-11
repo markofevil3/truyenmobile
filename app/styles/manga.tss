@@ -46,12 +46,16 @@
 "#bookTitle[platform=ios formFactor=handheld]": {
 	color: '#fff',
 	font: { fontWeight: 'bold', fontSize: 19, fontFamily: 'Chalkboard SE'},
-	left: 0
+	left: 0,
+  shadowColor: '#000',
+	shadowOffset: {x:1, y:1},
 },
 "#bookTitle[platform=ios formFactor=tablet]": {
 	color: '#fff',
 	font: { fontWeight: 'bold', fontSize: 38, fontFamily: 'Chalkboard SE'},
-	left: 0
+	left: 0,
+  shadowColor: '#000',
+	shadowOffset: {x:1, y:1},
 },
 "#bookAuthor[platform=ios formFactor=handheld]": {
 	font: { fontSize: 16, fontStyle: 'italic' },

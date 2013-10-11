@@ -14,13 +14,15 @@ function Controller() {
         var tabBar = Titanium.UI.iOS.createTabbedBar({
             labels: [ "Tất cả", "Tr.ngắn", "Tr.dài" ],
             index: 0,
-            backgroundColor: "#c69656",
-            style: Titanium.UI.iPhone.SystemButtonStyle.BAR,
             color: "#fff",
             font: {
                 fontWeight: "bold"
             }
         });
+        if ("iPhone OS" == Alloy.Globals.getOSType()) if (parseFloat(Ti.Platform.version) >= 7) tabBar.tintColor = "#CCCCCC"; else {
+            tabBar.backgroundColor = "#c69656";
+            tabBar.style = Titanium.UI.iPhone.SystemButtonStyle.BAR;
+        }
         var cloneListStory = listStory.slice(0);
         tabBar.addEventListener("click", function(e) {
             switch (e.index) {
@@ -63,10 +65,6 @@ function Controller() {
                 animationStyle: Titanium.UI.iPhone.RowAnimationStyle.NONE
             });
             lastRowIndex += MAX_DISPLAY_ROW;
-            "iPhone OS" == Alloy.Globals.getOSType() && tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW, {
-                animated: true,
-                position: Ti.UI.iPhone.TableViewScrollPosition.BOTTOM
-            });
         }
         var loadingIcon = Titanium.UI.createActivityIndicator({
             style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
@@ -142,13 +140,49 @@ function Controller() {
         id: "sortButton"
     });
     $.__views.searchView.add($.__views.sortButton);
-    $.__views.advView = Ti.UI.createView({
-        id: "advView"
-    });
+    $.__views.advView = Ti.UI.createView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: "100%",
+            height: 50,
+            top: 40
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: "100%",
+            height: 66,
+            top: 40
+        });
+        _.extend(o, {
+            id: "advView"
+        });
+        return o;
+    }());
     $.__views.storyListWindow.add($.__views.advView);
-    $.__views.bookShellTable = Ti.UI.createTableView({
-        id: "bookShellTable"
-    });
+    $.__views.bookShellTable = Ti.UI.createTableView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            backgroundColor: "transparent",
+            separatorColor: "transparent",
+            style: Ti.UI.iPhone.TableViewStyle.PLAIN,
+            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+            top: 90
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            backgroundColor: "transparent",
+            separatorColor: "transparent",
+            style: Ti.UI.iPhone.TableViewStyle.PLAIN,
+            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+            top: 106
+        });
+        _.extend(o, {
+            id: "bookShellTable"
+        });
+        return o;
+    }());
     $.__views.storyListWindow.add($.__views.bookShellTable);
     exports.destroy = function() {};
     _.extend($, $.__views);
@@ -165,6 +199,10 @@ function Controller() {
         Alloy.Globals.getAjax("/storyList", {
             "null": null
         }, function(response) {
+            if (void 0 == response) {
+                alert("Không có kết nối Internet!");
+                return;
+            }
             listStory = JSON.parse(response).data;
             var tbl_data = setRowData(listStory.slice(0, MAX_DISPLAY_ROW));
             table.data = tbl_data;
@@ -172,7 +210,7 @@ function Controller() {
             $.loading.setOpacity(0);
             $.storyListWindow.setTitleControl(createTabBar());
         });
-        search.addEventListener("change", function(e) {
+        search.addEventListener("return", function(e) {
             var results = [];
             var regexValue = new RegExp(Alloy.Globals.removeUTF8(e.value), "i");
             for (var i in listStory) {
@@ -182,17 +220,17 @@ function Controller() {
             tbl_data = setRowData(results);
             table.setData([]);
             table.setData(tbl_data);
+            search.showCancel = false;
+            search.blur();
         });
         search.addEventListener("focus", function() {
             search.showCancel = true;
         });
-        search.addEventListener("return", function() {
-            search.showCancel = false;
-            search.blur();
-        });
         search.addEventListener("cancel", function() {
             search.showCancel = false;
             search.blur();
+            table.setData([]);
+            table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
         });
         var optionsDialogOpts = {
             options: [ "A -> Z", "Most View", "Newest", "Z -> A" ],

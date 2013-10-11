@@ -1,6 +1,6 @@
 <Alloy>
 	<Tab id="favoriteTab" icon="/common/favorite.png">
-		<Window class="tabs" id="favoriteWindow" title="Sở Thích">
+		<Window class="tabs" id="favoriteWindow" title="Favorites">
 		  <View id="wrapper">
   			<View id="buttonBar" platform='android'>
   				<Button id="filterAll" class="filterButtons" title="Tất Cả"/>

@@ -11,8 +11,10 @@ function selectItem(item) {
 		function(response) {
 			var json = JSON.parse(response);
 			var storyReadingController = Alloy.createController('storyReading', json.data);
-			Alloy.Globals.closeLoading(args.window);
-			storyReadingController.openMainWindow();
+			setTimeout(function() {
+				Alloy.Globals.closeLoading(args.window);
+				storyReadingController.openMainWindow();
+			}, 300);
 		});
 	});
 };
@@ -22,8 +24,8 @@ row.dataId = args.data.storyId;
 //## type: Truyen dai
 row.dataType = 1;
 row.dataChapterId = args.data._id;
-$.chapterTitle.text = 'Chapter ' +  args.data.chapter;
-if (args.data.title) {
-	$.chapterTitle.text += ': ' + args.data.title;
-}
+$.chapterTitle.text = args.data.title;
+// if (args.data.title) {
+	// $.chapterTitle.text += ': ' + args.data.title;
+// }
 selectItem(row);

@@ -2,11 +2,20 @@ var args = arguments[0] || {};
 
 $.row.dataId = args.data._id;
 $.row.dataType = args.data.bookType;
-$.bookCover.image = args.data.cover;
+if (args.data.cover != null) {
+	$.bookCover.image = args.data.cover;
+} else {
+	$.bookCover.image = (args.data.bookType == 0) ? Alloy.Globals.SERVER + "/images/mangaDefaultCover.jpg" : Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg";
+}
 $.bookTitle.text = args.data.title;
-$.newestChapter.text = 'Newest: ' + Alloy.Globals.getNewestChapter(args.data.chapters) + " - Reading: 1";
+var readingString = '';
+var readingChapter = Alloy.Globals.readingChapters[args.data._id];
+if (readingChapter != null && readingChapter != undefined) {
+	readingString = " - Reading: " + readingChapter;
+}
+$.newestChapter.text = 'Newest: ' + Alloy.Globals.getNewestChapter(args.data.chapters) + readingString;
 $.bookType.text = 'Thể loại: ' + getTypeText(args.data.bookType);
-$.bookCoverView.backgroundImage = (args.data.bookType == 0) ? '/common/book5.png' : '/common/book5.png';
+// $.bookCoverView.backgroundImage = (args.data.bookType == 0) ? '/common/book5.png' : '/common/book5.png';
 selectItem($.row, args.data.bookType);
 
 function selectItem(item, type) {
@@ -21,8 +30,10 @@ function selectItem(item, type) {
 				var json = JSON.parse(response);
 				Alloy.Globals.track("Favorite", "Open Manga", json.data.title);
 				var mangaController = Alloy.createController('manga', json);
-				Alloy.Globals.closeLoading(args.window);
-				mangaController.openMainWindow();
+				setTimeout(function() {
+					Alloy.Globals.closeLoading(args.window);
+					mangaController.openMainWindow();
+				}, 300);
 			});
 		} else {
 			Alloy.Globals.getAjax('/getStory', {
@@ -32,8 +43,10 @@ function selectItem(item, type) {
 			function(response) {
 				var json = JSON.parse(response);
 				var storyController = Alloy.createController('story', json);
-				Alloy.Globals.closeLoading(args.window);
-				storyController.openMainWindow();
+				setTimeout(function() {
+					Alloy.Globals.closeLoading(args.window);
+					storyController.openMainWindow();
+				}, 300);
 			});
 		}
 	});

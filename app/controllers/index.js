@@ -5,11 +5,12 @@ function appPause() {
 	for (var i = 0; i < list.length; i++) {
 		Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory+list[i]).deleteFile();
 	}
-	Ti.App.Properties.setInt('pausedTime', new Date().getTime());
+	Alloy.Globals.saveUserData();
+	Ti.App.Properties.setDouble('pausedTime', new Date().getTime());
 };
 
 function appResume() {
-	var pausedTime = Ti.App.Properties.getInt('pausedTime');
+	var pausedTime = Ti.App.Properties.getDouble('pausedTime');
 	if (new Date().getTime() - pausedTime > 10800000) {
 		tabGroup.setActiveTab(0);
 		for (var i = 0; i < Alloy.Globals.homeWindowStack.length; i++) {
@@ -21,6 +22,11 @@ function appResume() {
 function startApp() {
 	Ti.App.addEventListener('pause', appPause);
 	Ti.App.addEventListener('resumed', appResume);
+	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'userData.txt');
+	var content = f.read();
+	if (content != undefined && content != null) {
+		Alloy.Globals.readingChapters = JSON.parse(content.text);
+	}
   if (Alloy.Globals.getOSType() == "iPhone OS") {
     var overrideTabs = require('IosCustomTabBar');
     overrideTabs(

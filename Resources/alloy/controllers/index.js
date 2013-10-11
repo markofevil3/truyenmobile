@@ -3,10 +3,11 @@ function Controller() {
         var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory);
         var list = f.getDirectoryListing();
         for (var i = 0; list.length > i; i++) Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory + list[i]).deleteFile();
-        Ti.App.Properties.setInt("pausedTime", new Date().getTime());
+        Alloy.Globals.saveUserData();
+        Ti.App.Properties.setDouble("pausedTime", new Date().getTime());
     }
     function appResume() {
-        var pausedTime = Ti.App.Properties.getInt("pausedTime");
+        var pausedTime = Ti.App.Properties.getDouble("pausedTime");
         if (new Date().getTime() - pausedTime > 108e5) {
             tabGroup.setActiveTab(0);
             for (var i = 0; Alloy.Globals.homeWindowStack.length > i; i++) Alloy.Globals.homeWindowStack[i].close();
@@ -15,6 +16,9 @@ function Controller() {
     function startApp() {
         Ti.App.addEventListener("pause", appPause);
         Ti.App.addEventListener("resumed", appResume);
+        var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "userData.txt");
+        var content = f.read();
+        void 0 != content && null != content && (Alloy.Globals.readingChapters = JSON.parse(content.text));
         if ("iPhone OS" == Alloy.Globals.getOSType()) {
             var overrideTabs = require("IosCustomTabBar");
             overrideTabs($.tabGroup, {

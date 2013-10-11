@@ -1,6 +1,6 @@
 var homeTab = $.homeTab;
 function selectMenu(e) {
-	if (e.rowData.dataName == "funnyList" || e.rowData.dataName == "storyList") {
+	if (e.rowData.dataName == "funnyList") {
 		alert("Coming Soon!");
 	} else {
 		var selectedMenuController = Alloy.createController(e.rowData.dataName);
@@ -16,6 +16,7 @@ function appStart() {
 
 		if (response == undefined) {
 			alert("Không có kết nối Internet!");
+			return;
 		}
 		var data = JSON.parse(response);
 	

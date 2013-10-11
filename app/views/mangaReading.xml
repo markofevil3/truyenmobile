@@ -10,9 +10,9 @@
         <Button id="prevButton" class="changeButtons" title="Chapter Trước" onClick="changeChapter" />
         <Button id="nextButton" class="changeButtons" title="Chapter Sau" onClick="changeChapter" />
       </View>
-      <View id="advView2" />
     </View>
     <ScrollableView id="imageHolderView">
     </ScrollableView>
+    <View id="advView2" />
   </Window>
 </Alloy>

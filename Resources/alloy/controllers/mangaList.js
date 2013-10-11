@@ -1,7 +1,7 @@
 function Controller() {
     function setHotManga(mangas) {
         mangas.sort(Alloy.Globals.dynamicSort("numView", -1));
-        for (var i = 0; 5 > i; i++) mangas[i].top = i + 1;
+        for (var i = 0; 10 > i; i++) mangas[i].top = i + 1;
         mangas.sort(Alloy.Globals.dynamicSort("datePost", -1));
     }
     function setRowData(data) {
@@ -38,7 +38,7 @@ function Controller() {
             lastRowIndex += MAX_DISPLAY_ROW;
         }
         var loadingIcon = Titanium.UI.createActivityIndicator({
-            style: Ti.UI.ActivityIndicatorStyle.DARK
+            style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
         });
         var loadingView = Titanium.UI.createView({
             backgroundColor: "transparent",
@@ -116,13 +116,49 @@ function Controller() {
         id: "sortButton"
     });
     $.__views.searchView.add($.__views.sortButton);
-    $.__views.advView = Ti.UI.createView({
-        id: "advView"
-    });
+    $.__views.advView = Ti.UI.createView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: "100%",
+            height: 50,
+            top: 40
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: "100%",
+            height: 66,
+            top: 40
+        });
+        _.extend(o, {
+            id: "advView"
+        });
+        return o;
+    }());
     $.__views.mangaListWindow.add($.__views.advView);
-    $.__views.bookShellTable = Ti.UI.createTableView({
-        id: "bookShellTable"
-    });
+    $.__views.bookShellTable = Ti.UI.createTableView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            backgroundColor: "transparent",
+            separatorColor: "transparent",
+            style: Ti.UI.iPhone.TableViewStyle.PLAIN,
+            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+            top: 90
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            backgroundColor: "transparent",
+            separatorColor: "transparent",
+            style: Ti.UI.iPhone.TableViewStyle.PLAIN,
+            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+            top: 130
+        });
+        _.extend(o, {
+            id: "bookShellTable"
+        });
+        return o;
+    }());
     $.__views.mangaListWindow.add($.__views.bookShellTable);
     exports.destroy = function() {};
     _.extend($, $.__views);
@@ -143,16 +179,23 @@ function Controller() {
         Alloy.Globals.getAjax("/mangaList", {
             "null": null
         }, function(response) {
-            void 0 == response && alert("Không có kết nối Internet!");
+            if (void 0 == response) {
+                alert("Không có kết nối Internet!");
+                return;
+            }
             listManga = JSON.parse(response).data;
             setHotManga(listManga);
             var tbl_data;
-            if ("iPhone OS" == Alloy.Globals.getOSType) {
+            if ("iPhone OS" == Alloy.Globals.getOSType()) {
                 tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
+                table.data = tbl_data;
+                $.loading.setOpacity(0);
                 dynamicLoad(table, listManga);
-            } else tbl_data = setRowData(listManga);
-            table.data = tbl_data;
-            $.loading.setOpacity(0);
+            } else {
+                tbl_data = setRowData(listManga);
+                table.data = tbl_data;
+                $.loading.setOpacity(0);
+            }
         });
         search.addEventListener("return", function(e) {
             var results = [];

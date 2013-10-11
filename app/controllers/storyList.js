@@ -20,6 +20,10 @@ exports.openMainWindow = function() {
 		'null': null
 	},
 	function(response) {
+		if (response == undefined) {
+			alert("Không có kết nối Internet!");
+			return;
+		}
 		listStory = JSON.parse(response).data;
 		var tbl_data = setRowData(listStory.slice(0, MAX_DISPLAY_ROW));
 		table.data = tbl_data;
@@ -28,7 +32,7 @@ exports.openMainWindow = function() {
 		$.storyListWindow.setTitleControl(createTabBar());
 	});
 	//#### search bar
-	search.addEventListener('change', function(e) {
+	search.addEventListener('return', function(e) {
 		var results = [];
 		var regexValue = new RegExp(Alloy.Globals.removeUTF8(e.value), 'i');
 		for (var i in listStory) {
@@ -40,17 +44,17 @@ exports.openMainWindow = function() {
 		tbl_data = setRowData(results);
 		table.setData([]);
 		table.setData(tbl_data);
+		search.showCancel = false;
+		search.blur();
 	});
 	search.addEventListener('focus', function(e) {
 		search.showCancel = true;
 	});
-	search.addEventListener('return', function(e) {
-		search.showCancel = false;
-		search.blur();
-	});
 	search.addEventListener('cancel', function(e) {
 		search.showCancel = false;
 		search.blur();
+		table.setData([]);
+		table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
 	});
 	//#### sort button
 	var optionsDialogOpts = {
@@ -96,11 +100,17 @@ function createTabBar() {
 	var tabBar = Titanium.UI.iOS.createTabbedBar({
 		labels:['Tất cả', 'Tr.ngắn', 'Tr.dài'],
 		index:0,
-		backgroundColor:'#c69656',
-		style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
 		color: '#fff',
 		font: { fontWeight: 'bold' }
 	});
+	if (Alloy.Globals.getOSType() == "iPhone OS") {
+		if (parseFloat(Ti.Platform.version) >= 7) {
+			tabBar.tintColor = '#CCCCCC';
+		} else {
+			tabBar.backgroundColor = '#c69656';
+			tabBar.style = Titanium.UI.iPhone.SystemButtonStyle.BAR;
+		}
+	}
 	var cloneListStory = listStory.slice(0);
 	tabBar.addEventListener('click', function(e) {
 		switch (e.index) {
@@ -163,9 +173,9 @@ function dynamicLoad(tableView) {
 			tableView.appendRow(nextRows[i], { animationStyle:Titanium.UI.iPhone.RowAnimationStyle.NONE });
 		}
 		lastRowIndex += MAX_DISPLAY_ROW;
-    if (Alloy.Globals.getOSType() == "iPhone OS") {
-      tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW,{animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.BOTTOM});
-    }
+    // if (Alloy.Globals.getOSType() == "iPhone OS") {
+      // tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW,{animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.BOTTOM});
+    // }
   };
 	var lastDistance = 0;
 	tableView.addEventListener('scroll',function(e) {
@@ -175,7 +185,6 @@ function dynamicLoad(tableView) {
 		var total = offset + height;
 		var theEnd = e.contentSize.height;
 		var distance = theEnd - total;
-	
 		if (distance < lastDistance) {
 			var nearEnd = theEnd * 1;
 			if (!updating && (total >= nearEnd) && (search.value == null || search.value == '') && lastRowIndex < listStory.length && lastRowIndex >= MAX_DISPLAY_ROW) {

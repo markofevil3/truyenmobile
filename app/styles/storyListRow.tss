@@ -27,22 +27,26 @@
 	layout: 'vertical',
 },
 ".storyTitles[platform=ios formFactor=handheld]": {
-	font: { fontWeight: 'bold', fontSize: 19, fontFamily: 'Chalkboard SE' },
+	font: { fontWeight: 'bold', fontSize: 17, fontFamily: 'Chalkboard SE' },
 	left: 0,
-	color: '#fff'
+	color: '#fff',
+  shadowColor: '#000',
+	shadowOffset: {x:1, y:1},
 },
 ".storyTitles[platform=ios formFactor=tablet]": {
-	font: { fontWeight: 'bold', fontSize: 38, fontFamily: 'Chalkboard SE' },
+	font: { fontWeight: 'bold', fontSize: 35, fontFamily: 'Chalkboard SE' },
 	left: 0,
-	color: '#fff'
+	color: '#fff',
+  shadowColor: '#000',
+	shadowOffset: {x:1, y:1},
 },
 ".storyAuthors[platform=ios formFactor=handheld]": {
-	font: { fontSize: 17, fontStyle: 'italic', fontFamily: 'Chalkboard SE' },
+	font: { fontSize: 16, fontStyle: 'italic', fontFamily: 'Chalkboard SE' },
 	left: 0,
 	color: '#fff'
 },
 ".storyAuthors[platform=ios formFactor=tablet]": {
-	font: { fontSize: 34, fontStyle: 'italic', fontFamily: 'Chalkboard SE' },
+	font: { fontSize: 32, fontStyle: 'italic', fontFamily: 'Chalkboard SE' },
 	left: 0,
 	color: '#fff'
 },

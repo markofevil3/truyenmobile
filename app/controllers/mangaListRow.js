@@ -19,7 +19,7 @@ var updateIconImage = Ti.UI.createImageView({
 var hotIconImage = Ti.UI.createImageView({
 	height: 32,
 	width: 32,
-	image: '/common/new-tag.png',
+	image: '/common/hot_icon.png',
 });
 
 if (args.data.datePost && Alloy.Globals.isNew(new Date(args.data.datePost))) {
@@ -51,8 +51,10 @@ function selectItem(item) {
 			var json = JSON.parse(response);
 			Alloy.Globals.track("Manga", "List Chapter", json.data.title);
 			var mangaController = Alloy.createController('manga', json);
-			Alloy.Globals.closeLoading(args.window);
-			mangaController.openMainWindow();
+			setTimeout(function() {
+				Alloy.Globals.closeLoading(args.window);
+				mangaController.openMainWindow();
+			}, 300);
 		});
 	});
 };

@@ -51,6 +51,8 @@ exports.openMainWindow = function() {
 	});
 	var listChapters = args.data.chapters;
 	listChapters.sort(Alloy.Globals.dynamicSortNumber('chapter', 1));
+		// listChapters.sort(Alloy.Globals.naturalSort('chapter', 1));
+
 	getNextPrevChapter(listChapters);
 	if (args.favorite) {
 		$.mangaWindow.rightNavButton = favoritedButton;

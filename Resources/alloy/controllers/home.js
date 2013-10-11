@@ -1,6 +1,6 @@
 function Controller() {
     function selectMenu(e) {
-        if ("funnyList" == e.rowData.dataName || "storyList" == e.rowData.dataName) alert("Coming Soon!"); else {
+        if ("funnyList" == e.rowData.dataName) alert("Coming Soon!"); else {
             var selectedMenuController = Alloy.createController(e.rowData.dataName);
             selectedMenuController.openMainWindow();
         }
@@ -9,7 +9,10 @@ function Controller() {
         Alloy.Globals.getAjax("/appVersion", {
             "null": null
         }, function(response) {
-            void 0 == response && alert("Không có kết nối Internet!");
+            if (void 0 == response) {
+                alert("Không có kết nối Internet!");
+                return;
+            }
             var data = JSON.parse(response);
             if (data.error || data.version == Titanium.App.version) {
                 "iPhone OS" == Alloy.Globals.getOSType() ? void 0 != data.iosLink && (Alloy.Globals.FBPOST_LINK = data.iosLink) : void 0 != data.androidLink && (Alloy.Globals.FBPOST_LINK = data.androidLink);
@@ -64,58 +67,240 @@ function Controller() {
         id: "homeWindow",
         title: "Home"
     });
-    $.__views.advertise = Ti.UI.createTableViewRow({
-        id: "advertise"
-    });
+    $.__views.advertise = Ti.UI.createTableViewRow(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: "100%",
+            height: 50,
+            backgroundColor: "#fff",
+            selectedBackgroundColor: "transparent",
+            name: "Advertise"
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: "100%",
+            height: 66,
+            backgroundColor: "#fff",
+            selectedBackgroundColor: "transparent",
+            name: "Advertise"
+        });
+        _.extend(o, {
+            id: "advertise"
+        });
+        return o;
+    }());
     var __alloyId0 = [];
     __alloyId0.push($.__views.advertise);
-    $.__views.MangaList = Ti.UI.createTableViewRow({
-        id: "MangaList",
-        dataName: "mangaList"
-    });
+    $.__views.MangaList = Ti.UI.createTableViewRow(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            height: 120,
+            backgroundColor: "transparent",
+            backgroundImage: "/common/bookshelfBackground.png"
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            height: 240,
+            backgroundColor: "transparent",
+            backgroundImage: "/common/bookshelfBackground.png"
+        });
+        _.extend(o, {
+            id: "MangaList",
+            dataName: "mangaList"
+        });
+        return o;
+    }());
     __alloyId0.push($.__views.MangaList);
     selectMenu ? $.__views.MangaList.addEventListener("click", selectMenu) : __defers["$.__views.MangaList!click!selectMenu"] = true;
-    $.__views.__alloyId1 = Ti.UI.createLabel({
-        text: "Truyện Tranh",
-        id: "__alloyId1"
-    });
+    $.__views.__alloyId1 = Ti.UI.createLabel(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            color: "#fff",
+            font: {
+                fontSize: 20,
+                fontWeight: "bold",
+                fontFamily: "Chalkboard SE"
+            },
+            zIndex: 2
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            color: "#fff",
+            font: {
+                fontSize: 40,
+                fontWeight: "bold",
+                fontFamily: "Chalkboard SE"
+            },
+            zIndex: 2
+        });
+        _.extend(o, {
+            text: "Truyện Tranh",
+            id: "__alloyId1"
+        });
+        return o;
+    }());
     $.__views.MangaList.add($.__views.__alloyId1);
-    $.__views.__alloyId2 = Ti.UI.createImageView({
-        image: "/common/bg_blue.png",
-        id: "__alloyId2"
-    });
+    $.__views.__alloyId2 = Ti.UI.createImageView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: 181,
+            height: 55
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: 362,
+            height: 110
+        });
+        _.extend(o, {
+            image: "/common/bg_blue.png",
+            id: "__alloyId2"
+        });
+        return o;
+    }());
     $.__views.MangaList.add($.__views.__alloyId2);
-    $.__views.StoryList = Ti.UI.createTableViewRow({
-        id: "StoryList",
-        dataName: "storyList"
-    });
+    $.__views.StoryList = Ti.UI.createTableViewRow(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            height: 120,
+            backgroundColor: "transparent",
+            backgroundImage: "/common/bookshelfBackground.png"
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            height: 240,
+            backgroundColor: "transparent",
+            backgroundImage: "/common/bookshelfBackground.png"
+        });
+        _.extend(o, {
+            id: "StoryList",
+            dataName: "storyList"
+        });
+        return o;
+    }());
     __alloyId0.push($.__views.StoryList);
     selectMenu ? $.__views.StoryList.addEventListener("click", selectMenu) : __defers["$.__views.StoryList!click!selectMenu"] = true;
-    $.__views.__alloyId3 = Ti.UI.createLabel({
-        text: "Truyện Chữ",
-        id: "__alloyId3"
-    });
+    $.__views.__alloyId3 = Ti.UI.createLabel(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            color: "#fff",
+            font: {
+                fontSize: 20,
+                fontWeight: "bold",
+                fontFamily: "Chalkboard SE"
+            },
+            zIndex: 2
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            color: "#fff",
+            font: {
+                fontSize: 40,
+                fontWeight: "bold",
+                fontFamily: "Chalkboard SE"
+            },
+            zIndex: 2
+        });
+        _.extend(o, {
+            text: "Truyện Chữ",
+            id: "__alloyId3"
+        });
+        return o;
+    }());
     $.__views.StoryList.add($.__views.__alloyId3);
-    $.__views.__alloyId4 = Ti.UI.createImageView({
-        image: "/common/bg_pink.png",
-        id: "__alloyId4"
-    });
+    $.__views.__alloyId4 = Ti.UI.createImageView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: 181,
+            height: 55
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: 362,
+            height: 110
+        });
+        _.extend(o, {
+            image: "/common/bg_pink.png",
+            id: "__alloyId4"
+        });
+        return o;
+    }());
     $.__views.StoryList.add($.__views.__alloyId4);
-    $.__views.FunnyList = Ti.UI.createTableViewRow({
-        id: "FunnyList",
-        dataName: "funnyList"
-    });
+    $.__views.FunnyList = Ti.UI.createTableViewRow(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            height: 120,
+            backgroundColor: "transparent",
+            backgroundImage: "/common/bookshelfBackground.png"
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            height: 240,
+            backgroundColor: "transparent",
+            backgroundImage: "/common/bookshelfBackground.png"
+        });
+        _.extend(o, {
+            id: "FunnyList",
+            dataName: "funnyList"
+        });
+        return o;
+    }());
     __alloyId0.push($.__views.FunnyList);
     selectMenu ? $.__views.FunnyList.addEventListener("click", selectMenu) : __defers["$.__views.FunnyList!click!selectMenu"] = true;
-    $.__views.__alloyId5 = Ti.UI.createLabel({
-        text: "Truyện Cười",
-        id: "__alloyId5"
-    });
+    $.__views.__alloyId5 = Ti.UI.createLabel(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            color: "#fff",
+            font: {
+                fontSize: 20,
+                fontWeight: "bold",
+                fontFamily: "Chalkboard SE"
+            },
+            zIndex: 2
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            color: "#fff",
+            font: {
+                fontSize: 40,
+                fontWeight: "bold",
+                fontFamily: "Chalkboard SE"
+            },
+            zIndex: 2
+        });
+        _.extend(o, {
+            text: "Truyện Cười",
+            id: "__alloyId5"
+        });
+        return o;
+    }());
     $.__views.FunnyList.add($.__views.__alloyId5);
-    $.__views.__alloyId6 = Ti.UI.createImageView({
-        image: "/common/bg_green.png",
-        id: "__alloyId6"
-    });
+    $.__views.__alloyId6 = Ti.UI.createImageView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: 181,
+            height: 55
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: 362,
+            height: 110
+        });
+        _.extend(o, {
+            image: "/common/bg_green.png",
+            id: "__alloyId6"
+        });
+        return o;
+    }());
     $.__views.FunnyList.add($.__views.__alloyId6);
     $.__views.homeTableView = Ti.UI.createTableView({
         backgroundColor: "transparent",

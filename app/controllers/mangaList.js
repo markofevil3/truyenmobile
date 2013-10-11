@@ -8,7 +8,7 @@ var search = $.searchButton;
 
 function setHotManga(mangas) {
 	mangas.sort(Alloy.Globals.dynamicSort('numView', -1));
-	for (var i = 0; i < 5; i++) {
+	for (var i = 0; i < 10; i++) {
 		mangas[i].top = i + 1;
 	}
 	mangas.sort(Alloy.Globals.dynamicSort('datePost', -1));
@@ -38,18 +38,21 @@ exports.openMainWindow = function() {
 	function(response) {
 		if (response == undefined) {
 			alert("Không có kết nối Internet!");
+			return;
 		}
 		listManga = JSON.parse(response).data;
 		setHotManga(listManga);
 		var tbl_data;
-		if (Alloy.Globals.getOSType == "iPhone OS") {
+		if (Alloy.Globals.getOSType() == "iPhone OS") {
 			tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
+			table.data = tbl_data;
+			$.loading.setOpacity(0.0);
 			dynamicLoad(table, listManga);
 		} else {
 			tbl_data = setRowData(listManga);
+			table.data = tbl_data;
+			$.loading.setOpacity(0.0);
 		}
-		table.data = tbl_data;
-		$.loading.setOpacity(0.0);
 	});
 	//#### search bar
 	search.addEventListener('return', function(e) {

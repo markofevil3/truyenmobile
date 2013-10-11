@@ -6,6 +6,12 @@ row.mangaId = args.data.mangaId;
 row.next = args.data.next;
 row.prev = args.data.prev;
 $.chapterTitle.text = 'Chapter ' +  args.data.chapter;
+var readingChapter = Alloy.Globals.readingChapters[args.data.mangaId];
+if (readingChapter != null && readingChapter != undefined) {
+	if (readingChapter.toString() == args.data.chapter.toString()) {
+		$.chapterTitle.color = 'green';
+	}
+}
 selectItem(row);
 
 function selectItem(item) {
@@ -22,9 +28,11 @@ function selectItem(item) {
 			json.data.mangaId = item.mangaId;
 			Alloy.Globals.track("Manga", "Reading", item.mangaId);
 			var mangaReadingController = Alloy.createController('mangaReading', json.data);
-			Alloy.Globals.closeLoading(args.window);
-			Alloy.Globals.readChapter++;
-			mangaReadingController.openMainWindow();
+			setTimeout(function() {
+				Alloy.Globals.closeLoading(args.window);
+				Alloy.Globals.readChapter++;
+				mangaReadingController.openMainWindow();
+			}, 300);
 		});
 	});
 };

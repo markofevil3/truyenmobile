@@ -8,11 +8,11 @@
     <property name="acs-api-key-development" type="string">rlui03MfFtEXzOr9HooyAfDnze0lQb0u</property>
     <property name="ti.facebook.appid">517068261714145</property>
     <id>com.buiphiquan.newtruyen</id>
-    <name>truyenmobile</name>
-    <version>1.0</version>
+    <name>Full Truyện</name>
+    <version>1.1</version>
     <publisher>rongxanh2052004</publisher>
     <url>http://buiphiquan.com</url>
-    <description>not specified</description>
+    <description>Truyện tranh, truyện ngắn, truyện cười</description>
     <copyright>2013 by rongxanh2052004</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
@@ -34,7 +34,7 @@
         </orientations>
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest android:versionCode="1" android:versionName="1.0" android:installLocation="auto"/>
+        <manifest android:installLocation="auto" android:versionCode="1" android:versionName="1.0"/>
         <tool-api-level>17</tool-api-level>
     </android>
     <mobileweb>

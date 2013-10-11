@@ -13,10 +13,14 @@
 ".chapters[platform=ios formFactor=handheld]": {
 	color: '#fff',
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-	font: { fontWeight: 'bold', fontSize: 17, fontFamily: 'Chalkboard SE' }
+	font: { fontWeight: 'bold', fontSize: 17, fontFamily: 'Chalkboard SE' },
+  shadowColor: '#000',
+	shadowOffset: {x:1, y:1},
 },
 ".chapters[platform=ios formFactor=tablet]": {
 	color: '#fff',
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+  shadowColor: '#000',
+	shadowOffset: {x:1, y:1},
 	font: { fontWeight: 'bold', fontSize: 34, fontFamily: 'Chalkboard SE' }
 }

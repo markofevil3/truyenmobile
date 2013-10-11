@@ -86,13 +86,21 @@ function showFuncBar(e) {
 }
 
 function closeWindowNoAnimation() {
+	SaveReadingChapter();
 	$.mangaReadingWindow.close();
 }
 
 function closeWindow() {
+	SaveReadingChapter();
 	var smallDown = Titanium.UI.create2DMatrix();
 	smallDown = smallDown.scale(0);
 	$.mangaReadingWindow.close({ transform: smallDown, duration:300 });
+};
+
+function SaveReadingChapter() {
+	if (currentPage >= listImages.length / 2) {
+		Alloy.Globals.readingChapters[args.mangaId] = args.chapter;
+	} 
 };
 
 function addImageView() {
@@ -101,6 +109,7 @@ function addImageView() {
 		var image = Ti.UI.createImageView({
 			// image: "http://truyentranhtuan.com" + listImages[i],
 			width: '100%',
+			top: 0,
 			height: 'auto',
 		});
 		Alloy.Globals.loadImage(image, "http://truyentranhtuan.com" + listImages[i], args.mangaId + args.chapter + i + "");
@@ -111,9 +120,10 @@ function addImageView() {
 		  backgroundColor: '#000',
 		  showVerticalScrollIndicator: true,
 		  showHorizontalScrollIndicator: true,
-		  height: '100%',
+		  height: Ti.Platform.displayCaps.platformHeight - Alloy.Globals.getAdvHeight(),
 		  width: '100%',
 		  index: i,
+		  top: 0,
 		  maxZoomScale: 3,
 			minZoomScale: 1
 		});
