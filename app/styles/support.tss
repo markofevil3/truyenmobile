@@ -9,13 +9,13 @@
 	backgroundImage: '/common/shellBg.png',
 	layout: 'vertical'
 },
-"#textLabel": {
+"#textLabel[formFactor=handheld]": {
 	text: 'Để yêu cầu truyện, bạn nên cung cấp đầy đủ thông tin về truyện: tên truyện, tác giả, quốc gia, link truyện(nếu có) ...',
 	color: '#fff',
 	font: { fontSize: 15, fontStyle: 'italic' },
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 },
-"#contentTextArea": {
+"#contentTextArea[formFactor=handheld]": {
 	borderWidth: 2,
 	borderColor: '#bbb',
 	borderRadius: 5,
@@ -30,12 +30,44 @@
 	top: 10,
 	suppressReturn: false
 },
-"#sendButton": {
+"#sendButton[formFactor=handheld]": {
 	title:'Send', 
 	width: 70,
 	height: 30,
 	top: 10,
 	font: {fontSize: 14, fontWeight: 'bold'},
+	backgroundColor: "33CC33",
+	borderWidth: 1,
+	borderColor: '#2EB82E',
+	borderRadius: 5,
+},
+"#textLabel[formFactor=tablet]": {
+	text: 'Để yêu cầu truyện, bạn nên cung cấp đầy đủ thông tin về truyện: tên truyện, tác giả, quốc gia, link truyện(nếu có) ...',
+	color: '#fff',
+	font: { fontSize: 28, fontStyle: 'italic' },
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+},
+"#contentTextArea[formFactor=tablet]": {
+	borderWidth: 2,
+	borderColor: '#bbb',
+	borderRadius: 5,
+	color: '#000',
+	font: {fontSize: 32},
+	keyboardType : Ti.UI.KEYBOARD_DEFAULT,
+	returnKeyType : Ti.UI.RETURNKEY_DEFAULT,
+	textAlign: 'left',
+	hintText : 'Nội dung...',
+	width: '95%',
+	height : 350,
+	top: 30,
+	suppressReturn: false
+},
+"#sendButton[formFactor=tablet]": {
+	title:'Send', 
+	width: 140,
+	height: 60,
+	top: 15,
+	font: {fontSize: 25, fontWeight: 'bold'},
 	backgroundColor: "33CC33",
 	borderWidth: 1,
 	borderColor: '#2EB82E',

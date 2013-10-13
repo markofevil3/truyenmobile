@@ -104,7 +104,6 @@ function SaveReadingChapter() {
 };
 
 function addImageView() {
-	
 	for (var i = 0; i < listImages.length; i++) {
 		var image = Ti.UI.createImageView({
 			// image: "http://truyentranhtuan.com" + listImages[i],

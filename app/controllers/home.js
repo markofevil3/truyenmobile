@@ -19,7 +19,7 @@ function appStart() {
 			return;
 		}
 		var data = JSON.parse(response);
-	
+		Alloy.Globals.FBPOST_LINK = data.facebookPostLink;
 		if (data.error || data.version == Titanium.App.version) {
 			if (Alloy.Globals.getOSType() == "iPhone OS") {
 				if (data.iosLink != undefined) {
@@ -42,7 +42,7 @@ function appStart() {
 				});
 			  dialog.show();
 	      dialog.addEventListener('click', function(e){
-	    		openStoreLink(response);
+	    		openStoreLink(data);
 		  	});
 			} else {
 			  dialog = Ti.UI.createAlertDialog({
@@ -55,7 +55,7 @@ function appStart() {
 			}
 	    dialog.addEventListener('click', function(e){
 	    	if (e.index == 1) {
-	    		openStoreLink(response);
+	    		openStoreLink(data);
 	    	} else {
 	    		startHome();
 	    	}
@@ -79,10 +79,10 @@ function startHome() {
 		$.advertise.height = Alloy.Globals.getAdvHeight();
 	});
 };
-
+appStart();
 homeTab.addEventListener('focus', function(e) {
 	Alloy.Globals.CURRENT_TAB = homeTab;
-	appStart();
+	// appStart();
 });
 Ti.App.addEventListener('app:reload', function(e) {
 	Alloy.Globals.CURRENT_TAB = homeTab;

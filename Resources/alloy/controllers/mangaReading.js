@@ -337,11 +337,11 @@ function Controller() {
     }());
     $.__views.buttonBar.add($.__views.nextButton);
     changeChapter ? $.__views.nextButton.addEventListener("click", changeChapter) : __defers["$.__views.nextButton!click!changeChapter"] = true;
-    var __alloyId12 = [];
+    var __alloyId16 = [];
     $.__views.imageHolderView = Ti.UI.createScrollableView({
         width: "100%",
         height: "100%",
-        views: __alloyId12,
+        views: __alloyId16,
         id: "imageHolderView"
     });
     $.__views.mangaReadingWindow.add($.__views.imageHolderView);

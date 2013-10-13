@@ -24,5 +24,5 @@
   separatorColor: 'transparent',
   style: Ti.UI.iPhone.TableViewStyle.PLAIN,
   separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-  top: 106,
+  top: 130,
 }

@@ -22,7 +22,12 @@ function isHash(obj) {
 
 var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
-Alloy.Globals.SERVER = "http://localhost:3000";
+Alloy.Globals.isTablet = function() {
+    var osname = Ti.Platform.osname;
+    return osname.search(/iphone/i) > -1 ? false : true;
+};
+
+Alloy.Globals.SERVER = "http://www.fulltruyen.com";
 
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 
@@ -60,6 +65,8 @@ Alloy.Globals.homeWindowStack = [];
 
 Alloy.Globals.readingChapters = {};
 
+Alloy.Globals.readingFontSize = Alloy.Globals.isTablet() ? 26 : 16;
+
 Alloy.Globals.saveUserData = function() {
     var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "userData.txt");
     f.write(JSON.stringify(Alloy.Globals.readingChapters));
@@ -87,7 +94,7 @@ Alloy.Globals.track = function(cate, action, label) {
 
 Alloy.Globals.listener = function(e, callback) {
     if (e.success) {
-        void 0 == Ti.Network.remoteDeviceUUID && Alloy.Globals.loginUser(e.data.username);
+        void 0 == Ti.Network.remoteDeviceUUID && Alloy.Globals.loginUser(Titanium.Platform.id);
         Alloy.Globals.FB_USERNAME = e.data.username;
         callback(e);
     } else if (e.error) {
@@ -114,10 +121,6 @@ var Cloud = require("ti.cloud");
 
 var deviceToken;
 
-Alloy.Globals.facebookGetUsername(function(fbUsername) {
-    Alloy.Globals.loginUser(fbUsername);
-});
-
 Alloy.Globals.registerUser = function(username) {
     Cloud.Users.create({
         username: username,
@@ -126,7 +129,9 @@ Alloy.Globals.registerUser = function(username) {
     }, function(e) {
         if (e.success) {
             log("Alloy.Globals.registerUser: Created");
-            Alloy.Globals.loginUser(username);
+            Alloy.Globals.loginUser(username, function() {
+                Alloy.Globals.subscribePush(Alloy.Globals.DEFAULT_PUSH_CHANNEL);
+            });
         } else {
             log("Alloy.Globals.registerUser:");
             log(e.message);
@@ -136,7 +141,7 @@ Alloy.Globals.registerUser = function(username) {
 
 Alloy.Globals.loginUser = function(username, callback) {
     Cloud.Users.login({
-        login: username,
+        login: Titanium.Platform.id,
         password: Alloy.Globals.DEFAULT_PASSWORD
     }, function(e) {
         log("login:" + username);
@@ -146,8 +151,8 @@ Alloy.Globals.loginUser = function(username, callback) {
             Alloy.Globals.getDeviceToken(callback);
         } else {
             log("Error :");
-            alert(e.message);
-            401 == e.code && Alloy.Globals.registerUser(username);
+            log(e.message);
+            401 == e.code && Alloy.Globals.registerUser(Titanium.Platform.id);
         }
     });
 };
@@ -162,11 +167,11 @@ Alloy.Globals.getDeviceToken = function(callback) {
         error: function(e) {
             log("ErrorDeviceToken: ");
             log(e.message);
-            alert(e.message);
+            log(e.message);
         },
         callback: function(e) {
             log("Alloy.Globals.getDeviceToken:" + JSON.stringify(e.data));
-            alert("new message from push");
+            log("new message from push");
         }
     });
 };
@@ -210,9 +215,9 @@ Alloy.Globals.fbPost = function(itemTitle, imageLink) {
     log(imageLink);
     var data = {
         link: Alloy.Globals.FBPOST_LINK,
-        name: "TruyệnAlloy",
-        message: 'Đang đọc truyện "' + itemTitle + '" trên điện thoại bằng Truyện Mobile',
-        caption: "Phần mềm đọc truyện hay nhất trên mobile và tablet",
+        name: itemTitle + " - Full Truyện App",
+        message: 'Đang đọc truyện "' + itemTitle + '" trên điện thoại bằng Full Truyện',
+        caption: "Phần mềm đọc truyện miễn phí trên mobile và tablet",
         picture: imageLink,
         description: "Hãy tải phần mềm để có thể đọc truyện mọi lúc mọi nơi, update liên tục, thông báo mỗi khi có chapter mới và rất nhiều tính năng khác. FREEEEEEE!!!!!"
     };
@@ -238,11 +243,6 @@ Alloy.Globals.closeLoading = function(window) {
 Alloy.Globals.isNew = function(checkDate) {
     var today = new Date();
     return today.getTime() - checkDate.getTime() <= Alloy.Globals.NEW_TIME_MILLISECONDS ? true : false;
-};
-
-Alloy.Globals.isTablet = function() {
-    var osname = Ti.Platform.osname;
-    return osname.search(/iphone/i) > -1 ? false : true;
 };
 
 Alloy.Globals.getDeviceType = function() {
@@ -395,7 +395,7 @@ Alloy.Globals.addFavorite = function(itemId, itemType, user, title, imageLink, c
         itemType: itemType
     }, function(response) {
         log("DeviceTOKEN:" + Ti.Network.remoteDeviceUUID);
-        void 0 != Ti.Network.remoteDeviceUUID ? Alloy.Globals.subscribePush(itemId) : Alloy.Globals.loginUser(user.username, function() {
+        void 0 != Ti.Network.remoteDeviceUUID ? Alloy.Globals.subscribePush(itemId) : Alloy.Globals.loginUser(Titanium.Platform.id, function() {
             Alloy.Globals.subscribePush(itemId);
         });
         var data = JSON.parse(response).data;
@@ -498,5 +498,9 @@ Alloy.Globals.getNewestChapter = function(chapters) {
     for (var i = 0; chapters.length > i; i++) parseFloat(chapters[i].chapter) > newest && (newest = parseFloat(chapters[i].chapter));
     return newest;
 };
+
+Alloy.Globals.loginUser(Titanium.Platform.id, function() {
+    Alloy.Globals.subscribePush(Alloy.Globals.DEFAULT_PUSH_CHANNEL);
+});
 
 Alloy.createController("index");

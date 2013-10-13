@@ -8,6 +8,7 @@ function Controller() {
                 chapter: item.dataChapterId
             }, function(response) {
                 var json = JSON.parse(response);
+                json.data.storyId = item.dataId;
                 var storyReadingController = Alloy.createController("storyReading", json.data);
                 setTimeout(function() {
                     Alloy.Globals.closeLoading(args.window);
@@ -92,6 +93,8 @@ function Controller() {
     row.dataId = args.data.storyId;
     row.dataType = 1;
     row.dataChapterId = args.data._id;
+    var readingChapter = Alloy.Globals.readingChapters[args.data.storyId];
+    null != readingChapter && void 0 != readingChapter && readingChapter.toString() == args.data._id.toString() && ($.chapterTitle.color = "green");
     $.chapterTitle.text = args.data.title;
     selectItem(row);
     _.extend($, exports);

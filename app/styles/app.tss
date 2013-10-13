@@ -26,4 +26,4 @@
 	borderWidth: 1,
 	borderColor: '#9b652e',
 	backgroundImage: '/common/sort-button2.png',
-},
+}

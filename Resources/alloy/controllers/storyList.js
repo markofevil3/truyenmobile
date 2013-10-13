@@ -176,7 +176,7 @@ function Controller() {
             separatorColor: "transparent",
             style: Ti.UI.iPhone.TableViewStyle.PLAIN,
             separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-            top: 106
+            top: 130
         });
         _.extend(o, {
             id: "bookShellTable"
@@ -193,13 +193,19 @@ function Controller() {
     exports.openMainWindow = function() {
         Alloy.Globals.CURRENT_TAB.open($.storyListWindow);
         $.storyListWindow.leftNavButton = Alloy.Globals.backButton($.storyListWindow);
+        Alloy.Globals.homeWindowStack.push($.storyListWindow);
+        $.storyListWindow.addEventListener("close", function() {
+            Alloy.Globals.homeWindowStack.pop();
+            Ti.App.fireEvent("app:reload");
+        });
         Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
             $.advView.add(advImage);
+            $.advView.height = Alloy.Globals.getAdvHeight();
         });
         Alloy.Globals.getAjax("/storyList", {
             "null": null
         }, function(response) {
-            if (void 0 == response) {
+            if (void 0 == response || JSON.parse(response).error) {
                 alert("Không có kết nối Internet!");
                 return;
             }

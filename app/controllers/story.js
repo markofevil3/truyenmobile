@@ -7,9 +7,14 @@ exports.openMainWindow = function() {
 	Alloy.Globals.CURRENT_TAB.open($.storyWindow);
 	//#### back button
 	$.storyWindow.leftNavButton = Alloy.Globals.backButton($.storyWindow);
+	Alloy.Globals.homeWindowStack.push($.storyWindow);
+	$.storyWindow.addEventListener("close", function() {
+		Alloy.Globals.homeWindowStack.pop();
+	});
 	//#### advertise view
 	Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
 		$.advView.add(advImage);
+		$.advView.height = Alloy.Globals.getAdvHeight();
 	});
 	//#### favorite and favorited button
 	var favoriteButton = Titanium.UI.createButton({
@@ -31,28 +36,14 @@ exports.openMainWindow = function() {
 	});
 	favoriteButton.addEventListener('click', function() {
 		if (Alloy.Globals.facebook.loggedIn == 0) {
-			// Alloy.Globals.facebook.authorize();
-			// var listener = Alloy.Globals.facebook.addEventListener('login', function(e) {
-		    // if (e.success) {
-		    	// //add to favorite
-					// Alloy.Globals.addFavorite(favoriteButton.itemId, 0, e.data, args.data.title, Alloy.Globals.SERVER + args.data.folder + '/cover.jpg', function() {
-						// $.storyWindow.rightNavButton = favoritedButton;
-					// });
-		    // } else if (e.error) {
-	        // alert(e.error);
-		    // } else if (e.cancelled) {
-	        // alert("Cancelled");
-		    // }
-		    // Alloy.Globals.facebook.removeEventListener('login', listener);
-			// });
 			Alloy.Globals.facebookLogin(function(e) {
-				Alloy.Globals.addFavorite(favoriteButton.itemId, 1, e.data, args.data.title, Alloy.Globals.SERVER + args.data.folder + '/cover.jpg', function() {
+				Alloy.Globals.addFavorite(favoriteButton.itemId, 1, e.data, args.data.title, Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg", function() {
 					$.storyWindow.rightNavButton = favoritedButton;
 				});
 			});
 		} else {
 			Alloy.Globals.facebook.requestWithGraphPath('/' + Alloy.Globals.facebook.getUid(), {}, 'GET', function(user) {
-				Alloy.Globals.addFavorite(favoriteButton.itemId, 1, JSON.parse(user.result), args.data.title, Alloy.Globals.SERVER + args.data.folder + '/cover.jpg', function() {
+				Alloy.Globals.addFavorite(favoriteButton.itemId, 1, JSON.parse(user.result), args.data.title, Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg", function() {
 					$.storyWindow.rightNavButton = favoritedButton;
 				});
 			});

@@ -96,7 +96,12 @@ function Controller() {
                 fontFamily: "Chalkboard SE"
             },
             left: 0,
-            color: "#fff"
+            color: "#fff",
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
@@ -106,7 +111,12 @@ function Controller() {
                 fontFamily: "Chalkboard SE"
             },
             left: 0,
-            color: "#fff"
+            color: "#fff",
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
         });
         _.extend(o, {
             id: "bookTitle"

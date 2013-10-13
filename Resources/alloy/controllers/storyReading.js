@@ -8,12 +8,13 @@ function Controller() {
         });
     }
     function changeTextSize(e) {
-        var ratio = Alloy.Globals.isTablet() ? 1.8 : 1;
-        $.contentLabel.font = "0" == e.source.dataType ? {
-            fontSize: 18 * ratio
-        } : {
-            fontSize: 22 * ratio
-        };
+        Alloy.Globals.readingFontSize = e.value;
+        Ti.App.fireEvent("changeFont", {
+            message: Alloy.Globals.readingFontSize
+        });
+    }
+    function SaveReadingChapter() {
+        Alloy.Globals.readingChapters[args.storyId] = args._id;
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "storyReading";
@@ -54,25 +55,24 @@ function Controller() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
-            width: 30,
-            height: 30,
-            right: 115,
+            width: 20,
+            height: 20,
+            left: 15,
             title: "A",
             color: "#fff",
             font: {
                 fontWeight: "bold",
-                fontSize: 13
+                fontSize: 16
             },
             backgroundColor: "#222",
             backgroundImage: "NONE",
-            selectedColor: "#333",
             borderRadius: 3
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
-            width: 50,
-            height: 50,
-            right: 175,
+            width: 30,
+            height: 30,
+            left: 30,
             title: "A",
             color: "#fff",
             font: {
@@ -81,7 +81,6 @@ function Controller() {
             },
             backgroundColor: "#222",
             backgroundImage: "NONE",
-            selectedColor: "#333",
             borderRadius: 6
         });
         _.extend(o, {
@@ -91,30 +90,13 @@ function Controller() {
         return o;
     }());
     $.__views.topBar.add($.__views.textSmallButton);
-    changeTextSize ? $.__views.textSmallButton.addEventListener("click", changeTextSize) : __defers["$.__views.textSmallButton!click!changeTextSize"] = true;
     $.__views.textBigButton = Ti.UI.createButton(function() {
         var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: 30,
-            height: 30,
-            right: 75,
-            title: "A",
-            color: "#fff",
-            font: {
-                fontWeight: "bold",
-                fontSize: 19
-            },
-            backgroundColor: "#222",
-            backgroundImage: "NONE",
-            selectedColor: "#333",
-            borderRadius: 3
-        });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             width: 50,
             height: 50,
-            right: 115,
+            left: 325,
             title: "A",
             color: "#fff",
             font: {
@@ -123,8 +105,22 @@ function Controller() {
             },
             backgroundColor: "#222",
             backgroundImage: "NONE",
-            selectedColor: "#333",
             borderRadius: 6
+        });
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: 30,
+            height: 30,
+            left: 205,
+            title: "A",
+            color: "#fff",
+            font: {
+                fontWeight: "bold",
+                fontSize: 30
+            },
+            backgroundColor: "#222",
+            backgroundImage: "NONE",
+            borderRadius: 3
         });
         _.extend(o, {
             id: "textBigButton",
@@ -133,7 +129,6 @@ function Controller() {
         return o;
     }());
     $.__views.topBar.add($.__views.textBigButton);
-    changeTextSize ? $.__views.textBigButton.addEventListener("click", changeTextSize) : __defers["$.__views.textBigButton!click!changeTextSize"] = true;
     $.__views.closeButton = Ti.UI.createButton(function() {
         var o = {};
         _.extend(o, {});
@@ -179,77 +174,91 @@ function Controller() {
     }());
     $.__views.topBar.add($.__views.closeButton);
     closeWindow ? $.__views.closeButton.addEventListener("click", closeWindow) : __defers["$.__views.closeButton!click!closeWindow"] = true;
-    $.__views.contentView = Ti.UI.createScrollView(function() {
+    $.__views.slider = Ti.UI.createSlider(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
-            contentHeight: "auto",
-            showVerticalScrollIndicator: true,
-            width: "100%",
-            backgroundColor: "#fff",
+            min: 16,
+            max: 30,
+            width: 150,
+            height: 20,
+            left: 40
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            min: 26,
+            max: 38,
+            width: 250,
+            height: 20,
+            left: 70
+        });
+        _.extend(o, {
+            id: "slider"
+        });
+        return o;
+    }());
+    $.__views.topBar.add($.__views.slider);
+    changeTextSize ? $.__views.slider.addEventListener("change", changeTextSize) : __defers["$.__views.slider!change!changeTextSize"] = true;
+    $.__views.webview = Ti.UI.createWebView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
             top: 40
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
-            contentHeight: "auto",
-            showVerticalScrollIndicator: true,
-            width: "100%",
-            backgroundColor: "#fff",
             top: 70
         });
         _.extend(o, {
-            id: "contentView"
+            id: "webview"
         });
         return o;
     }());
-    $.__views.storyReadingWindow.add($.__views.contentView);
-    $.__views.contentWrapper = Ti.UI.createView({
-        width: "96%",
-        height: "100%",
-        id: "contentWrapper"
-    });
-    $.__views.contentView.add($.__views.contentWrapper);
-    $.__views.contentLabel = Ti.UI.createTextArea(function() {
+    $.__views.storyReadingWindow.add($.__views.webview);
+    $.__views.advView = Ti.UI.createView(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
             width: "100%",
-            height: "100%",
-            top: 5,
-            font: {
-                fontSize: 18
-            },
-            editable: false
+            height: 50,
+            bottom: 0
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             width: "100%",
-            height: "100%",
-            top: 5,
-            font: {
-                fontSize: 36
-            },
-            editable: false
+            height: 90,
+            bottom: 0
         });
         _.extend(o, {
-            id: "contentLabel"
+            id: "advView"
         });
         return o;
     }());
-    $.__views.contentWrapper.add($.__views.contentLabel);
+    $.__views.storyReadingWindow.add($.__views.advView);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    arguments[0] || {};
+    var args = arguments[0] || {};
+    Alloy.Globals.adv(3, function(advImage) {
+        $.advView.add(advImage);
+        $.advView.height = Alloy.Globals.getAdvHeight();
+    });
+    var webview = $.webview;
     exports.openMainWindow = function() {
-        var data = "  Khi tôi tỉnh dậy, phíabên kia giường thật lạnh lẽo. Tôi duỗi các ngón tay, tìm kiếm hơi ấm của Primnhưng chỉ chạm phải bề mặt thô ráp của tấm ga nệm bằng vải bố. Hẳn con bé đã gặpác mộng và tót sang ngủ với mẹ. Cũng phải thôi. Nó hẳn đã mơ về ngày chiêuquân.\n\n<p>Tôi chống cùi chỏ nhỏmdậy. Phòng ngủ đủ sáng để tôi có thể nhìn thấy họ. Em gái tôi, Prim, đang cuộntròn và rúc vào người mẹ, má hai người áp vào nhau. Trong khi ngủ, mẹ tôi trôngtrẻ hơn, tuy vẫn xanh xao nhưng không tiều tụy lắm. Gương mặt Prim tươi tắn nhưhạt mưa, đáng yêu như chính cái tên của nó, loài hoa anh thảo. Mẹ tôi cũng mộtthời đẹp lắm. Ít ra, người ta đã kể với tôi như thế.</p><p>Ngồi sát đầu gối Primvà canh chừng cho con bé là con mèo xấu nhất quả đất. Mũi bẹt, một bên tai sứtphân nửa, còn mắt thì có màu vàng ủng như quả bí thối. Prim đặt tên cho nó làHũ Bơ và khăng khăng rằng bộ lông vàng xỉn của nó giống hệt màu hoa Hũ Bơ[1] rựcrỡ. Nó ghét tôi lắm. Hoặc ít nhất cũng là dè chừng tôi. Dù chuyện xảy ra cáchđây đã nhiều năm, chắc nó vẫn còn nhớ rằng tôi đã cố dìm nó vào cái xô như thếnào sau khi được Prim mang về nhà. Con mèo con ốm đói, bụng trương lên vì sán,người thì lúc nhúc rận. Điều duy nhất tôi bận tâm là phải tốn thêm một miệng ănnữa. Nhưng Prim nài nỉ dữ quá, còn khóc nữa, vậy nên tôi đành cho nó ở lại. Conmèo xem chừng cũng ngoan. Mẹ tôi bắt hết rận cho nó và Hũ Bơ quả có tài bắt chuộtbẩm sinh. Đôi khi nó còn bắt được cả chuột cống. Thỉnh thoảng, khi tôi dọn mộtbãi chuột chết, tôi cho Hũ Bơ bộ lòng. Nó thôi gầm gừ với tôi.</p>";
-        $.contentLabel.value = data;
+        webview.url = "storyReading.html";
+        webview.addEventListener("load", function() {
+            Ti.App.fireEvent("setContent", {
+                message: args.content
+            });
+            $.slider.setValue(Alloy.Globals.readingFontSize);
+        });
+        webview.bottom = Alloy.Globals.getAdvHeight();
         "iPhone OS" == Alloy.Globals.getOSType() ? $.storyReadingWindow.open({
             transition: Ti.UI.iPhone.AnimationStyle.CURL_UP
         }) : $.storyReadingWindow.open();
+        SaveReadingChapter();
     };
-    __defers["$.__views.textSmallButton!click!changeTextSize"] && $.__views.textSmallButton.addEventListener("click", changeTextSize);
-    __defers["$.__views.textBigButton!click!changeTextSize"] && $.__views.textBigButton.addEventListener("click", changeTextSize);
     __defers["$.__views.closeButton!click!closeWindow"] && $.__views.closeButton.addEventListener("click", closeWindow);
+    __defers["$.__views.slider!change!changeTextSize"] && $.__views.slider.addEventListener("change", changeTextSize);
     _.extend($, exports);
 }
 

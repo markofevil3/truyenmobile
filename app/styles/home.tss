@@ -4,13 +4,13 @@
   style: Ti.UI.iPhone.TableViewStyle.PLAIN,
   separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
 },
-".homeRow[platform=ios formFactor=handheld]": {
+".homeRow[formFactor=handheld]": {
 	height: 120,
 	backgroundColor: 'transparent',
 	backgroundImage: '/common/bookshelfBackground.png'
 	// selectedBackgroundColor: 'orange',
 },
-".homeRow[platform=ios formFactor=tablet]": {
+".homeRow[formFactor=tablet]": {
 	height: 240,
 	backgroundColor: 'transparent',
 	backgroundImage: '/common/bookshelfBackground.png'
@@ -21,32 +21,36 @@
 	height: '100%',
 	backgroundImage: '/common/bookShelf.png',
 },
-".homeMenuName[platform=ios formFactor=handheld]": {
+".homeMenuName[formFactor=handheld]": {
 	color: '#fff',
 	font: { fontSize: 20, fontWeight: 'bold', fontFamily: 'Chalkboard SE' },
-	zIndex: 2
+	zIndex: 2,
+  shadowColor: '#000',
+  shadowOffset: {x:1, y:1},
 },
-".homeMenuName[platform=ios formFactor=tablet]": {
+".homeMenuName[formFactor=tablet]": {
 	color: '#fff',
 	font: { fontSize: 40, fontWeight: 'bold', fontFamily: 'Chalkboard SE' },
-	zIndex: 2
+	zIndex: 2,
+  shadowColor: '#000',
+  shadowOffset: {x:1, y:1},
 },
-".homeBackgroundPanel[platform=ios formFactor=handheld]": {
+".homeBackgroundPanel[formFactor=handheld]": {
 	width: 181,
 	height: 55,
 },
-".homeBackgroundPanel[platform=ios formFactor=tablet]": {
+".homeBackgroundPanel[formFactor=tablet]": {
 	width: 362,
 	height: 110,
 },
-"#advertise[platform=ios formFactor=handheld]": {
+"#advertise[formFactor=handheld]": {
 	width: '100%',
 	height: 50,
 	backgroundColor: '#fff',
 	selectedBackgroundColor: 'transparent',
 	name: 'Advertise'
 },
-"#advertise[platform=ios formFactor=tablet]": {
+"#advertise[formFactor=tablet]": {
 	width: '100%',
 	height: 66,
 	backgroundColor: '#fff',

@@ -1,9 +1,16 @@
 <Alloy>
   <Window id="aboutUsWindow" title="Giới Thiệu">
     <View id="wrapperView">
-      <Label id="appNameLabel" text="Truyện"/>
+      <Label id="appNameLabel" text="Full Truyện"/>
       <Label id="versionLabel" />
       <Label id="emailLabel" text="Support: fulltruyen@gmail.com" />
+      <Label id="websiteLabel" text="Website: fulltruyen.com" />
+      <View id="tips">
+        <Label class="tipLabels" text="- Chapter màu xanh là chapter đã đọc gần nhất."/>
+        <Label class="tipLabels" text="- Thêm truyện vào mục Favorite để biết chapter đang đọc và nhận thông báo khi có chapter mới."/>
+        <Label class="tipLabels" text="- Để xoá truyện trong mục Favorite, bạn có thể vuốt tay sang phải hoặc trái tại vị trí truyện."/>
+        <Label class="tipLabels" text="- Nếu phát hiện truyện hoặc chapter bị lỗi,thiếu, bạn có thể report trong mục Yêu Cầu Truyện."/>
+      </View>
     </View>
   </Window>
 </Alloy>

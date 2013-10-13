@@ -36,7 +36,7 @@ exports.openMainWindow = function() {
 		'null': null
 	},
 	function(response) {
-		if (response == undefined) {
+		if (response == undefined || JSON.parse(response).error) {
 			alert("Không có kết nối Internet!");
 			return;
 		}

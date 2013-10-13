@@ -14,6 +14,7 @@ function Controller() {
                 return;
             }
             var data = JSON.parse(response);
+            Alloy.Globals.FBPOST_LINK = data.facebookPostLink;
             if (data.error || data.version == Titanium.App.version) {
                 "iPhone OS" == Alloy.Globals.getOSType() ? void 0 != data.iosLink && (Alloy.Globals.FBPOST_LINK = data.iosLink) : void 0 != data.androidLink && (Alloy.Globals.FBPOST_LINK = data.androidLink);
                 startHome();
@@ -27,7 +28,7 @@ function Controller() {
                     });
                     dialog.show();
                     dialog.addEventListener("click", function() {
-                        openStoreLink(response);
+                        openStoreLink(data);
                     });
                 } else {
                     dialog = Ti.UI.createAlertDialog({
@@ -39,7 +40,7 @@ function Controller() {
                     dialog.show();
                 }
                 dialog.addEventListener("click", function(e) {
-                    1 == e.index ? openStoreLink(response) : startHome();
+                    1 == e.index ? openStoreLink(data) : startHome();
                 });
             }
         });
@@ -90,8 +91,8 @@ function Controller() {
         });
         return o;
     }());
-    var __alloyId0 = [];
-    __alloyId0.push($.__views.advertise);
+    var __alloyId4 = [];
+    __alloyId4.push($.__views.advertise);
     $.__views.MangaList = Ti.UI.createTableViewRow(function() {
         var o = {};
         _.extend(o, {});
@@ -112,9 +113,9 @@ function Controller() {
         });
         return o;
     }());
-    __alloyId0.push($.__views.MangaList);
+    __alloyId4.push($.__views.MangaList);
     selectMenu ? $.__views.MangaList.addEventListener("click", selectMenu) : __defers["$.__views.MangaList!click!selectMenu"] = true;
-    $.__views.__alloyId1 = Ti.UI.createLabel(function() {
+    $.__views.__alloyId5 = Ti.UI.createLabel(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -124,7 +125,12 @@ function Controller() {
                 fontWeight: "bold",
                 fontFamily: "Chalkboard SE"
             },
-            zIndex: 2
+            zIndex: 2,
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
@@ -134,16 +140,21 @@ function Controller() {
                 fontWeight: "bold",
                 fontFamily: "Chalkboard SE"
             },
-            zIndex: 2
+            zIndex: 2,
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
         });
         _.extend(o, {
             text: "Truyện Tranh",
-            id: "__alloyId1"
+            id: "__alloyId5"
         });
         return o;
     }());
-    $.__views.MangaList.add($.__views.__alloyId1);
-    $.__views.__alloyId2 = Ti.UI.createImageView(function() {
+    $.__views.MangaList.add($.__views.__alloyId5);
+    $.__views.__alloyId6 = Ti.UI.createImageView(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -157,11 +168,11 @@ function Controller() {
         });
         _.extend(o, {
             image: "/common/bg_blue.png",
-            id: "__alloyId2"
+            id: "__alloyId6"
         });
         return o;
     }());
-    $.__views.MangaList.add($.__views.__alloyId2);
+    $.__views.MangaList.add($.__views.__alloyId6);
     $.__views.StoryList = Ti.UI.createTableViewRow(function() {
         var o = {};
         _.extend(o, {});
@@ -182,9 +193,9 @@ function Controller() {
         });
         return o;
     }());
-    __alloyId0.push($.__views.StoryList);
+    __alloyId4.push($.__views.StoryList);
     selectMenu ? $.__views.StoryList.addEventListener("click", selectMenu) : __defers["$.__views.StoryList!click!selectMenu"] = true;
-    $.__views.__alloyId3 = Ti.UI.createLabel(function() {
+    $.__views.__alloyId7 = Ti.UI.createLabel(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -194,7 +205,12 @@ function Controller() {
                 fontWeight: "bold",
                 fontFamily: "Chalkboard SE"
             },
-            zIndex: 2
+            zIndex: 2,
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
@@ -204,16 +220,21 @@ function Controller() {
                 fontWeight: "bold",
                 fontFamily: "Chalkboard SE"
             },
-            zIndex: 2
+            zIndex: 2,
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
         });
         _.extend(o, {
             text: "Truyện Chữ",
-            id: "__alloyId3"
+            id: "__alloyId7"
         });
         return o;
     }());
-    $.__views.StoryList.add($.__views.__alloyId3);
-    $.__views.__alloyId4 = Ti.UI.createImageView(function() {
+    $.__views.StoryList.add($.__views.__alloyId7);
+    $.__views.__alloyId8 = Ti.UI.createImageView(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -227,11 +248,11 @@ function Controller() {
         });
         _.extend(o, {
             image: "/common/bg_pink.png",
-            id: "__alloyId4"
+            id: "__alloyId8"
         });
         return o;
     }());
-    $.__views.StoryList.add($.__views.__alloyId4);
+    $.__views.StoryList.add($.__views.__alloyId8);
     $.__views.FunnyList = Ti.UI.createTableViewRow(function() {
         var o = {};
         _.extend(o, {});
@@ -252,9 +273,9 @@ function Controller() {
         });
         return o;
     }());
-    __alloyId0.push($.__views.FunnyList);
+    __alloyId4.push($.__views.FunnyList);
     selectMenu ? $.__views.FunnyList.addEventListener("click", selectMenu) : __defers["$.__views.FunnyList!click!selectMenu"] = true;
-    $.__views.__alloyId5 = Ti.UI.createLabel(function() {
+    $.__views.__alloyId9 = Ti.UI.createLabel(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -264,7 +285,12 @@ function Controller() {
                 fontWeight: "bold",
                 fontFamily: "Chalkboard SE"
             },
-            zIndex: 2
+            zIndex: 2,
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
@@ -274,16 +300,21 @@ function Controller() {
                 fontWeight: "bold",
                 fontFamily: "Chalkboard SE"
             },
-            zIndex: 2
+            zIndex: 2,
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
         });
         _.extend(o, {
             text: "Truyện Cười",
-            id: "__alloyId5"
+            id: "__alloyId9"
         });
         return o;
     }());
-    $.__views.FunnyList.add($.__views.__alloyId5);
-    $.__views.__alloyId6 = Ti.UI.createImageView(function() {
+    $.__views.FunnyList.add($.__views.__alloyId9);
+    $.__views.__alloyId10 = Ti.UI.createImageView(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -297,17 +328,17 @@ function Controller() {
         });
         _.extend(o, {
             image: "/common/bg_green.png",
-            id: "__alloyId6"
+            id: "__alloyId10"
         });
         return o;
     }());
-    $.__views.FunnyList.add($.__views.__alloyId6);
+    $.__views.FunnyList.add($.__views.__alloyId10);
     $.__views.homeTableView = Ti.UI.createTableView({
         backgroundColor: "transparent",
         separatorColor: "transparent",
         style: Ti.UI.iPhone.TableViewStyle.PLAIN,
         separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-        data: __alloyId0,
+        data: __alloyId4,
         id: "homeTableView"
     });
     $.__views.homeWindow.add($.__views.homeTableView);
@@ -320,9 +351,9 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var homeTab = $.homeTab;
+    appStart();
     homeTab.addEventListener("focus", function() {
         Alloy.Globals.CURRENT_TAB = homeTab;
-        appStart();
     });
     Ti.App.addEventListener("app:reload", function() {
         Alloy.Globals.CURRENT_TAB = homeTab;

@@ -48,22 +48,22 @@ function Controller() {
     $.__views.tabGroup = Ti.UI.createTabGroup({
         id: "tabGroup"
     });
-    $.__views.__alloyId7 = Alloy.createController("home", {
-        id: "__alloyId7"
+    $.__views.__alloyId11 = Alloy.createController("home", {
+        id: "__alloyId11"
     });
-    $.__views.tabGroup.addTab($.__views.__alloyId7.getViewEx({
+    $.__views.tabGroup.addTab($.__views.__alloyId11.getViewEx({
         recurse: true
     }));
-    $.__views.__alloyId8 = Alloy.createController("favorite", {
-        id: "__alloyId8"
+    $.__views.__alloyId12 = Alloy.createController("favorite", {
+        id: "__alloyId12"
     });
-    $.__views.tabGroup.addTab($.__views.__alloyId8.getViewEx({
+    $.__views.tabGroup.addTab($.__views.__alloyId12.getViewEx({
         recurse: true
     }));
-    $.__views.__alloyId9 = Alloy.createController("setting", {
-        id: "__alloyId9"
+    $.__views.__alloyId13 = Alloy.createController("setting", {
+        id: "__alloyId13"
     });
-    $.__views.tabGroup.addTab($.__views.__alloyId9.getViewEx({
+    $.__views.tabGroup.addTab($.__views.__alloyId13.getViewEx({
         recurse: true
     }));
     $.__views.tabGroup && $.addTopLevelView($.__views.tabGroup);

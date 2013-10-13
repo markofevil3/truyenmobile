@@ -54,14 +54,14 @@ function Controller() {
         id: "bookInfoView"
     });
     $.__views.row.add($.__views.bookInfoView);
-    $.__views.__alloyId10 = Ti.UI.createView({
+    $.__views.__alloyId14 = Ti.UI.createView({
         width: "25%",
         height: "80%",
         left: "5%",
         top: "8%",
-        id: "__alloyId10"
+        id: "__alloyId14"
     });
-    $.__views.bookInfoView.add($.__views.__alloyId10);
+    $.__views.bookInfoView.add($.__views.__alloyId14);
     $.__views.coverLink = Ti.UI.createImageView(function() {
         var o = {};
         _.extend(o, {});
@@ -85,12 +85,12 @@ function Controller() {
         });
         return o;
     }());
-    $.__views.__alloyId10.add($.__views.coverLink);
-    $.__views.__alloyId11 = Ti.UI.createView({
+    $.__views.__alloyId14.add($.__views.coverLink);
+    $.__views.__alloyId15 = Ti.UI.createView({
         layout: "vertical",
-        id: "__alloyId11"
+        id: "__alloyId15"
     });
-    $.__views.bookInfoView.add($.__views.__alloyId11);
+    $.__views.bookInfoView.add($.__views.__alloyId15);
     $.__views.bookName = Ti.UI.createLabel(function() {
         var o = {};
         _.extend(o, {});
@@ -131,7 +131,7 @@ function Controller() {
         });
         return o;
     }());
-    $.__views.__alloyId11.add($.__views.bookName);
+    $.__views.__alloyId15.add($.__views.bookName);
     $.__views.icon = Ti.UI.createView({
         layout: "horizontal",
         width: "90%",
@@ -139,7 +139,7 @@ function Controller() {
         left: 10,
         id: "icon"
     });
-    $.__views.__alloyId11.add($.__views.icon);
+    $.__views.__alloyId15.add($.__views.icon);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};

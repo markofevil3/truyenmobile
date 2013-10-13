@@ -13,52 +13,62 @@
 	backgroundColor: '#fff',
 	top: 0
 },
+"#slider[platform=ios formFactor=handheld]": {
+	min: 16,
+	max: 30,
+	width: 150,
+	height: 20,
+	left: 40
+},
+"#slider[platform=ios formFactor=tablet]": {
+	min: 26,
+	max: 38,
+	width: 250,
+	height: 20,
+	left: 70
+},
 "#textSmallButton[platform=ios formFactor=handheld]": {
-	width: 30,
-	height: 30,
-	right: 115,
+	width: 20,
+	height: 20,
+	left : 15,
 	title: 'A',
 	color: '#fff',
-	font: { fontWeight: 'bold', fontSize: 13 },
+	font: { fontWeight: 'bold', fontSize: 16 },
 	backgroundColor: '#222',
 	backgroundImage: 'NONE',
-	selectedColor: '#333',
 	borderRadius: 3,
 },
 "#textSmallButton[platform=ios formFactor=tablet]": {
-	width: 50,
-	height: 50,
-	right: 175,
+	width: 30,
+	height: 30,
+	left: 30,
 	title: 'A',
 	color: '#fff',
 	font: { fontWeight: 'bold', fontSize: 26 },
 	backgroundColor: '#222',
 	backgroundImage: 'NONE',
-	selectedColor: '#333',
 	borderRadius: 6,
 },
 "#textBigButton[platform=ios formFactor=handheld]": {
 	width: 30,
 	height: 30,
-	right: 75,
+	left: 205,
 	title: 'A',
 	color: '#fff',
-	font: { fontWeight: 'bold', fontSize: 19 },
+	font: { fontWeight: 'bold', fontSize: 30 },
 	backgroundColor: '#222',
 	backgroundImage: 'NONE',
-	selectedColor: '#333',
 	borderRadius: 3,
 },
-"#textBigButton[platform=ios formFactor=tablet]": {
+"#textBigButton[formFactor=tablet]": {
 	width: 50,
 	height: 50,
-	right: 115,
+	left: 325,
 	title: 'A',
 	color: '#fff',
 	font: { fontWeight: 'bold', fontSize: 38 },
 	backgroundColor: '#222',
 	backgroundImage: 'NONE',
-	selectedColor: '#333',
 	borderRadius: 6,
 },
 "#closeButton[platform=ios formFactor=handheld]": {
@@ -125,3 +135,19 @@
 	font: { fontSize: 36 },
 	editable: false
 }
+"#webview[platform=ios formFactor=handheld]": {
+	top: 40,
+},
+"#webview[platform=ios formFactor=tablet]": {
+	top: 70,
+},
+"#advView[platform=ios formFactor=handheld]": {
+	width: '100%',
+	height: 50,
+	bottom: 0
+},
+"#advView[platform=ios formFactor=tablet]": {
+	width: '100%',
+	height: 90,
+	bottom: 0
+},

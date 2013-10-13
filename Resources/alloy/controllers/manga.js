@@ -375,6 +375,7 @@ function Controller() {
         favoriteButton.addEventListener("click", function() {
             0 == Alloy.Globals.facebook.loggedIn ? Alloy.Globals.facebookLogin(function(e) {
                 Alloy.Globals.addFavorite(favoriteButton.itemId, 0, e.data, args.data.title, args.data.cover, function() {
+                    Alloy.Globals.track("Favorite", "Add", args.data.title);
                     $.mangaWindow.rightNavButton = favoritedButton;
                 });
             }) : Alloy.Globals.facebook.requestWithGraphPath("/" + Alloy.Globals.facebook.getUid(), {}, "GET", function(user) {

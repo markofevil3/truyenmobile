@@ -37,6 +37,7 @@ exports.openMainWindow = function() {
 		if (Alloy.Globals.facebook.loggedIn == 0) {
 			Alloy.Globals.facebookLogin(function(e) {
 				Alloy.Globals.addFavorite(favoriteButton.itemId, 0, e.data, args.data.title, args.data.cover, function() {
+					Alloy.Globals.track("Favorite", "Add", args.data.title);
 					$.mangaWindow.rightNavButton = favoritedButton;
 				});
 			});
@@ -62,7 +63,6 @@ exports.openMainWindow = function() {
 	$.mangaWindow.title = args.data.title;
 	$.bookCover.image = args.data.cover;
 	Alloy.Globals.loadImage($.bookCover, args.data.cover);
-	// $.bookCover.image = Alloy.Globals.SERVER + args.data.folder + '/cover.jpg';
 	$.bookTitle.text = args.data.title;
 	$.bookAuthor.text = 'Tác Giả: ' + args.data.author;
 	$.newestChapter.text = 'Chapter Mới: ' + Alloy.Globals.getNewestChapter(listChapters);

@@ -12,15 +12,21 @@ exports.openMainWindow = function() {
 	Alloy.Globals.CURRENT_TAB.open($.storyListWindow);
 	//#### back button
 	$.storyListWindow.leftNavButton = Alloy.Globals.backButton($.storyListWindow);
+	Alloy.Globals.homeWindowStack.push($.storyListWindow);
+	$.storyListWindow.addEventListener("close", function() {
+		Alloy.Globals.homeWindowStack.pop();
+		Ti.App.fireEvent('app:reload');
+	});
 	//#### advertise view
 	Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
 		$.advView.add(advImage);
+		$.advView.height = Alloy.Globals.getAdvHeight();
 	});
 	Alloy.Globals.getAjax('/storyList', {
 		'null': null
 	},
 	function(response) {
-		if (response == undefined) {
+		if (response == undefined || JSON.parse(response).error) {
 			alert("Không có kết nối Internet!");
 			return;
 		}

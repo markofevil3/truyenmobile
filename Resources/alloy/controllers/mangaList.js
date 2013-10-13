@@ -179,7 +179,7 @@ function Controller() {
         Alloy.Globals.getAjax("/mangaList", {
             "null": null
         }, function(response) {
-            if (void 0 == response) {
+            if (void 0 == response || JSON.parse(response).error) {
                 alert("Không có kết nối Internet!");
                 return;
             }

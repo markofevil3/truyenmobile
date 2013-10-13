@@ -1,14 +1,17 @@
 <Alloy>
   <Window id="storyReadingWindow">
     <View id="topBar">
-      <Button id="textSmallButton" onClick="changeTextSize" dataType="0" />
-      <Button id="textBigButton" onClick="changeTextSize" dataType="1" />
+      <Button id="textSmallButton" dataType="0" />
+      <Button id="textBigButton" dataType="1" />
       <Button id="closeButton" onClick="closeWindow" />
+      <Slider id="slider" onChange="changeTextSize"/>
     </View>
-    <ScrollView id="contentView">
+    <!-- <ScrollView id="contentView">
       <View id="contentWrapper">
         <TextArea id="contentLabel" />
       </View>
-    </ScrollView>
+    </ScrollView> -->
+    <WebView id="webview"/>
+    <View id="advView" />
   </Window>
 </Alloy>

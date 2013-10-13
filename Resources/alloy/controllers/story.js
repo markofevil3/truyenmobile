@@ -293,8 +293,13 @@ function Controller() {
     exports.openMainWindow = function() {
         Alloy.Globals.CURRENT_TAB.open($.storyWindow);
         $.storyWindow.leftNavButton = Alloy.Globals.backButton($.storyWindow);
+        Alloy.Globals.homeWindowStack.push($.storyWindow);
+        $.storyWindow.addEventListener("close", function() {
+            Alloy.Globals.homeWindowStack.pop();
+        });
         Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
             $.advView.add(advImage);
+            $.advView.height = Alloy.Globals.getAdvHeight();
         });
         var favoriteButton = Titanium.UI.createButton({
             text: "favorite",
@@ -315,11 +320,11 @@ function Controller() {
         });
         favoriteButton.addEventListener("click", function() {
             0 == Alloy.Globals.facebook.loggedIn ? Alloy.Globals.facebookLogin(function(e) {
-                Alloy.Globals.addFavorite(favoriteButton.itemId, 1, e.data, args.data.title, Alloy.Globals.SERVER + args.data.folder + "/cover.jpg", function() {
+                Alloy.Globals.addFavorite(favoriteButton.itemId, 1, e.data, args.data.title, Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg", function() {
                     $.storyWindow.rightNavButton = favoritedButton;
                 });
             }) : Alloy.Globals.facebook.requestWithGraphPath("/" + Alloy.Globals.facebook.getUid(), {}, "GET", function(user) {
-                Alloy.Globals.addFavorite(favoriteButton.itemId, 1, JSON.parse(user.result), args.data.title, Alloy.Globals.SERVER + args.data.folder + "/cover.jpg", function() {
+                Alloy.Globals.addFavorite(favoriteButton.itemId, 1, JSON.parse(user.result), args.data.title, Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg", function() {
                     $.storyWindow.rightNavButton = favoritedButton;
                 });
             });

@@ -8,19 +8,71 @@
 	backgroundColor: 'transparent',
 	layout: 'vertical'
 },
-"#appNameLabel": {
+"#appNameLabel[formFactor=handheld]": {
 	color: '#fff',
 	font: { fontSize: 20, fontWeight: 'bold', fontFamily: 'Chalkboard SE'  },
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
-	top: '30%',
+	top: '10%',
+  shadowColor: '#000',
+  shadowOffset: {x:1, y:1},
 },
-"#versionLabel": {
+"#versionLabel[formFactor=handheld]": {
 	font: { fontSize: 15, fontStyle: 'italic' },
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
 },
-"#emailLabel": {
+"#emailLabel[formFactor=handheld]": {
 	font: { fontSize: 17, fontStyle: 'bold' },
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
-	color: '#008AE6'
+	color: '#008AE6',
+  shadowColor: 'blue',
+  shadowOffset: {x:1, y:1},
+},
+"#websiteLabel[formFactor=handheld]": {
+	font: { fontSize: 17, fontStyle: 'bold' },
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	color: '#008AE6',
+  shadowColor: 'blue',
+  shadowOffset: {x:1, y:1},
+},
+"#tips": {
+	width: '100%',
+	backgroundColor: 'transparent',
+	layout: 'vertical',
+	top: 20	
+},
+".tipLabels[formFactor=handheld]": {
+	font: { fontSize: 13, fontStyle: 'italic' },
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	color: '#000',
 }
-
+"#appNameLabel[formFactor=tablet]": {
+	color: '#fff',
+	font: { fontSize: 38, fontWeight: 'bold', fontFamily: 'Chalkboard SE'  },
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	top: '10%',
+  shadowColor: '#000',
+  shadowOffset: {x:1, y:1},
+},
+"#versionLabel[formFactor=tablet]": {
+	font: { fontSize: 28, fontStyle: 'italic' },
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+},
+"#emailLabel[formFactor=tablet]": {
+	font: { fontSize: 32, fontStyle: 'bold' },
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	color: '#008AE6',
+  shadowColor: 'blue',
+  shadowOffset: {x:1, y:1},
+},
+"#websiteLabel[formFactor=tablet]": {
+	font: { fontSize: 32, fontStyle: 'bold' },
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	color: '#008AE6',
+  shadowColor: 'blue',
+  shadowOffset: {x:1, y:1},
+},
+".tipLabels[formFactor=tablet]": {
+	font: { fontSize: 22, fontStyle: 'italic' },
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	color: '#000',
+}
