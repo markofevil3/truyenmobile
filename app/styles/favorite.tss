@@ -39,11 +39,11 @@
 	style: Ti.UI.iPhone.TableViewStyle.PLAIN,
   separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
 }
-"#advView[platform=ios formFactor=handheld]": {
+"#advView[formFactor=handheld]": {
 	width: '100%',
 	height: 50,
 },
-"#advView[platform=ios formFactor=tablet]": {
+"#advView[formFactor=tablet]": {
 	width: '100%',
 	height: 90,
 },

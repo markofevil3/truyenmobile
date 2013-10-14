@@ -24,7 +24,7 @@ function startApp() {
 	Ti.App.addEventListener('resumed', appResume);
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'userData.txt');
 	var content = f.read();
-	if (content != undefined && content != null) {
+	if (content != undefined && content != null && content != "") {
 		Alloy.Globals.readingChapters = JSON.parse(content.text);
 	}
   if (Alloy.Globals.getOSType() == "iPhone OS") {

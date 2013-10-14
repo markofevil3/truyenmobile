@@ -49,7 +49,7 @@ function Controller() {
             }) : tableView.scrollToIndex(lastRowIndex - MAX_DISPLAY_ROW);
         }
         var style;
-        style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
+        style = Ti.UI.ActivityIndicatorStyle.DARK;
         var loadingIcon = Titanium.UI.createActivityIndicator({
             style: style
         });
@@ -396,9 +396,14 @@ function Controller() {
         $.bookAuthor.text = "Tác Giả: " + args.data.author;
         $.newestChapter.text = "Chapter Mới: " + Alloy.Globals.getNewestChapter(listChapters);
         $.numViewText.text = args.data.numView;
-        var tbl_data = setRowData(listChapters, MAX_DISPLAY_ROW);
-        table.data = tbl_data;
-        dynamicLoad(table, listChapters);
+        if ("iPhone OS" == Alloy.Globals.getOSType()) {
+            var tbl_data = setRowData(listChapters, MAX_DISPLAY_ROW);
+            table.data = tbl_data;
+            dynamicLoad(table, listChapters);
+        } else {
+            var tbl_data = setRowData(listChapters, MAX_DISPLAY_ROW);
+            table.data = tbl_data;
+        }
         search.addEventListener("return", function(e) {
             var results = [];
             var regexValue = new RegExp(Alloy.Globals.removeUTF8(e.value), "i");

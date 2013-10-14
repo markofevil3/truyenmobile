@@ -38,7 +38,7 @@ function Controller() {
             lastRowIndex += MAX_DISPLAY_ROW;
         }
         var loadingIcon = Titanium.UI.createActivityIndicator({
-            style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
+            style: Ti.UI.ActivityIndicatorStyle.DARK
         });
         var loadingView = Titanium.UI.createView({
             backgroundColor: "transparent",
@@ -192,7 +192,7 @@ function Controller() {
                 $.loading.setOpacity(0);
                 dynamicLoad(table, listManga);
             } else {
-                tbl_data = setRowData(listManga);
+                tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
                 table.data = tbl_data;
                 $.loading.setOpacity(0);
             }

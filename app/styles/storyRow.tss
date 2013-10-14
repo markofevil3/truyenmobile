@@ -1,10 +1,10 @@
-".rows[platform=ios formFactor=handheld]": {
+".rows[formFactor=handheld]": {
 	height: 60,
 	backgroundColor: 'transparent',
 	backgroundImage: '/common/bookshelfBackground.png',
 	// selectedBackgroundColor: 'transparent'
 },
-".chapters[platform=ios formFactor=handheld]": {
+".chapters[formFactor=handheld]": {
 	color: '#fff',
 	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
 	left: 17,
@@ -13,13 +13,13 @@
 	shadowOffset: {x:1, y:1},
 	font: { fontWeight: 'bold', fontSize: 15, fontFamily: 'Chalkboard SE' }
 }
-".rows[platform=ios formFactor=tablet]": {
+".rows[formFactor=tablet]": {
 	height: 120,
 	backgroundColor: 'transparent',
 	backgroundImage: '/common/bookshelfBackground.png',
 	// selectedBackgroundColor: 'transparent'
 },
-".chapters[platform=ios formFactor=tablet]": {
+".chapters[formFactor=tablet]": {
 	color: '#fff',
 	height: 'auto',
 	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,

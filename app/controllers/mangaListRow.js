@@ -1,9 +1,7 @@
 var args = arguments[0] || {};
 var bookInfoView = $.bookInfoView;
 $.bookName.text = args.data.title;
-if (Alloy.Globals.getOSType() == "iPhone OS") {
-	$.coverLink.image = args.data.cover;
-}
+$.coverLink.image = args.data.cover;
 // Alloy.Globals.loadImage($.coverLink, args.data.cover);
 
 var newIconImage = Ti.UI.createImageView({

@@ -42,7 +42,7 @@ function Controller() {
             });
         }
         var loadingIcon = Titanium.UI.createActivityIndicator({
-            style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
+            style: Ti.UI.ActivityIndicatorStyle.DARK
         });
         var loadingView = Titanium.UI.createView();
         loadingView.add(loadingIcon);

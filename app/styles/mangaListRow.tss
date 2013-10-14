@@ -1,11 +1,11 @@
-".rows[platform=ios formFactor=handheld]": {
+".rows[formFactor=handheld]": {
 	height:120,
 	backgroundColor: 'transparent',
 	backgroundImage: '/common/bookshelfBackground.png',
 	selectedBackgroundColor: 'transparent',
 	layout: 'horizontal'
 },
-".rows[platform=ios formFactor=tablet]": {
+".rows[formFactor=tablet]": {
 	height: 240,
 	backgroundColor: 'transparent',
 	backgroundImage: '/common/bookshelfBackground.png',
@@ -24,14 +24,14 @@
 	top: '8%',
 	// backgroundImage: '/common/book2.png'
 },
-".coverLinks[platform=ios formFactor=handheld]": {
+".coverLinks[formFactor=handheld]": {
 	width: '82%',
 	height: '94.5%',
 	top: 0,
 	left: 9,
 	defaultImage: '/common/default_image.jpg'
 },
-".coverLinks[platform=ios formFactor=tablet]": {
+".coverLinks[formFactor=tablet]": {
 	width: '82%',
 	height: '94.5%',
 	top: 0,
@@ -41,7 +41,7 @@
 ".bookDetails": {
 	layout: "vertical"
 },
-".bookNames[platform=ios formFactor=handheld]": {
+".bookNames[formFactor=handheld]": {
 	font: { fontWeight: 'bold', fontSize: 18, fontFamily: 'Chalkboard SE' },
 	top: '5%',
 	color: '#fff',
@@ -49,7 +49,7 @@
   shadowOffset: {x:1, y:1},
   width: "90%",
 },
-".bookNames[platform=ios formFactor=tablet]": {
+".bookNames[formFactor=tablet]": {
 	font: { fontWeight: 'bold', fontSize: 40, fontFamily: 'Chalkboard SE' },
 	left: 10,
 	top: '5%',

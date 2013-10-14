@@ -145,7 +145,7 @@ function Controller() {
     var args = arguments[0] || {};
     var bookInfoView = $.bookInfoView;
     $.bookName.text = args.data.title;
-    "iPhone OS" == Alloy.Globals.getOSType() && ($.coverLink.image = args.data.cover);
+    $.coverLink.image = args.data.cover;
     var newIconImage = Ti.UI.createImageView({
         height: 32,
         width: 32,

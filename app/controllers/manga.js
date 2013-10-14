@@ -67,9 +67,15 @@ exports.openMainWindow = function() {
 	$.bookAuthor.text = 'Tác Giả: ' + args.data.author;
 	$.newestChapter.text = 'Chapter Mới: ' + Alloy.Globals.getNewestChapter(listChapters);
 	$.numViewText.text = args.data.numView;
-	var tbl_data = setRowData(listChapters, MAX_DISPLAY_ROW);
-	table.data = tbl_data;
-	dynamicLoad(table, listChapters);
+	if (Alloy.Globals.getOSType() == "iPhone OS") {
+		var tbl_data = setRowData(listChapters, MAX_DISPLAY_ROW);
+		table.data = tbl_data;
+		dynamicLoad(table, listChapters);
+	} else {
+		var tbl_data = setRowData(listChapters, MAX_DISPLAY_ROW);
+		table.data = tbl_data;
+	}
+
 	//#### search bar
 	search.addEventListener('return', function(e) {
 		var results = [];

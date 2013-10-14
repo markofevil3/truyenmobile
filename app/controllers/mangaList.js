@@ -49,7 +49,7 @@ exports.openMainWindow = function() {
 			$.loading.setOpacity(0.0);
 			dynamicLoad(table, listManga);
 		} else {
-			tbl_data = setRowData(listManga);
+			tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
 			table.data = tbl_data;
 			$.loading.setOpacity(0.0);
 		}

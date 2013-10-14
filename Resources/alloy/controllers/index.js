@@ -18,7 +18,7 @@ function Controller() {
         Ti.App.addEventListener("resumed", appResume);
         var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "userData.txt");
         var content = f.read();
-        void 0 != content && null != content && (Alloy.Globals.readingChapters = JSON.parse(content.text));
+        void 0 != content && null != content && "" != content && (Alloy.Globals.readingChapters = JSON.parse(content.text));
         if ("iPhone OS" == Alloy.Globals.getOSType()) {
             var overrideTabs = require("IosCustomTabBar");
             overrideTabs($.tabGroup, {

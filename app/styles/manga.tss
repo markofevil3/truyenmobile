@@ -8,14 +8,14 @@
 	top: 0,
 	layout: 'vertical'
 },
-"#mangaInfoView[platform=ios formFactor=handheld]": {
+"#mangaInfoView[formFactor=handheld]": {
 	width: '100%',
 	height: 120,
 	backgroundColor: '#d8cdc0',
 	backgroundImage: '/common/whitePaper.png',
 	layout: 'horizontal'
 },
-"#mangaInfoView[platform=ios formFactor=tablet]": {
+"#mangaInfoView[formFactor=tablet]": {
 	width: '100%',
 	height: 240,
 	backgroundColor: '#d8cdc0',
@@ -43,53 +43,53 @@
 	layout: 'vertical',
 	left: 5
 },
-"#bookTitle[platform=ios formFactor=handheld]": {
+"#bookTitle[formFactor=handheld]": {
 	color: '#fff',
 	font: { fontWeight: 'bold', fontSize: 19, fontFamily: 'Chalkboard SE'},
 	left: 0,
   shadowColor: '#000',
 	shadowOffset: {x:1, y:1},
 },
-"#bookTitle[platform=ios formFactor=tablet]": {
+"#bookTitle[formFactor=tablet]": {
 	color: '#fff',
 	font: { fontWeight: 'bold', fontSize: 38, fontFamily: 'Chalkboard SE'},
 	left: 0,
   shadowColor: '#000',
 	shadowOffset: {x:1, y:1},
 },
-"#bookAuthor[platform=ios formFactor=handheld]": {
+"#bookAuthor[formFactor=handheld]": {
 	font: { fontSize: 16, fontStyle: 'italic' },
 	left: 0
 },
-"#bookAuthor[platform=ios formFactor=tablet]": {
+"#bookAuthor[formFactor=tablet]": {
 	font: { fontSize: 32, fontStyle: 'italic' },
 	left: 0
 },
-"#newestChapter[platform=ios formFactor=handheld]": {
+"#newestChapter[formFactor=handheld]": {
 	font: { fontSize: 18, fontStyle: 'bold' },
 	left: 0
 },
-"#newestChapter[platform=ios formFactor=tablet]": {
+"#newestChapter[formFactor=tablet]": {
 	font: { fontSize: 36, fontStyle: 'bold' },
 	left: 0
 },
-"#numViewIcon[platform=ios formFactor=handheld]": {
+"#numViewIcon[formFactor=handheld]": {
 	image: '/common/view.png',
 	width: 20,
 	height: 20,
 	left: 0
 },
-"#numViewIcon[platform=ios formFactor=tablet]": {
+"#numViewIcon[formFactor=tablet]": {
 	image: '/common/view.png',
 	width: 40,
 	height: 40,
 	left: 0
 },
-"#numViewText[platform=ios formFactor=handheld]": {
+"#numViewText[formFactor=handheld]": {
 	left: 22,
 	font: { fontSize: 18, fontStyle: 'bold' },
 },
-"#numViewText[platform=ios formFactor=tablet]": {
+"#numViewText[formFactor=tablet]": {
 	left: 44,
 	font: { fontSize: 36, fontStyle: 'bold' },
 },
@@ -99,11 +99,11 @@
   style: Ti.UI.iPhone.TableViewStyle.PLAIN,
   separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
 },
-"#advView[platform=ios formFactor=handheld]": {
+"#advView[formFactor=handheld]": {
 	width: '100%',
 	height: 50,
 },
-"#advView[platform=ios formFactor=tablet]": {
+"#advView[formFactor=tablet]": {
 	width: '100%',
 	height: 90,
 }

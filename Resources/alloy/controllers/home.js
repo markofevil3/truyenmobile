@@ -9,44 +9,9 @@ function Controller() {
         Alloy.Globals.getAjax("/appVersion", {
             "null": null
         }, function(response) {
-            if (void 0 == response) {
-                alert("Không có kết nối Internet!");
-                return;
-            }
-            var data = JSON.parse(response);
-            Alloy.Globals.FBPOST_LINK = data.facebookPostLink;
-            if (data.error || data.version == Titanium.App.version) {
-                "iPhone OS" == Alloy.Globals.getOSType() ? void 0 != data.iosLink && (Alloy.Globals.FBPOST_LINK = data.iosLink) : void 0 != data.androidLink && (Alloy.Globals.FBPOST_LINK = data.androidLink);
-                startHome();
-            } else {
-                var dialog;
-                if (data.force) {
-                    dialog = Ti.UI.createAlertDialog({
-                        message: "Có phiên bản mới!!!",
-                        buttonNames: [ "Nâng Cấp" ],
-                        title: "Nâng Cấp"
-                    });
-                    dialog.show();
-                    dialog.addEventListener("click", function() {
-                        openStoreLink(data);
-                    });
-                } else {
-                    dialog = Ti.UI.createAlertDialog({
-                        cancel: 0,
-                        buttonNames: [ "Bỏ Qua", "Nâng Cấp" ],
-                        message: "Có phiên bản mới!!!",
-                        title: "Nâng Cấp"
-                    });
-                    dialog.show();
-                }
-                dialog.addEventListener("click", function(e) {
-                    1 == e.index ? openStoreLink(data) : startHome();
-                });
-            }
+            startHome();
+            return;
         });
-    }
-    function openStoreLink(data) {
-        "iPhone OS" == Alloy.Globals.getOSType() ? Ti.Platform.openURL(data.iosLink) : Ti.Platform.openURL(data.androidLink);
     }
     function startHome() {
         Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {

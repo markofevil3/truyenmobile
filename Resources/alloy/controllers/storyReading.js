@@ -93,21 +93,6 @@ function Controller() {
     $.__views.textBigButton = Ti.UI.createButton(function() {
         var o = {};
         _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: 50,
-            height: 50,
-            left: 325,
-            title: "A",
-            color: "#fff",
-            font: {
-                fontWeight: "bold",
-                fontSize: 38
-            },
-            backgroundColor: "#222",
-            backgroundImage: "NONE",
-            borderRadius: 6
-        });
-        _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
             width: 30,
             height: 30,
@@ -121,6 +106,21 @@ function Controller() {
             backgroundColor: "#222",
             backgroundImage: "NONE",
             borderRadius: 3
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: 50,
+            height: 50,
+            left: 325,
+            title: "A",
+            color: "#fff",
+            font: {
+                fontWeight: "bold",
+                fontSize: 38
+            },
+            backgroundColor: "#222",
+            backgroundImage: "NONE",
+            borderRadius: 6
         });
         _.extend(o, {
             id: "textBigButton",

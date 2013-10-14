@@ -13,7 +13,10 @@ function appStart() {
 	'null': null
 	},
 	function(response) {
-
+		/////////////////////////
+		startHome();
+		return;
+		////////////////////////
 		if (response == undefined) {
 			alert("Không có kết nối Internet!");
 			return;

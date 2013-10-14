@@ -68,9 +68,9 @@ function Controller() {
     function addImageView() {
         for (var i = 0; listImages.length > i; i++) {
             var image = Ti.UI.createImageView({
-                width: "100%",
+                width: "auto",
                 top: 0,
-                height: "auto"
+                height: Ti.Platform.displayCaps.platformHeight - Alloy.Globals.getAdvHeight()
             });
             Alloy.Globals.loadImage(image, "http://truyentranhtuan.com" + listImages[i], args.mangaId + args.chapter + i + "");
             var scrollView = Ti.UI.createScrollView({

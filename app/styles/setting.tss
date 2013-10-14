@@ -4,22 +4,22 @@
   backgroundColor: 'transparent',
   top: 0
 },
-".settingRow[platform=ios formFactor=handheld]": {
+".settingRow[formFactor=handheld]": {
 	height: 50,
 	hasChild: true,
 	color: '#fff',
 	font: { fontWeight: 'bold', fontSize: 16, fontFamily: 'Chalkboard SE' },
 },
-".settingRow[platform=ios formFactor=tablet]": {
+".settingRow[formFactor=tablet]": {
 	height: 66,
 	hasChild: true,
 	color: '#fff',
 	font: { fontWeight: 'bold', fontSize: 30, fontFamily: 'Chalkboard SE' },
 },
-"#adv[platform=ios formFactor=handheld]": {
+"#adv[formFactor=handheld]": {
 	height: 50,
 },
-"#adv[platform=ios formFactor=tablet]": {
+"#adv[formFactor=tablet]": {
 	height: 90,
 },
 "#facebookLikeBox": {

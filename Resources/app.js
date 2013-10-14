@@ -3,8 +3,8 @@ function RevMob(appIds) {
         "iPhone OS": "com.revmob.titanium",
         android: "com.revmob.ti.android"
     };
-    var revmobModule = require(moduleNames["iPhone OS"]);
-    revmobModule.startSession(appIds["iPhone OS"]);
+    var revmobModule = require(moduleNames["android"]);
+    revmobModule.startSession(appIds["android"]);
     return revmobModule;
 }
 
@@ -23,7 +23,7 @@ function isHash(obj) {
 var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
 Alloy.Globals.isTablet = function() {
-    var osname = Ti.Platform.osname;
+    var osname = "android";
     return osname.search(/iphone/i) > -1 ? false : true;
 };
 
@@ -196,7 +196,7 @@ Alloy.Globals.unsubscribePush = function(channel) {
 };
 
 var loadingIcon = Titanium.UI.createActivityIndicator({
-    style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG
+    style: Ti.UI.ActivityIndicatorStyle.DARK
 });
 
 var loadingView = Titanium.UI.createView({
@@ -251,7 +251,7 @@ Alloy.Globals.getDeviceType = function() {
 };
 
 Alloy.Globals.getOSType = function() {
-    return "iPhone OS";
+    return "android";
 };
 
 Alloy.Globals.backButton = function(window) {
@@ -360,7 +360,7 @@ Alloy.Globals.dynamicLoad = function(tableView, data) {
         });
     }
     var loadingIcon = Titanium.UI.createActivityIndicator({
-        style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
+        style: Ti.UI.ActivityIndicatorStyle.DARK
     });
     var loadingView = Titanium.UI.createView();
     loadingView.add(loadingIcon);
@@ -420,32 +420,23 @@ Alloy.Globals.removeUTF8 = function(str) {
 };
 
 Alloy.Globals.getAdvPublisherId = function() {
-    switch (Titanium.Platform.osname) {
-      case "android":
-        return "a1524cf9df9881d";
-
-      case "iphone":
-        return "a15242fc9991b03";
-
-      case "ipad":
-        return "a15242fe704686c";
-    }
+    return "a1524cf9df9881d";
 };
 
 Alloy.Globals.getAdvHeight = function() {
-    switch (Titanium.Platform.osname) {
-      case "android":
-        return 50;
-
-      case "iphone":
-        return 50;
-
-      case "ipad":
-        return 90;
-    }
+    return 75;
 };
 
 Alloy.Globals.adv = function(type, callback) {
+    Admob.createView({
+        width: Ti.Platform.displayCaps.platformWidth,
+        height: Alloy.Globals.getAdvHeight(),
+        publisherId: Alloy.Globals.getAdvPublisherId(),
+        testing: false,
+        dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
+        gender: "male",
+        keywords: ""
+    });
     Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
     Ti.Geolocation.distanceFilter = 0;
     Ti.Geolocation.purpose = "To show you local ads, of course!";
@@ -498,9 +489,5 @@ Alloy.Globals.getNewestChapter = function(chapters) {
     for (var i = 0; chapters.length > i; i++) parseFloat(chapters[i].chapter) > newest && (newest = parseFloat(chapters[i].chapter));
     return newest;
 };
-
-Alloy.Globals.loginUser(Titanium.Platform.id, function() {
-    Alloy.Globals.subscribePush(Alloy.Globals.DEFAULT_PUSH_CHANNEL);
-});
 
 Alloy.createController("index");

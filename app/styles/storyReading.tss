@@ -1,33 +1,33 @@
 "#storyReadingWindow": {
 	backgroundColor: '#f3f3f3'
 },
-"#topBar[platform=ios formFactor=handheld]": {
+"#topBar[formFactor=handheld]": {
 	width: '100%',
 	height: 40,
 	backgroundColor: '#fff',
 	top: 0
 },
-"#topBar[platform=ios formFactor=tablet]": {
+"#topBar[formFactor=tablet]": {
 	width: '100%',
 	height: 70,
 	backgroundColor: '#fff',
 	top: 0
 },
-"#slider[platform=ios formFactor=handheld]": {
+"#slider[formFactor=handheld]": {
 	min: 16,
 	max: 30,
 	width: 150,
 	height: 20,
 	left: 40
 },
-"#slider[platform=ios formFactor=tablet]": {
+"#slider[formFactor=tablet]": {
 	min: 26,
 	max: 38,
 	width: 250,
 	height: 20,
 	left: 70
 },
-"#textSmallButton[platform=ios formFactor=handheld]": {
+"#textSmallButton[formFactor=handheld]": {
 	width: 20,
 	height: 20,
 	left : 15,
@@ -38,7 +38,7 @@
 	backgroundImage: 'NONE',
 	borderRadius: 3,
 },
-"#textSmallButton[platform=ios formFactor=tablet]": {
+"#textSmallButton[formFactor=tablet]": {
 	width: 30,
 	height: 30,
 	left: 30,
@@ -49,7 +49,7 @@
 	backgroundImage: 'NONE',
 	borderRadius: 6,
 },
-"#textBigButton[platform=ios formFactor=handheld]": {
+"#textBigButton[formFactor=handheld]": {
 	width: 30,
 	height: 30,
 	left: 205,
@@ -71,7 +71,7 @@
 	backgroundImage: 'NONE',
 	borderRadius: 6,
 },
-"#closeButton[platform=ios formFactor=handheld]": {
+"#closeButton[formFactor=handheld]": {
 	title: 'close',
 	width: 60,
 	height: 30,
@@ -85,7 +85,7 @@
 	selectedColor: '#333',
 	color: '#CCCCCC'
 },
-"#closeButton[platform=ios formFactor=tablet]": {
+"#closeButton[formFactor=tablet]": {
 	title: 'close',
 	width: 100,
 	height: 50,
@@ -99,7 +99,7 @@
 	selectedColor: '#fff',
 	color: '#cb0a00'
 },
-"#contentView[platform=ios formFactor=handheld]": {
+"#contentView[formFactor=handheld]": {
   contentHeight: 'auto',
   showVerticalScrollIndicator: true,
   width: '100%',
@@ -108,7 +108,7 @@
   // backgroundRepeat: true,
   top: 40,
 },
-"#contentView[platform=ios formFactor=tablet]": {
+"#contentView[formFactor=tablet]": {
   contentHeight: 'auto',
   showVerticalScrollIndicator: true,
   width: '100%',
@@ -121,32 +121,32 @@
 	width: '96%',
 	height: '100%'
 },
-"#contentLabel[platform=ios formFactor=handheld]": {
+"#contentLabel[formFactor=handheld]": {
 	width: '100%',
 	height: '100%',
 	top: 5,
 	font: { fontSize: 18 },
 	editable: false
 },
-"#contentLabel[platform=ios formFactor=tablet]": {
+"#contentLabel[formFactor=tablet]": {
 	width: '100%',
 	height: '100%',
 	top: 5,
 	font: { fontSize: 36 },
 	editable: false
 }
-"#webview[platform=ios formFactor=handheld]": {
+"#webview[formFactor=handheld]": {
 	top: 40,
 },
-"#webview[platform=ios formFactor=tablet]": {
+"#webview[formFactor=tablet]": {
 	top: 70,
 },
-"#advView[platform=ios formFactor=handheld]": {
+"#advView[formFactor=handheld]": {
 	width: '100%',
 	height: 50,
 	bottom: 0
 },
-"#advView[platform=ios formFactor=tablet]": {
+"#advView[formFactor=tablet]": {
 	width: '100%',
 	height: 90,
 	bottom: 0

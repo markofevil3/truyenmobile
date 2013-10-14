@@ -478,7 +478,7 @@ Alloy.Globals.getAdvPublisherId = function() {
 Alloy.Globals.getAdvHeight = function() {
 	switch(Titanium.Platform.osname) {
 	case 'android':
-		return 50;
+		return 75;
 		break;
 	case 'iphone':
 		return 50;
@@ -490,17 +490,15 @@ Alloy.Globals.getAdvHeight = function() {
 };
 
 Alloy.Globals.adv = function(type, callback) {
-	// var advImage = Ti.UI.iOS.createAdView({
-	 // width: 'auto',
-	 // height: 50
-	// });
-	// advImage.addEventListener("load", function() {
-	// });
-	// advImage.addEventListener("error", function(e) {
-		// if (e.code != 2) {
-			// // use another adv
-		// }
-	// });
+	var	advImage = Admob.createView({
+    width: Ti.Platform.displayCaps.platformWidth,
+    height: Alloy.Globals.getAdvHeight(),
+    publisherId: Alloy.Globals.getAdvPublisherId(), // You can get your own at http: //www.admob.com/
+    testing: false,
+    dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
+    gender: 'male',
+    keywords: ''
+ 	});
 	Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
 	Ti.Geolocation.distanceFilter = 0;
 	Ti.Geolocation.purpose = 'To show you local ads, of course!';
@@ -570,6 +568,6 @@ Alloy.Globals.getNewestChapter = function(chapters) {
 	return newest;
 };
 
-Alloy.Globals.loginUser(Titanium.Platform.id, function() {
-	Alloy.Globals.subscribePush(Alloy.Globals.DEFAULT_PUSH_CHANNEL);
-});
+// Alloy.Globals.loginUser(Titanium.Platform.id, function() {
+	// Alloy.Globals.subscribePush(Alloy.Globals.DEFAULT_PUSH_CHANNEL);
+// });
