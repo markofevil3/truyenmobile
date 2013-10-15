@@ -68,26 +68,32 @@ function Controller() {
     function addImageView() {
         for (var i = 0; listImages.length > i; i++) {
             var image = Ti.UI.createImageView({
-                width: "auto",
-                top: 0,
-                height: Ti.Platform.displayCaps.platformHeight - Alloy.Globals.getAdvHeight()
-            });
-            Alloy.Globals.loadImage(image, "http://truyentranhtuan.com" + listImages[i], args.mangaId + args.chapter + i + "");
-            var scrollView = Ti.UI.createScrollView({
-                contentWidth: "100%",
-                contentHeight: "100%",
-                backgroundColor: "#000",
-                showVerticalScrollIndicator: true,
-                showHorizontalScrollIndicator: true,
-                height: Ti.Platform.displayCaps.platformHeight - Alloy.Globals.getAdvHeight(),
                 width: "100%",
-                index: i,
                 top: 0,
-                maxZoomScale: 3,
-                minZoomScale: 1
+                height: "auto"
             });
-            scrollView.add(image);
-            images.push(scrollView);
+            if ("iPhone OS" != Alloy.Globals.getOSType()) {
+                image.height = "100%";
+                image.enableZoomControls = true;
+                images.push(image);
+            } else {
+                var scrollView = Ti.UI.createScrollView({
+                    contentWidth: "100%",
+                    contentHeight: "100%",
+                    backgroundColor: "#000",
+                    showVerticalScrollIndicator: true,
+                    showHorizontalScrollIndicator: true,
+                    height: Ti.Platform.displayCaps.platformHeight - Alloy.Globals.getAdvHeight(),
+                    width: "100%",
+                    index: i,
+                    top: 0,
+                    maxZoomScale: 3,
+                    minZoomScale: 1
+                });
+                scrollView.add(image);
+                images.push(scrollView);
+            }
+            Alloy.Globals.loadImage(image, "http://truyentranhtuan.com" + listImages[i], args.mangaId + args.chapter + i + "");
         }
     }
     function changePage() {}
