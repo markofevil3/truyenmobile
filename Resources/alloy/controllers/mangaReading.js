@@ -25,7 +25,6 @@ function Controller() {
             json.data.mangaId = args.mangaId;
             Alloy.Globals.track("Manga", "Reading", args.mangaId);
             closeWindowNoAnimation();
-            Alloy.Globals.readChapter++;
             var mangaReadingController = Alloy.createController("mangaReading", json.data);
             mangaReadingController.openMainWindow();
         });
@@ -46,7 +45,6 @@ function Controller() {
                 opacity: 1,
                 duration: 500
             }, function() {});
-            currentPage + 1 == listImages.length && 0 == Alloy.Globals.readChapter % 3 && Revmob.showFullscreen();
         }
     }
     function closeWindowNoAnimation() {
@@ -73,8 +71,7 @@ function Controller() {
                 height: "auto"
             });
             if ("iPhone OS" != Alloy.Globals.getOSType()) {
-                image.height = "100%";
-                image.enableZoomControls = true;
+                image.height = "90%";
                 images.push(image);
             } else {
                 var scrollView = Ti.UI.createScrollView({
@@ -343,11 +340,11 @@ function Controller() {
     }());
     $.__views.buttonBar.add($.__views.nextButton);
     changeChapter ? $.__views.nextButton.addEventListener("click", changeChapter) : __defers["$.__views.nextButton!click!changeChapter"] = true;
-    var __alloyId16 = [];
+    var __alloyId18 = [];
     $.__views.imageHolderView = Ti.UI.createScrollableView({
         width: "100%",
         height: "100%",
-        views: __alloyId16,
+        views: __alloyId18,
         id: "imageHolderView"
     });
     $.__views.mangaReadingWindow.add($.__views.imageHolderView);

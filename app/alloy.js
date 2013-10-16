@@ -35,7 +35,6 @@ Alloy.Globals.DEFAULT_PASSWORD = "truyenAlloy";
 Alloy.Globals.DEFAULT_PUSH_CHANNEL = "news"; 
 Alloy.Globals.listener = null;
 Alloy.Globals.FB_USERNAME = null;
-Alloy.Globals.readChapter = 0;
 Alloy.Globals.homeWindowStack = [];
 Alloy.Globals.readingChapters = {};
 Alloy.Globals.readingFontSize = Alloy.Globals.isTablet() ? 26 : 16;
@@ -48,14 +47,6 @@ Alloy.Globals.saveUserData = function() {
 var Admob = require('ti.admob');
 var GA = require('analytics.google');
 var tracker = GA.getTracker("UA-44461245-1");
-
-function RevMob(appIds) {
-  var moduleNames = { 'iPhone OS': 'com.revmob.titanium',  'android': 'com.revmob.ti.android' };
-  var revmobModule = require(moduleNames[Ti.Platform.name]);
-  revmobModule.startSession(appIds[Ti.Platform.name]);
-  return revmobModule;
-};
-var Revmob = new RevMob({ 'iPhone OS': '52443a8f95b82813ab000035',  'android': 'copy your RevMob Android App ID here' });
 
 Alloy.Globals.track = function(cate, action, label) {
 	tracker.trackEvent({

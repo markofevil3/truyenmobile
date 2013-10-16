@@ -14,7 +14,6 @@ function Controller() {
                 var mangaReadingController = Alloy.createController("mangaReading", json.data);
                 setTimeout(function() {
                     Alloy.Globals.closeLoading(args.window);
-                    Alloy.Globals.readChapter++;
                     mangaReadingController.openMainWindow();
                 }, 300);
             });

@@ -1,0 +1,9 @@
+<Alloy>
+  <TableViewRow id="row" class="rows">
+    <View id="detailView" class="detailViews">
+      <Label id="storyAudioTitle" class="storyAudioTitles" />
+      <Label id="storyAudioAuthor" class="storyAudioAuthors" />
+      <Label id="storyAudioType" class="storyAudioTypes" />
+    </View>
+  </TableViewRow>
+</Alloy>

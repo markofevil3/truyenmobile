@@ -1,0 +1,8 @@
+<Alloy>
+  <Window id="audioPlayerWindow">
+    <View id="topBar">
+      <Button id="closeButton" onClick="closeWindow" />
+    </View>
+    <View id="advView" />
+  </Window>
+</Alloy>

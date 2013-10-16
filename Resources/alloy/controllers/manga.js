@@ -49,7 +49,7 @@ function Controller() {
             }) : tableView.scrollToIndex(lastRowIndex - MAX_DISPLAY_ROW);
         }
         var style;
-        style = Ti.UI.ActivityIndicatorStyle.DARK;
+        style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
         var loadingIcon = Titanium.UI.createActivityIndicator({
             style: style
         });

@@ -14,6 +14,10 @@
 			    <Label class="homeMenuName"> Truyện Chữ </Label>
 			    <ImageView class="homeBackgroundPanel" image="/common/bg_pink.png"/>
 			  </TableViewRow>
+       <TableViewRow id="StoryAudioList" class="homeRow" dataName="storyAudioList" onClick="selectMenu">
+          <Label class="homeMenuName"> Nghe Truyện </Label>
+          <ImageView class="homeBackgroundPanel" image="/common/bg_green.png"/>
+        </TableViewRow>
 			  <TableViewRow id="FunnyList" class="homeRow" dataName="funnyList" onClick="selectMenu">
 			    <Label class="homeMenuName"> Truyện Cười </Label>
 			    <ImageView class="homeBackgroundPanel" image="/common/bg_green.png"/>

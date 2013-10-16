@@ -1,13 +1,3 @@
-function RevMob(appIds) {
-    var moduleNames = {
-        "iPhone OS": "com.revmob.titanium",
-        android: "com.revmob.ti.android"
-    };
-    var revmobModule = require(moduleNames["android"]);
-    revmobModule.startSession(appIds["android"]);
-    return revmobModule;
-}
-
 function log(para) {
     Ti.API.info(JSON.stringify(para));
 }
@@ -23,7 +13,7 @@ function isHash(obj) {
 var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
 Alloy.Globals.isTablet = function() {
-    var osname = "android";
+    var osname = Ti.Platform.osname;
     return osname.search(/iphone/i) > -1 ? false : true;
 };
 
@@ -59,8 +49,6 @@ Alloy.Globals.listener = null;
 
 Alloy.Globals.FB_USERNAME = null;
 
-Alloy.Globals.readChapter = 0;
-
 Alloy.Globals.homeWindowStack = [];
 
 Alloy.Globals.readingChapters = {};
@@ -77,11 +65,6 @@ var Admob = require("ti.admob");
 var GA = require("analytics.google");
 
 var tracker = GA.getTracker("UA-44461245-1");
-
-var Revmob = new RevMob({
-    "iPhone OS": "52443a8f95b82813ab000035",
-    android: "copy your RevMob Android App ID here"
-});
 
 Alloy.Globals.track = function(cate, action, label) {
     tracker.trackEvent({
@@ -196,7 +179,7 @@ Alloy.Globals.unsubscribePush = function(channel) {
 };
 
 var loadingIcon = Titanium.UI.createActivityIndicator({
-    style: Ti.UI.ActivityIndicatorStyle.DARK
+    style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG
 });
 
 var loadingView = Titanium.UI.createView({
@@ -251,7 +234,7 @@ Alloy.Globals.getDeviceType = function() {
 };
 
 Alloy.Globals.getOSType = function() {
-    return "android";
+    return "iPhone OS";
 };
 
 Alloy.Globals.backButton = function(window) {
@@ -360,7 +343,7 @@ Alloy.Globals.dynamicLoad = function(tableView, data) {
         });
     }
     var loadingIcon = Titanium.UI.createActivityIndicator({
-        style: Ti.UI.ActivityIndicatorStyle.DARK
+        style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
     });
     var loadingView = Titanium.UI.createView();
     loadingView.add(loadingIcon);
@@ -420,11 +403,29 @@ Alloy.Globals.removeUTF8 = function(str) {
 };
 
 Alloy.Globals.getAdvPublisherId = function() {
-    return "a1524cf9df9881d";
+    switch (Titanium.Platform.osname) {
+      case "android":
+        return "a1524cf9df9881d";
+
+      case "iphone":
+        return "a15242fc9991b03";
+
+      case "ipad":
+        return "a15242fe704686c";
+    }
 };
 
 Alloy.Globals.getAdvHeight = function() {
-    return 75;
+    switch (Titanium.Platform.osname) {
+      case "android":
+        return 75;
+
+      case "iphone":
+        return 50;
+
+      case "ipad":
+        return 90;
+    }
 };
 
 Alloy.Globals.adv = function(type, callback) {

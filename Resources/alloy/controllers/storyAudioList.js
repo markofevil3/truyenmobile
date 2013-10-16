@@ -1,21 +1,50 @@
 function Controller() {
-    function setHotManga(mangas) {
-        mangas.sort(Alloy.Globals.dynamicSort("numView", -1));
-        for (var i = 0; 10 > i; i++) mangas[i].top = i + 1;
-        mangas.sort(Alloy.Globals.dynamicSort("datePost", -1));
-    }
     function setRowData(data) {
         var dataSet = [];
         for (var i = 0; data.length > i; i++) {
-            var row = Alloy.createController("mangaListRow", {
+            var row = Alloy.createController("storyAudioListRow", {
                 data: data[i],
-                window: $.mangaListWindow
+                window: $.storyAudioListWindow
             }).getView();
             dataSet.push(row);
         }
         return dataSet;
     }
-    function dynamicLoad(tableView, data) {
+    function createTabBar() {
+        var tabBar = Titanium.UI.iOS.createTabbedBar({
+            labels: [ "Tất cả", "Tr.ngắn", "Tr.dài" ],
+            index: 0,
+            color: "#fff",
+            font: {
+                fontWeight: "bold"
+            }
+        });
+        if ("iPhone OS" == Alloy.Globals.getOSType()) if (parseFloat(Ti.Platform.version) >= 7) tabBar.tintColor = "#CCCCCC"; else {
+            tabBar.backgroundColor = "#c69656";
+            tabBar.style = Titanium.UI.iPhone.SystemButtonStyle.BAR;
+        }
+        var cloneListStory = listStory.slice(0);
+        tabBar.addEventListener("click", function(e) {
+            switch (e.index) {
+              case 0:
+                listStory = cloneListStory.slice(0);
+                break;
+
+              case 1:
+                listStory = [];
+                for (var i = 0; cloneListStory.length > i; i++) 0 == cloneListStory[i].type && listStory.push(cloneListStory[i]);
+                break;
+
+              case 2:
+                listStory = [];
+                for (var i = 0; cloneListStory.length > i; i++) 1 == cloneListStory[i].type && listStory.push(cloneListStory[i]);
+            }
+            table.setData([]);
+            table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
+        });
+        return tabBar;
+    }
+    function dynamicLoad(tableView) {
         function beginUpdate() {
             updating = true;
             tableView.appendRow(loadingRow);
@@ -29,8 +58,8 @@ function Controller() {
                 animationStyle: Titanium.UI.iPhone.RowAnimationStyle.NONE
             });
             var nextRowIndex = lastRowIndex - 1 + MAX_DISPLAY_ROW;
-            nextRowIndex > data.length && (nextRowIndex = data.length);
-            var nextRowIndexs = data.slice(lastRowIndex - 1, nextRowIndex);
+            nextRowIndex > listStory.length && (nextRowIndex = listStory.length);
+            var nextRowIndexs = listStory.slice(lastRowIndex - 1, nextRowIndex);
             var nextRows = setRowData(nextRowIndexs);
             for (var i = 0; nextRows.length > i; i++) tableView.appendRow(nextRows[i], {
                 animationStyle: Titanium.UI.iPhone.RowAnimationStyle.NONE
@@ -40,15 +69,10 @@ function Controller() {
         var loadingIcon = Titanium.UI.createActivityIndicator({
             style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
         });
-        var loadingView = Titanium.UI.createView({
-            backgroundColor: "transparent",
-            backgroundImage: "NONE"
-        });
+        var loadingView = Titanium.UI.createView();
         loadingView.add(loadingIcon);
         var loadingRow = Ti.UI.createTableViewRow({
-            height: 60,
-            backgroundColor: "transparent",
-            backgroundImage: "NONE"
+            height: 40 * Alloy.Globals.RATIO
         });
         loadingRow.add(loadingView);
         var lastRowIndex = tableView.data[0].rowCount;
@@ -63,30 +87,30 @@ function Controller() {
             var distance = theEnd - total;
             if (lastDistance > distance) {
                 var nearEnd = 1 * theEnd;
-                !updating && total >= nearEnd && data.length > lastRowIndex && lastRowIndex >= MAX_DISPLAY_ROW && (null == search.value || "" == search.value) && beginUpdate();
+                !updating && total >= nearEnd && (null == search.value || "" == search.value) && listStory.length > lastRowIndex && lastRowIndex >= MAX_DISPLAY_ROW && beginUpdate();
             }
             lastDistance = distance;
         });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
-    this.__controllerPath = "mangaList";
+    this.__controllerPath = "storyAudioList";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
-    $.__views.mangaListWindow = Ti.UI.createWindow({
+    $.__views.storyAudioListWindow = Ti.UI.createWindow({
         backgroundImage: "/common/shellBg.png",
         barImage: "/common/top.png",
-        id: "mangaListWindow",
-        title: "Truyện Tranh"
+        id: "storyAudioListWindow",
+        title: "Nghe Truyện"
     });
-    $.__views.mangaListWindow && $.addTopLevelView($.__views.mangaListWindow);
+    $.__views.storyAudioListWindow && $.addTopLevelView($.__views.storyAudioListWindow);
     $.__views.loading = Alloy.createWidget("com.appcelerator.loading", "widget", {
         id: "loading",
-        __parentSymbol: $.__views.mangaListWindow
+        __parentSymbol: $.__views.storyAudioListWindow
     });
-    $.__views.loading.setParent($.__views.mangaListWindow);
+    $.__views.loading.setParent($.__views.storyAudioListWindow);
     $.__views.searchView = Ti.UI.createView({
         backgroundColor: "transparent",
         height: 40,
@@ -94,7 +118,7 @@ function Controller() {
         top: 0,
         id: "searchView"
     });
-    $.__views.mangaListWindow.add($.__views.searchView);
+    $.__views.storyAudioListWindow.add($.__views.searchView);
     $.__views.searchButton = Ti.UI.createSearchBar({
         barColor: "#c79351",
         hintText: "search",
@@ -135,7 +159,7 @@ function Controller() {
         });
         return o;
     }());
-    $.__views.mangaListWindow.add($.__views.advView);
+    $.__views.storyAudioListWindow.add($.__views.advView);
     $.__views.bookShellTable = Ti.UI.createTableView(function() {
         var o = {};
         _.extend(o, {});
@@ -159,50 +183,45 @@ function Controller() {
         });
         return o;
     }());
-    $.__views.mangaListWindow.add($.__views.bookShellTable);
+    $.__views.storyAudioListWindow.add($.__views.bookShellTable);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 15; else var MAX_DISPLAY_ROW = 10;
+    if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 10; else var MAX_DISPLAY_ROW = 5;
     var search = $.searchButton;
+    var table = $.bookShellTable;
+    var listStory;
     exports.openMainWindow = function() {
-        "iPhone OS" == Alloy.Globals.getOSType() && (Titanium.UI.iPhone.appBadge = null);
-        Alloy.Globals.CURRENT_TAB.open($.mangaListWindow);
-        Alloy.Globals.homeWindowStack.push($.mangaListWindow);
-        $.mangaListWindow.addEventListener("close", function() {
+        Alloy.Globals.CURRENT_TAB.open($.storyAudioListWindow);
+        $.storyAudioListWindow.leftNavButton = Alloy.Globals.backButton($.storyAudioListWindow);
+        Alloy.Globals.homeWindowStack.push($.storyAudioListWindow);
+        $.storyAudioListWindow.addEventListener("close", function() {
             Alloy.Globals.homeWindowStack.pop();
             Ti.App.fireEvent("app:reload");
         });
-        $.mangaListWindow.leftNavButton = Alloy.Globals.backButton($.mangaListWindow);
-        var table = $.bookShellTable;
-        var listManga;
-        $.loading.setOpacity(1);
-        Alloy.Globals.getAjax("/mangaList", {
+        Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+            $.advView.add(advImage);
+            $.advView.height = Alloy.Globals.getAdvHeight();
+        });
+        Alloy.Globals.getAjax("/storyList", {
             "null": null
         }, function(response) {
             if (void 0 == response || JSON.parse(response).error) {
                 alert("Không có kết nối Internet!");
                 return;
             }
-            listManga = JSON.parse(response).data;
-            setHotManga(listManga);
-            var tbl_data;
-            if ("iPhone OS" == Alloy.Globals.getOSType()) {
-                tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
-                table.data = tbl_data;
-                $.loading.setOpacity(0);
-                dynamicLoad(table, listManga);
-            } else {
-                tbl_data = setRowData(listManga.slice(0, MAX_DISPLAY_ROW));
-                table.data = tbl_data;
-                $.loading.setOpacity(0);
-            }
+            listStory = JSON.parse(response).data;
+            var tbl_data = setRowData(listStory.slice(0, MAX_DISPLAY_ROW));
+            table.data = tbl_data;
+            dynamicLoad(table);
+            $.loading.setOpacity(0);
+            $.storyAudioListWindow.setTitleControl(createTabBar());
         });
         search.addEventListener("return", function(e) {
             var results = [];
             var regexValue = new RegExp(Alloy.Globals.removeUTF8(e.value), "i");
-            for (var i in listManga) {
-                var removedUTF = Alloy.Globals.removeUTF8(listManga[i].title);
-                regexValue.test(removedUTF) && results.push(listManga[i]);
+            for (var i in listStory) {
+                var removedUTF = Alloy.Globals.removeUTF8(listStory[i].title);
+                regexValue.test(removedUTF) && results.push(listStory[i]);
             }
             tbl_data = setRowData(results);
             table.setData([]);
@@ -217,7 +236,7 @@ function Controller() {
             search.showCancel = false;
             search.blur();
             table.setData([]);
-            table.setData(setRowData(listManga.slice(0, MAX_DISPLAY_ROW)));
+            table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
         });
         var optionsDialogOpts = {
             options: [ "A -> Z", "Most View", "Newest", "Z -> A" ],
@@ -228,29 +247,25 @@ function Controller() {
         dialog.addEventListener("click", function(e) {
             switch (e.index) {
               case 0:
-                listManga.sort(Alloy.Globals.dynamicSort("title", 1));
+                listStory.sort(Alloy.Globals.dynamicSort("title", 1));
                 break;
 
               case 1:
-                listManga.sort(Alloy.Globals.dynamicSortNumber("numView", -1));
+                listStory.sort(Alloy.Globals.dynamicSortNumber("numView", -1));
                 break;
 
               case 2:
-                listManga.sort(Alloy.Globals.dynamicSort("datePost", -1));
+                listStory.sort(Alloy.Globals.dynamicSort("datePost", -1));
                 break;
 
               case 3:
-                listManga.sort(Alloy.Globals.dynamicSort("title", -1));
+                listStory.sort(Alloy.Globals.dynamicSort("title", -1));
             }
             table.setData([]);
-            table.setData(setRowData(listManga.slice(0, MAX_DISPLAY_ROW)));
+            table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
         });
         $.sortButton.addEventListener("singletap", function() {
             dialog.show();
-        });
-        Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-            $.advView.add(advImage);
-            $.advView.height = Alloy.Globals.getAdvHeight();
         });
     };
     _.extend($, exports);

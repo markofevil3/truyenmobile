@@ -1,0 +1,53 @@
+"#audioPlayerWindow": {
+	backgroundImage: '/common/shellBg.png',
+},
+"#topBar[formFactor=handheld]": {
+	width: '100%',
+	height: 40,
+	backgroundColor: 'transparent',
+	top: 0
+},
+"#topBar[formFactor=tablet]": {
+	width: '100%',
+	height: 70,
+	backgroundColor: '#fff',
+	top: 0
+},
+"#closeButton[formFactor=handheld]": {
+	title: 'close',
+	width: 60,
+	height: 30,
+	right: 5,
+	borderRadius: 5,
+	borderWidth: 1,
+	borderColor: '#ffffff',
+	backgroundColor: '#222',
+	backgroundImage: 'NONE',
+	font: { fontWeight: 'bold', fontSize: 14 },
+	selectedColor: '#333',
+	color: '#CCCCCC'
+},
+"#closeButton[formFactor=tablet]": {
+	title: 'close',
+	width: 100,
+	height: 50,
+	right: 5,
+	borderRadius: 10,
+	borderWidth: 2,
+	borderColor: '#ffffff',
+	backgroundColor: '#222',
+	backgroundImage: 'NONE',
+	font: { fontWeight: 'bold', fontSize: 26 },
+	selectedColor: '#fff',
+	color: '#cb0a00'
+},
+"#advView[formFactor=handheld]": {
+	width: '100%',
+	height: 50,
+	bottom: 0
+},
+"#advView[formFactor=tablet]": {
+	width: '100%',
+	height: 90,
+	bottom: 0
+},

@@ -67,63 +67,14 @@ function Controller() {
         id: "wrapper"
     });
     $.__views.favoriteWindow.add($.__views.wrapper);
-    $.__views.buttonBar = Ti.UI.createView({
-        backgroundColor: "transparent",
+    $.__views.filterTabbar = Ti.UI.iOS.createTabbedBar({
+        labels: [ "Tất Cả", "Truyện Tranh", "Truyện Chữ" ],
+        index: 0,
+        color: "#fff",
         top: 0,
-        width: Titanium.UI.SIZE,
-        height: 25,
-        layout: "horizontal",
-        id: "buttonBar"
+        id: "filterTabbar"
     });
-    $.__views.wrapper.add($.__views.buttonBar);
-    $.__views.filterAll = Ti.UI.createButton({
-        color: "#fff",
-        height: 25,
-        width: 65,
-        borderRadius: 4,
-        borderWidth: 1,
-        borderColor: "#c69656",
-        backgroundColor: "red",
-        font: {
-            fontWeight: "bold",
-            fontFamily: "Chalkboard SE"
-        },
-        id: "filterAll",
-        title: "Tất Cả"
-    });
-    $.__views.buttonBar.add($.__views.filterAll);
-    $.__views.filterManga = Ti.UI.createButton({
-        color: "#fff",
-        height: 25,
-        width: 65,
-        borderRadius: 4,
-        borderWidth: 1,
-        borderColor: "#c69656",
-        backgroundColor: "red",
-        font: {
-            fontWeight: "bold",
-            fontFamily: "Chalkboard SE"
-        },
-        id: "filterManga",
-        title: "T.Tranh"
-    });
-    $.__views.buttonBar.add($.__views.filterManga);
-    $.__views.filterStory = Ti.UI.createButton({
-        color: "#fff",
-        height: 25,
-        width: 65,
-        borderRadius: 4,
-        borderWidth: 1,
-        borderColor: "#c69656",
-        backgroundColor: "red",
-        font: {
-            fontWeight: "bold",
-            fontFamily: "Chalkboard SE"
-        },
-        id: "filterStory",
-        title: "T.Chữ"
-    });
-    $.__views.buttonBar.add($.__views.filterStory);
+    $.__views.wrapper.add($.__views.filterTabbar);
     $.__views.advView = Ti.UI.createView(function() {
         var o = {};
         _.extend(o, {});

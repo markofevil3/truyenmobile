@@ -218,7 +218,7 @@ function Controller() {
         return o;
     }());
     $.__views.StoryList.add($.__views.__alloyId8);
-    $.__views.FunnyList = Ti.UI.createTableViewRow(function() {
+    $.__views.StoryAudioList = Ti.UI.createTableViewRow(function() {
         var o = {};
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
@@ -233,13 +233,13 @@ function Controller() {
             backgroundImage: "/common/bookshelfBackground.png"
         });
         _.extend(o, {
-            id: "FunnyList",
-            dataName: "funnyList"
+            id: "StoryAudioList",
+            dataName: "storyAudioList"
         });
         return o;
     }());
-    __alloyId4.push($.__views.FunnyList);
-    selectMenu ? $.__views.FunnyList.addEventListener("click", selectMenu) : __defers["$.__views.FunnyList!click!selectMenu"] = true;
+    __alloyId4.push($.__views.StoryAudioList);
+    selectMenu ? $.__views.StoryAudioList.addEventListener("click", selectMenu) : __defers["$.__views.StoryAudioList!click!selectMenu"] = true;
     $.__views.__alloyId9 = Ti.UI.createLabel(function() {
         var o = {};
         _.extend(o, {});
@@ -273,12 +273,12 @@ function Controller() {
             }
         });
         _.extend(o, {
-            text: "Truyện Cười",
+            text: "Nghe Truyện",
             id: "__alloyId9"
         });
         return o;
     }());
-    $.__views.FunnyList.add($.__views.__alloyId9);
+    $.__views.StoryAudioList.add($.__views.__alloyId9);
     $.__views.__alloyId10 = Ti.UI.createImageView(function() {
         var o = {};
         _.extend(o, {});
@@ -297,7 +297,87 @@ function Controller() {
         });
         return o;
     }());
-    $.__views.FunnyList.add($.__views.__alloyId10);
+    $.__views.StoryAudioList.add($.__views.__alloyId10);
+    $.__views.FunnyList = Ti.UI.createTableViewRow(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            height: 120,
+            backgroundColor: "transparent",
+            backgroundImage: "/common/bookshelfBackground.png"
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            height: 240,
+            backgroundColor: "transparent",
+            backgroundImage: "/common/bookshelfBackground.png"
+        });
+        _.extend(o, {
+            id: "FunnyList",
+            dataName: "funnyList"
+        });
+        return o;
+    }());
+    __alloyId4.push($.__views.FunnyList);
+    selectMenu ? $.__views.FunnyList.addEventListener("click", selectMenu) : __defers["$.__views.FunnyList!click!selectMenu"] = true;
+    $.__views.__alloyId11 = Ti.UI.createLabel(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            color: "#fff",
+            font: {
+                fontSize: 20,
+                fontWeight: "bold",
+                fontFamily: "Chalkboard SE"
+            },
+            zIndex: 2,
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            color: "#fff",
+            font: {
+                fontSize: 40,
+                fontWeight: "bold",
+                fontFamily: "Chalkboard SE"
+            },
+            zIndex: 2,
+            shadowColor: "#000",
+            shadowOffset: {
+                x: 1,
+                y: 1
+            }
+        });
+        _.extend(o, {
+            text: "Truyện Cười",
+            id: "__alloyId11"
+        });
+        return o;
+    }());
+    $.__views.FunnyList.add($.__views.__alloyId11);
+    $.__views.__alloyId12 = Ti.UI.createImageView(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            width: 181,
+            height: 55
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            width: 362,
+            height: 110
+        });
+        _.extend(o, {
+            image: "/common/bg_green.png",
+            id: "__alloyId12"
+        });
+        return o;
+    }());
+    $.__views.FunnyList.add($.__views.__alloyId12);
     $.__views.homeTableView = Ti.UI.createTableView({
         backgroundColor: "transparent",
         separatorColor: "transparent",
@@ -326,6 +406,7 @@ function Controller() {
     });
     __defers["$.__views.MangaList!click!selectMenu"] && $.__views.MangaList.addEventListener("click", selectMenu);
     __defers["$.__views.StoryList!click!selectMenu"] && $.__views.StoryList.addEventListener("click", selectMenu);
+    __defers["$.__views.StoryAudioList!click!selectMenu"] && $.__views.StoryAudioList.addEventListener("click", selectMenu);
     __defers["$.__views.FunnyList!click!selectMenu"] && $.__views.FunnyList.addEventListener("click", selectMenu);
     _.extend($, exports);
 }
