@@ -10,6 +10,7 @@ exports.openMainWindow = function() {
 	pageCount.text = '1/' + listImages.length;
 	Alloy.Globals.adv(3, function(advImage) {
 		$.advView2.add(advImage);
+		$.advView2.height = Alloy.Globals.getAdvHeight();
 	});
 	SetChangeChapterButtons(args.next, args.prev);
 	hideFuncBar();
@@ -54,6 +55,7 @@ function changeChapter(e) {
 	},
 	function(response) {
 		var json = JSON.parse(response);
+		Alloy.Globals.setAdmobPublisher(json.advPublisher, json.admobPublisher);
 		json.data.next = json.nextPrevChapters.next;
 		json.data.prev = json.nextPrevChapters.prev;
 		json.data.mangaId = args.mangaId;

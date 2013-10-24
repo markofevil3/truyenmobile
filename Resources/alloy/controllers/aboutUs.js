@@ -95,8 +95,8 @@ function Controller() {
                 fontStyle: "bold"
             },
             textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
-            color: "#008AE6",
-            shadowColor: "blue",
+            color: "#0099FF",
+            shadowColor: "#0000FF",
             shadowOffset: {
                 x: 1,
                 y: 1
@@ -132,8 +132,8 @@ function Controller() {
                 fontStyle: "bold"
             },
             textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
-            color: "#008AE6",
-            shadowColor: "blue",
+            color: "#0099FF",
+            shadowColor: "#0000FF",
             shadowOffset: {
                 x: 1,
                 y: 1

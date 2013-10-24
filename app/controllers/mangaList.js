@@ -40,7 +40,14 @@ exports.openMainWindow = function() {
 			alert("Không có kết nối Internet!");
 			return;
 		}
-		listManga = JSON.parse(response).data;
+		//#### advertise view
+		var jsonData = JSON.parse(response);
+		Alloy.Globals.setAdmobPublisher(jsonData.advPublisher, jsonData.admobPublisher);
+		Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+			$.advView.add(advImage);
+			$.advView.height = Alloy.Globals.getAdvHeight();
+		});
+		listManga = jsonData.data;
 		setHotManga(listManga);
 		var tbl_data;
 		if (Alloy.Globals.getOSType() == "iPhone OS") {
@@ -106,11 +113,6 @@ exports.openMainWindow = function() {
 	});
 	$.sortButton.addEventListener('singletap', function(e) {
 		dialog.show();
-	});
-	//#### advertise view
-	Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-		$.advView.add(advImage);
-		$.advView.height = Alloy.Globals.getAdvHeight();
 	});
 };
 

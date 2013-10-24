@@ -78,6 +78,7 @@ function Controller() {
     $.__views.mangaListWindow = Ti.UI.createWindow({
         backgroundImage: "/common/shellBg.png",
         barImage: "/common/top.png",
+        layout: "vertical",
         id: "mangaListWindow",
         title: "Truyện Tranh"
     });
@@ -121,14 +122,12 @@ function Controller() {
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
             width: "100%",
-            height: 50,
-            top: 40
+            height: 50
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             width: "100%",
-            height: 66,
-            top: 40
+            height: 66
         });
         _.extend(o, {
             id: "advView"
@@ -143,16 +142,14 @@ function Controller() {
             backgroundColor: "transparent",
             separatorColor: "transparent",
             style: Ti.UI.iPhone.TableViewStyle.PLAIN,
-            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-            top: 90
+            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             backgroundColor: "transparent",
             separatorColor: "transparent",
             style: Ti.UI.iPhone.TableViewStyle.PLAIN,
-            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-            top: 130
+            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
         });
         _.extend(o, {
             id: "bookShellTable"
@@ -183,7 +180,13 @@ function Controller() {
                 alert("Không có kết nối Internet!");
                 return;
             }
-            listManga = JSON.parse(response).data;
+            var jsonData = JSON.parse(response);
+            Alloy.Globals.setAdmobPublisher(jsonData.advPublisher, jsonData.admobPublisher);
+            Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+                $.advView.add(advImage);
+                $.advView.height = Alloy.Globals.getAdvHeight();
+            });
+            listManga = jsonData.data;
             setHotManga(listManga);
             var tbl_data;
             if ("iPhone OS" == Alloy.Globals.getOSType()) {
@@ -247,10 +250,6 @@ function Controller() {
         });
         $.sortButton.addEventListener("singletap", function() {
             dialog.show();
-        });
-        Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-            $.advView.add(advImage);
-            $.advView.height = Alloy.Globals.getAdvHeight();
         });
     };
     _.extend($, exports);

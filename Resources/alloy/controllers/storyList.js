@@ -102,6 +102,7 @@ function Controller() {
     $.__views.storyListWindow = Ti.UI.createWindow({
         backgroundImage: "/common/shellBg.png",
         barImage: "/common/top.png",
+        layout: "vertical",
         id: "storyListWindow",
         title: "Story"
     });
@@ -145,14 +146,12 @@ function Controller() {
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
             width: "100%",
-            height: 50,
-            top: 40
+            height: 50
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             width: "100%",
-            height: 66,
-            top: 40
+            height: 66
         });
         _.extend(o, {
             id: "advView"
@@ -167,16 +166,14 @@ function Controller() {
             backgroundColor: "transparent",
             separatorColor: "transparent",
             style: Ti.UI.iPhone.TableViewStyle.PLAIN,
-            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-            top: 90
+            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             backgroundColor: "transparent",
             separatorColor: "transparent",
             style: Ti.UI.iPhone.TableViewStyle.PLAIN,
-            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-            top: 130
+            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
         });
         _.extend(o, {
             id: "bookShellTable"
@@ -198,18 +195,18 @@ function Controller() {
             Alloy.Globals.homeWindowStack.pop();
             Ti.App.fireEvent("app:reload");
         });
-        Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-            $.advView.add(advImage);
-            $.advView.height = Alloy.Globals.getAdvHeight();
-        });
-        Alloy.Globals.getAjax("/storyList", {
-            "null": null
-        }, function(response) {
+        Alloy.Globals.getAjax("/storyList", null, function(response) {
             if (void 0 == response || JSON.parse(response).error) {
                 alert("Không có kết nối Internet!");
                 return;
             }
-            listStory = JSON.parse(response).data;
+            var jsonData = JSON.parse(response);
+            Alloy.Globals.setAdmobPublisher(jsonData.advPublisher, jsonData.admobPublisher);
+            Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+                $.advView.add(advImage);
+                $.advView.height = Alloy.Globals.getAdvHeight();
+            });
+            listStory = jsonData.data;
             var tbl_data = setRowData(listStory.slice(0, MAX_DISPLAY_ROW));
             table.data = tbl_data;
             dynamicLoad(table);

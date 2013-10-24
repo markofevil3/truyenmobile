@@ -46,7 +46,18 @@ function getFavorites() {
 		'userId': Alloy.Globals.facebook.getUid()
 	},
 	function(response) {
-		listFavorites = JSON.parse(response).data;
+		var jsonData = JSON.parse(response);
+		//## ADVERTISE
+		Alloy.Globals.setAdmobPublisher(jsonData.advPublisher, jsonData.admobPublisher);
+		var adview = $.advView;
+		for (var d in adview.children) {
+		  adview.remove(adview.children[d]);
+		}
+		Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+			$.advView.add(advImage);
+			$.advView.height = Alloy.Globals.getAdvHeight();
+		});
+		listFavorites = jsonData.data;
 		if (listFavorites == false ) {
 			return;
 		}
@@ -83,9 +94,4 @@ $.favoriteTab.addEventListener('focus', function(f) {
 	} else {
 		getFavorites();
 	}
-});
-
-//## ADVERTISE
-Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-	$.advView.add(advImage);
 });

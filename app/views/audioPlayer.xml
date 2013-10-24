@@ -3,6 +3,10 @@
     <View id="topBar">
       <Button id="closeButton" onClick="closeWindow" />
     </View>
+    <View id="playerView">
+      <Label id="audioTitle">asda</Label>
+      <ProgressBar id="audioProgress"/>
+    </View>
     <View id="advView" />
   </Window>
 </Alloy>

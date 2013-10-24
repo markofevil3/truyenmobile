@@ -23,7 +23,15 @@ function Controller() {
         Alloy.Globals.getAjax("/getFavorites", {
             userId: Alloy.Globals.facebook.getUid()
         }, function(response) {
-            listFavorites = JSON.parse(response).data;
+            var jsonData = JSON.parse(response);
+            Alloy.Globals.setAdmobPublisher(jsonData.advPublisher, jsonData.admobPublisher);
+            var adview = $.advView;
+            for (var d in adview.children) adview.remove(adview.children[d]);
+            Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+                $.advView.add(advImage);
+                $.advView.height = Alloy.Globals.getAdvHeight();
+            });
+            listFavorites = jsonData.data;
             if (false == listFavorites) return;
             mangaRows = setRowData(listFavorites["manga"], 0);
             storyRows = setRowData(listFavorites["story"], 1);
@@ -80,12 +88,14 @@ function Controller() {
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
             width: "100%",
-            height: 50
+            height: 50,
+            top: 15
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             width: "100%",
-            height: 90
+            height: 90,
+            top: 15
         });
         _.extend(o, {
             id: "advView"
@@ -131,9 +141,6 @@ function Controller() {
         0 == Alloy.Globals.facebook.loggedIn ? Alloy.Globals.facebookLogin(function() {
             getFavorites();
         }) : getFavorites();
-    });
-    Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-        $.advView.add(advImage);
     });
     _.extend($, exports);
 }

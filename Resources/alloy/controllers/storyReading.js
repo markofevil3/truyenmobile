@@ -14,7 +14,7 @@ function Controller() {
         });
     }
     function SaveReadingChapter() {
-        Alloy.Globals.readingChapters[args.storyId] = args._id;
+        Alloy.Globals.readingChapters[args.storyId] = args.title;
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "storyReading";
@@ -238,12 +238,12 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
-    Alloy.Globals.adv(3, function(advImage) {
-        $.advView.add(advImage);
-        $.advView.height = Alloy.Globals.getAdvHeight();
-    });
     var webview = $.webview;
     exports.openMainWindow = function() {
+        Alloy.Globals.adv(3, function(advImage) {
+            $.advView.add(advImage);
+            $.advView.height = Alloy.Globals.getAdvHeight();
+        });
         webview.url = "storyReading.html";
         webview.addEventListener("load", function() {
             Ti.App.fireEvent("setContent", {

@@ -2,7 +2,11 @@ var args = arguments[0] || {};
 
 $.row.dataId = args.data._id;
 $.row.dataType = args.data.type;
-$.bookCover.image = Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg";
+if (args.data.cover && args.data.cover != null) {
+	$.bookCover.image = args.data.cover;
+} else {
+	$.bookCover.image = Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg";
+}
 $.storyTitle.text = args.data.title;
 $.storyAuthor.text = 'Tác giả: ' + args.data.author;
 $.storyType.text = 'Thể loại: ' + getTypeText(args.data.type);
@@ -20,6 +24,7 @@ function selectItem(item) {
 			},
 			function(response) {
 				var json = JSON.parse(response);
+				Alloy.Globals.setAdmobPublisher(json.advPublisher, json.admobPublisher);
 				setTimeout(function() {
 					var storyReadingController = Alloy.createController('storyReading', json.data);
 					Alloy.Globals.closeLoading(args.window);
@@ -33,6 +38,7 @@ function selectItem(item) {
 			},
 			function(response) {
 				var json = JSON.parse(response);
+				Alloy.Globals.setAdmobPublisher(json.advPublisher, json.admobPublisher);
 				setTimeout(function() {
 					var storyController = Alloy.createController('story', json);
 					Alloy.Globals.closeLoading(args.window);

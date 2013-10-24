@@ -354,6 +354,7 @@ function Controller() {
         $.mangaWindow.leftNavButton = Alloy.Globals.backButton($.mangaWindow);
         Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
             $.advView.add(advImage);
+            $.advView.height = Alloy.Globals.getAdvHeight();
         });
         var favoriteButton = Titanium.UI.createButton({
             text: "favorite",

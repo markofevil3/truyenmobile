@@ -14,6 +14,7 @@ function Controller() {
         }
     }
     function startApp() {
+        createAudioFolder();
         Ti.App.addEventListener("pause", appPause);
         Ti.App.addEventListener("resumed", appResume);
         var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "userData.txt");
@@ -37,6 +38,11 @@ function Controller() {
         }
         Alloy.Globals.TAB_GROUP = $.tapGroup;
         $.tabGroup.open();
+    }
+    function createAudioFolder() {
+        var dir = Titanium.Filesystem.applicationDataDirectory + "/audioData";
+        var folder = Titanium.Filesystem.getFile(dir);
+        folder.exists() || folder.createDirectory();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "index";

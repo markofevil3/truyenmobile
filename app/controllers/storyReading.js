@@ -1,10 +1,10 @@
 var args = arguments[0] || {};
-Alloy.Globals.adv(3, function(advImage) {
-	$.advView.add(advImage);
-	$.advView.height = Alloy.Globals.getAdvHeight();
-});
 var webview = $.webview;
 exports.openMainWindow = function() {
+	Alloy.Globals.adv(3, function(advImage) {
+		$.advView.add(advImage);
+		$.advView.height = Alloy.Globals.getAdvHeight();
+	});
 	// $.contentLabel.value = args.content;
 	webview.url = "storyReading.html";
 	// webview.setHtml('<html><body><div id="content">' + args.content + '</div></body></html>');
@@ -34,5 +34,5 @@ function changeTextSize(e) {
 };
 
 function SaveReadingChapter() {
-	Alloy.Globals.readingChapters[args.storyId] = args._id;
+	Alloy.Globals.readingChapters[args.storyId] = args.title;
 };

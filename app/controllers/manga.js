@@ -14,6 +14,7 @@ exports.openMainWindow = function() {
 	//#### advertise view
 	Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
 		$.advView.add(advImage);
+		$.advView.height = Alloy.Globals.getAdvHeight();
 	});
 	//#### favorite and favorited button
 	var favoriteButton = Titanium.UI.createButton({

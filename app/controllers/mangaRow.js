@@ -23,6 +23,7 @@ function selectItem(item) {
 		},
 		function(response) {
 			var json = JSON.parse(response);
+			Alloy.Globals.setAdmobPublisher(json.advPublisher, json.admobPublisher);
 			json.data.next = json.nextPrevChapters.next;
 			json.data.prev = json.nextPrevChapters.prev;
 			json.data.mangaId = item.mangaId;

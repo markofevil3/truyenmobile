@@ -1,6 +1,6 @@
 function Controller() {
     function selectMenu(e) {
-        if ("funnyList" == e.rowData.dataName) alert("Coming Soon!"); else {
+        if ("funnyList" == e.rowData.dataName || "storyAudioList" == e.rowData.dataName) alert("Coming Soon!"); else {
             var selectedMenuController = Alloy.createController(e.rowData.dataName);
             selectedMenuController.openMainWindow();
         }
@@ -9,11 +9,53 @@ function Controller() {
         Alloy.Globals.getAjax("/appVersion", {
             "null": null
         }, function(response) {
-            startHome();
-            return;
+            if (void 0 == response) {
+                alert("Không có kết nối Internet!");
+                return;
+            }
+            var data = JSON.parse(response);
+            Alloy.Globals.setAdmobPublisher(data.advPublisher, data.admobPublisher);
+            Alloy.Globals.FBPOST_LINK = data.facebookPostLink;
+            if (data.error || data.version == Titanium.App.version.toString()) {
+                "iPhone OS" == Alloy.Globals.getOSType() ? void 0 != data.iosLink && (Alloy.Globals.FBPOST_LINK = data.iosLink) : void 0 != data.androidLink && (Alloy.Globals.FBPOST_LINK = data.androidLink);
+                startHome();
+            } else {
+                var dialog;
+                if (data.force) {
+                    dialog = Ti.UI.createAlertDialog({
+                        message: "Có phiên bản mới!!!",
+                        buttonNames: [ "Nâng Cấp" ],
+                        title: "Nâng Cấp"
+                    });
+                    dialog.show();
+                    dialog.addEventListener("click", function() {
+                        openStoreLink(data);
+                    });
+                } else {
+                    dialog = Ti.UI.createAlertDialog({
+                        cancel: 0,
+                        buttonNames: [ "Bỏ Qua", "Nâng Cấp" ],
+                        message: "Có phiên bản mới!!!",
+                        title: "Nâng Cấp"
+                    });
+                    dialog.show();
+                }
+                dialog.addEventListener("click", function(e) {
+                    1 == e.index ? openStoreLink(data) : startHome();
+                });
+            }
         });
     }
+    function openStoreLink(data) {
+        "iPhone OS" == Alloy.Globals.getOSType() ? Ti.Platform.openURL(data.iosLink) : Ti.Platform.openURL(data.androidLink);
+    }
     function startHome() {
+        revmob.addEventListener("adReceived", function(e) {
+            log(e);
+        });
+        log(revmob.openAdLink());
+        var adview = $.advertise;
+        for (var d in adview.children) adview.remove(adview.children[d]);
         Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
             $.advertise.add(advImage);
             $.advertise.height = Alloy.Globals.getAdvHeight();
@@ -273,7 +315,7 @@ function Controller() {
             }
         });
         _.extend(o, {
-            text: "Nghe Truyện",
+            text: "Truyện Audio",
             id: "__alloyId9"
         });
         return o;

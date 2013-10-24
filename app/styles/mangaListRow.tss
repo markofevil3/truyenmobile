@@ -2,14 +2,14 @@
 	height:120,
 	backgroundColor: 'transparent',
 	backgroundImage: '/common/bookshelfBackground.png',
-	selectedBackgroundColor: 'transparent',
+	// selectedBackgroundColor: 'blue',
 	layout: 'horizontal'
 },
 ".rows[formFactor=tablet]": {
 	height: 240,
 	backgroundColor: 'transparent',
 	backgroundImage: '/common/bookshelfBackground.png',
-	selectedBackgroundColor: 'transparent',
+	// selectedBackgroundColor: 'transparent',
 	layout: 'horizontal'
 },
 ".bookInfoViews": {

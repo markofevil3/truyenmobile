@@ -1,5 +1,6 @@
 "#audioPlayerWindow": {
 	backgroundImage: '/common/shellBg.png',
+	layout: 'vertical'
 },
 "#topBar[formFactor=handheld]": {
 	width: '100%',
@@ -12,6 +13,25 @@
 	height: 70,
 	backgroundColor: '#fff',
 	top: 0
+},
+"#playerView": {
+	width: '100%',
+	height: 'auto',
+	backgroundColor: 'red',
+	layout: 'vertical'
+},
+"#audioProgress": {
+	width : 200,
+	min : 0,
+	value : 0,
+	height : 70,
+	color : '#fff',
+	message : 'Downloading 0 of 10',
+	font : {
+		fontSize : 14,
+		fontWeight : 'bold'
+	},
+	// style : Titanium.UI.iPhone.ProgressBarStyle.BAR,
 },
 "#closeButton[formFactor=handheld]": {
 	title: 'close',
@@ -50,4 +70,4 @@
 	width: '100%',
 	height: 90,
 	bottom: 0
-},
+}

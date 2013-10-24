@@ -17,20 +17,20 @@ exports.openMainWindow = function() {
 		Alloy.Globals.homeWindowStack.pop();
 		Ti.App.fireEvent('app:reload');
 	});
-	//#### advertise view
-	Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-		$.advView.add(advImage);
-		$.advView.height = Alloy.Globals.getAdvHeight();
-	});
-	Alloy.Globals.getAjax('/storyList', {
-		'null': null
-	},
+	Alloy.Globals.getAjax('/storyList', null,
 	function(response) {
 		if (response == undefined || JSON.parse(response).error) {
 			alert("Không có kết nối Internet!");
 			return;
 		}
-		listStory = JSON.parse(response).data;
+		var jsonData = JSON.parse(response);
+		Alloy.Globals.setAdmobPublisher(jsonData.advPublisher, jsonData.admobPublisher);
+		//#### advertise view
+		Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+			$.advView.add(advImage);
+			$.advView.height = Alloy.Globals.getAdvHeight();
+		});
+		listStory = jsonData.data;
 		var tbl_data = setRowData(listStory.slice(0, MAX_DISPLAY_ROW));
 		table.data = tbl_data;
 		dynamicLoad(table);

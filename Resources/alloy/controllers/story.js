@@ -318,13 +318,15 @@ function Controller() {
             backgroundColor: "transparent",
             backgroundImage: "/common/favorites_color.png"
         });
+        var bookCover;
+        bookCover = args.data.cover && null != args.data.cover ? args.data.cover : Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg";
         favoriteButton.addEventListener("click", function() {
             0 == Alloy.Globals.facebook.loggedIn ? Alloy.Globals.facebookLogin(function(e) {
-                Alloy.Globals.addFavorite(favoriteButton.itemId, 1, e.data, args.data.title, Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg", function() {
+                Alloy.Globals.addFavorite(favoriteButton.itemId, 1, e.data, args.data.title, bookCover, function() {
                     $.storyWindow.rightNavButton = favoritedButton;
                 });
             }) : Alloy.Globals.facebook.requestWithGraphPath("/" + Alloy.Globals.facebook.getUid(), {}, "GET", function(user) {
-                Alloy.Globals.addFavorite(favoriteButton.itemId, 1, JSON.parse(user.result), args.data.title, Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg", function() {
+                Alloy.Globals.addFavorite(favoriteButton.itemId, 1, JSON.parse(user.result), args.data.title, bookCover, function() {
                     $.storyWindow.rightNavButton = favoritedButton;
                 });
             });
@@ -332,7 +334,7 @@ function Controller() {
         var listChapters = args.data.chapters;
         $.storyWindow.rightNavButton = args.favorite ? favoritedButton : favoriteButton;
         $.storyWindow.title = args.data.title;
-        $.bookCover.image = Alloy.Globals.SERVER + "/images/storyDefaultCover.jpg";
+        $.bookCover.image = bookCover;
         $.bookTitle.text = args.data.title;
         $.bookAuthor.text = "Tác Giả: " + args.data.author;
         $.shortDesc.text = args.data.shortDes;

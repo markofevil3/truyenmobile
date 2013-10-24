@@ -1,6 +1,6 @@
 var homeTab = $.homeTab;
 function selectMenu(e) {
-	if (e.rowData.dataName == "funnyList") {
+	if (e.rowData.dataName == "funnyList" || e.rowData.dataName == "storyAudioList") {
 		alert("Coming Soon!");
 	} else {
 		var selectedMenuController = Alloy.createController(e.rowData.dataName);
@@ -13,17 +13,14 @@ function appStart() {
 	'null': null
 	},
 	function(response) {
-		/////////////////////////
-		startHome();
-		return;
-		////////////////////////
 		if (response == undefined) {
 			alert("Không có kết nối Internet!");
 			return;
 		}
 		var data = JSON.parse(response);
+		Alloy.Globals.setAdmobPublisher(data.advPublisher, data.admobPublisher);
 		Alloy.Globals.FBPOST_LINK = data.facebookPostLink;
-		if (data.error || data.version == Titanium.App.version) {
+		if (data.error || data.version == Titanium.App.version.toString()) {
 			if (Alloy.Globals.getOSType() == "iPhone OS") {
 				if (data.iosLink != undefined) {
 					Alloy.Globals.FBPOST_LINK = data.iosLink;
@@ -77,6 +74,10 @@ function openStoreLink(data) {
 
 function startHome() {
 	//## ADVERTISE
+	var adview = $.advertise;
+	for (var d in adview.children) {
+    adview.remove(adview.children[d]);
+	}
 	Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
 		$.advertise.add(advImage);
 		$.advertise.height = Alloy.Globals.getAdvHeight();

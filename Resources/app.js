@@ -1,10 +1,18 @@
+function RevMob(appIds) {
+    var moduleNames = {
+        "iPhone OS": "com.revmob.titanium",
+        android: "com.revmob.ti.android"
+    };
+    var revmobModule = require(moduleNames["iPhone OS"]);
+    revmobModule.startSession(appIds["iPhone OS"]);
+    return revmobModule;
+}
+
 function log(para) {
     Ti.API.info(JSON.stringify(para));
 }
 
-function showRequestResult(e) {
-    log(e);
-}
+function showRequestResult() {}
 
 function isHash(obj) {
     return obj.constructor == Object;
@@ -31,7 +39,7 @@ Alloy.Globals.TAB_GROUP = null;
 
 Alloy.Globals.currentLoadingView = null;
 
-Alloy.Globals.FBPOST_LINK = "https://www.facebook.com/pages/Truy%E1%BB%87n-tranh-Truy%E1%BB%87n-ng%E1%BA%AFn-Truy%E1%BB%87n-c%C6%B0%E1%BB%9Di/518980604798172";
+Alloy.Globals.FBPOST_LINK = "https://www.facebook.com/fulltruyen?ref=hl";
 
 Alloy.Globals.facebook = require("facebook");
 
@@ -54,6 +62,24 @@ Alloy.Globals.homeWindowStack = [];
 Alloy.Globals.readingChapters = {};
 
 Alloy.Globals.readingFontSize = Alloy.Globals.isTablet() ? 26 : 16;
+
+Alloy.Globals.advPublisher = 0;
+
+Alloy.Globals.admobPublisher = {
+    android: "a1524cf9df9881d",
+    iphone: "a15242fc9991b03",
+    ipad: "a15242fe704686c"
+};
+
+var revmob = new RevMob({
+    "iPhone OS": "52443a8f95b82813ab000035",
+    android: "copy your RevMob Android App ID here"
+});
+
+Alloy.Globals.setAdmobPublisher = function(publisher, admobPublishers) {
+    Alloy.Globals.advPublisher = publisher;
+    Alloy.Globals.admobPublisher = admobPublishers;
+};
 
 Alloy.Globals.saveUserData = function() {
     var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "userData.txt");
@@ -80,10 +106,7 @@ Alloy.Globals.listener = function(e, callback) {
         void 0 == Ti.Network.remoteDeviceUUID && Alloy.Globals.loginUser(Titanium.Platform.id);
         Alloy.Globals.FB_USERNAME = e.data.username;
         callback(e);
-    } else if (e.error) {
-        log("Alloy.Globals.listener:");
-        log(e.error);
-    } else e.cancelled;
+    } else e.error ? log(e.error) : e.cancelled;
     Alloy.Globals.facebook.removeEventListener("click", Alloy.Globals.listener);
 };
 
@@ -150,7 +173,6 @@ Alloy.Globals.getDeviceToken = function(callback) {
         error: function(e) {
             log("ErrorDeviceToken: ");
             log(e.message);
-            log(e.message);
         },
         callback: function(e) {
             log("Alloy.Globals.getDeviceToken:" + JSON.stringify(e.data));
@@ -169,7 +191,6 @@ Alloy.Globals.subscribePush = function(channel) {
 };
 
 Alloy.Globals.unsubscribePush = function(channel) {
-    log(Ti.Network.remoteDeviceUUID);
     Cloud.PushNotifications.unsubscribe({
         channel: channel,
         device_token: Ti.Network.remoteDeviceUUID
@@ -195,7 +216,6 @@ var loadingView = Titanium.UI.createView({
 loadingView.add(loadingIcon);
 
 Alloy.Globals.fbPost = function(itemTitle, imageLink) {
-    log(imageLink);
     var data = {
         link: Alloy.Globals.FBPOST_LINK,
         name: itemTitle + " - Full Truyện App",
@@ -403,16 +423,7 @@ Alloy.Globals.removeUTF8 = function(str) {
 };
 
 Alloy.Globals.getAdvPublisherId = function() {
-    switch (Titanium.Platform.osname) {
-      case "android":
-        return "a1524cf9df9881d";
-
-      case "iphone":
-        return "a15242fc9991b03";
-
-      case "ipad":
-        return "a15242fe704686c";
-    }
+    return Alloy.Globals.admobPublisher[Titanium.Platform.osname];
 };
 
 Alloy.Globals.getAdvHeight = function() {
@@ -424,26 +435,22 @@ Alloy.Globals.getAdvHeight = function() {
         return 50;
 
       case "ipad":
-        return 90;
+        return 0 == Alloy.Globals.advPublisher ? 66 : 90;
     }
 };
 
 Alloy.Globals.adv = function(type, callback) {
-    Admob.createView({
-        width: Ti.Platform.displayCaps.platformWidth,
-        height: Alloy.Globals.getAdvHeight(),
-        publisherId: Alloy.Globals.getAdvPublisherId(),
-        testing: false,
-        dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
-        gender: "male",
-        keywords: ""
-    });
-    Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
-    Ti.Geolocation.distanceFilter = 0;
-    Ti.Geolocation.purpose = "To show you local ads, of course!";
-    Ti.Geolocation.getCurrentPosition(function(e) {
-        var advImage;
-        advImage = !e.success || e.error ? Admob.createView({
+    if (0 == Alloy.Globals.advPublisher) {
+        var advImage = Ti.UI.iOS.createAdView({
+            width: "auto",
+            height: "auto"
+        });
+        advImage.addEventListener("error", function(e) {
+            2 != e.code;
+        });
+        callback(advImage);
+    } else {
+        var advImage = Admob.createView({
             width: Ti.Platform.displayCaps.platformWidth,
             height: Alloy.Globals.getAdvHeight(),
             publisherId: Alloy.Globals.getAdvPublisherId(),
@@ -451,18 +458,33 @@ Alloy.Globals.adv = function(type, callback) {
             dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
             gender: "male",
             keywords: ""
-        }) : Admob.createView({
-            width: Ti.Platform.displayCaps.platformWidth,
-            height: Alloy.Globals.getAdvHeight(),
-            publisherId: Alloy.Globals.getAdvPublisherId(),
-            testing: false,
-            dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
-            gender: "male",
-            keywords: "",
-            location: e.coords
         });
-        callback(advImage);
-    });
+        Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
+        Ti.Geolocation.distanceFilter = 0;
+        Ti.Geolocation.purpose = "To show you local ads, of course!";
+        Ti.Geolocation.getCurrentPosition(function(e) {
+            var advImage;
+            advImage = !e.success || e.error ? Admob.createView({
+                width: Ti.Platform.displayCaps.platformWidth,
+                height: Alloy.Globals.getAdvHeight(),
+                publisherId: Alloy.Globals.getAdvPublisherId(),
+                testing: false,
+                dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
+                gender: "male",
+                keywords: ""
+            }) : Admob.createView({
+                width: Ti.Platform.displayCaps.platformWidth,
+                height: Alloy.Globals.getAdvHeight(),
+                publisherId: Alloy.Globals.getAdvPublisherId(),
+                testing: false,
+                dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
+                gender: "male",
+                keywords: "",
+                location: e.coords
+            });
+            callback(advImage);
+        });
+    }
 };
 
 Alloy.Globals.loadImage = function(imageView, url) {
@@ -489,6 +511,11 @@ Alloy.Globals.getNewestChapter = function(chapters) {
     var newest = 0;
     for (var i = 0; chapters.length > i; i++) parseFloat(chapters[i].chapter) > newest && (newest = parseFloat(chapters[i].chapter));
     return newest;
+};
+
+Alloy.Globals.checkAudioExist = function(audioName) {
+    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory + "/audioData/" + audioName);
+    return file.exists();
 };
 
 Alloy.createController("index");

@@ -47,6 +47,7 @@ function selectItem(item) {
 		},
 		function(response) {
 			var json = JSON.parse(response);
+			Alloy.Globals.setAdmobPublisher(json.advPublisher, json.admobPublisher);
 			Alloy.Globals.track("Manga", "List Chapter", json.data.title);
 			var mangaController = Alloy.createController('manga', json);
 			setTimeout(function() {

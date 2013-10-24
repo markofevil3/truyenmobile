@@ -7,6 +7,7 @@ function Controller() {
                 userId: Alloy.Globals.facebook.getUid()
             }, function(response) {
                 var json = JSON.parse(response);
+                Alloy.Globals.setAdmobPublisher(json.advPublisher, json.admobPublisher);
                 Alloy.Globals.track("Manga", "List Chapter", json.data.title);
                 var mangaController = Alloy.createController("manga", json);
                 setTimeout(function() {
@@ -30,7 +31,6 @@ function Controller() {
             height: 120,
             backgroundColor: "transparent",
             backgroundImage: "/common/bookshelfBackground.png",
-            selectedBackgroundColor: "transparent",
             layout: "horizontal"
         });
         _.extend(o, {});
@@ -38,7 +38,6 @@ function Controller() {
             height: 240,
             backgroundColor: "transparent",
             backgroundImage: "/common/bookshelfBackground.png",
-            selectedBackgroundColor: "transparent",
             layout: "horizontal"
         });
         _.extend(o, {

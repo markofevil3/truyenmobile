@@ -15,7 +15,7 @@
 			    <ImageView class="homeBackgroundPanel" image="/common/bg_pink.png"/>
 			  </TableViewRow>
        <TableViewRow id="StoryAudioList" class="homeRow" dataName="storyAudioList" onClick="selectMenu">
-          <Label class="homeMenuName"> Nghe Truyện </Label>
+          <Label class="homeMenuName"> Truyện Audio </Label>
           <ImageView class="homeBackgroundPanel" image="/common/bg_green.png"/>
         </TableViewRow>
 			  <TableViewRow id="FunnyList" class="homeRow" dataName="funnyList" onClick="selectMenu">

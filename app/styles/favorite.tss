@@ -42,8 +42,10 @@
 "#advView[formFactor=handheld]": {
 	width: '100%',
 	height: 50,
+	top: 15
 },
 "#advView[formFactor=tablet]": {
 	width: '100%',
 	height: 90,
+	top: 15
 },
