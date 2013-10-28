@@ -50,10 +50,6 @@ function Controller() {
         "iPhone OS" == Alloy.Globals.getOSType() ? Ti.Platform.openURL(data.iosLink) : Ti.Platform.openURL(data.androidLink);
     }
     function startHome() {
-        revmob.addEventListener("adReceived", function(e) {
-            log(e);
-        });
-        log(revmob.openAdLink());
         var adview = $.advertise;
         for (var d in adview.children) adview.remove(adview.children[d]);
         Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {

@@ -1,29 +1,29 @@
 "#storyListWindow": {
 	backgroundImage: '/common/shellBg.png',
 	barImage: '/common/top.png',
-	layout: 'vertical'
+	// layout: 'vertical'
 },
 "#advView[formFactor=handheld]": {
 	width: '100%',
 	height: 50,
-	// top : 40,
+	top : 40,
 },
 "#advView[formFactor=tablet]": {
 	width: '100%',
 	height: 66,
-	// top : 40,
+	top : 40,
 },
 "#bookShellTable[formFactor=handheld]": {
   backgroundColor: 'transparent',
   separatorColor: 'transparent',
   style: Ti.UI.iPhone.TableViewStyle.PLAIN,
   separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-  // top: 90,
+  top: 90,
 },
 "#bookShellTable[formFactor=tablet]": {
   backgroundColor: 'transparent',
   separatorColor: 'transparent',
   style: Ti.UI.iPhone.TableViewStyle.PLAIN,
   separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-  // top: 130,
+  top: 106,
 }

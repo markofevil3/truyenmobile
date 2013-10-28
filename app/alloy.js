@@ -17,8 +17,8 @@ Alloy.Globals.isTablet = function() {
 		return true;
 	}
 };
-Alloy.Globals.SERVER = 'http://www.fulltruyen.com';
-// Alloy.Globals.SERVER = 'http://113.190.1.107:3000';
+// Alloy.Globals.SERVER = 'http://www.fulltruyen.com';
+Alloy.Globals.SERVER = 'http://113.190.1.107:3000';
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 Alloy.Globals.NEW_TIME_MILLISECONDS = 259200000;
 Alloy.Globals.RATIO = 1;

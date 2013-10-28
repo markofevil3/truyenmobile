@@ -25,7 +25,7 @@ Alloy.Globals.isTablet = function() {
     return osname.search(/iphone/i) > -1 ? false : true;
 };
 
-Alloy.Globals.SERVER = "http://www.fulltruyen.com";
+Alloy.Globals.SERVER = "http://113.190.1.107:3000";
 
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 

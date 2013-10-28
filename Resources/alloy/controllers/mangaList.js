@@ -78,7 +78,6 @@ function Controller() {
     $.__views.mangaListWindow = Ti.UI.createWindow({
         backgroundImage: "/common/shellBg.png",
         barImage: "/common/top.png",
-        layout: "vertical",
         id: "mangaListWindow",
         title: "Truyện Tranh"
     });
@@ -122,12 +121,14 @@ function Controller() {
         _.extend(o, {});
         Alloy.isHandheld && _.extend(o, {
             width: "100%",
-            height: 50
+            height: 50,
+            top: 40
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             width: "100%",
-            height: 66
+            height: 66,
+            top: 40
         });
         _.extend(o, {
             id: "advView"
@@ -142,14 +143,16 @@ function Controller() {
             backgroundColor: "transparent",
             separatorColor: "transparent",
             style: Ti.UI.iPhone.TableViewStyle.PLAIN,
-            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
+            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+            top: 90
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
             backgroundColor: "transparent",
             separatorColor: "transparent",
             style: Ti.UI.iPhone.TableViewStyle.PLAIN,
-            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
+            separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+            top: 106
         });
         _.extend(o, {
             id: "bookShellTable"
