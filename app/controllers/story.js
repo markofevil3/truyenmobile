@@ -176,7 +176,7 @@ function dynamicLoad(tableView, data) {
 		}
 		lastRowIndex += MAX_DISPLAY_ROW;
     if (Alloy.Globals.getOSType() == "iPhone OS") {
-      tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW,{animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.BOTTOM});
+      tableView.scrollToIndex(lastRowIndex - MAX_DISPLAY_ROW,{animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.BOTTOM});
     }
   };
 	var lastDistance = 0;
@@ -187,12 +187,14 @@ function dynamicLoad(tableView, data) {
 		var total = offset + height;
 		var theEnd = e.contentSize.height;
 		var distance = theEnd - total;
-	
 		if (distance < lastDistance) {
 			var nearEnd = theEnd * 1;
-			if (!updating && (total >= nearEnd) && lastRowIndex < data.length && tableView.data[0].rows[0].chapterId == data[0]._id 
-			&& (tableView.data[0].rows[1] && tableView.data[0].rows[1].chapterId == data[1]._id)
-			&& tableView.data[0].rows[lastRowIndex - 1].chapterId != data[data.length -1]._id && lastRowIndex >= MAX_DISPLAY_ROW) {
+			// if (!updating && (total >= nearEnd) && lastRowIndex < data.length && tableView.data[0].rows[0].chapterId == data[0]._id 
+			// && (tableView.data[0].rows[1] && tableView.data[0].rows[1].chapterId == data[1]._id)
+			// && tableView.data[0].rows[lastRowIndex - 1].chapterId != data[data.length -1]._id && lastRowIndex >= MAX_DISPLAY_ROW) {
+				// beginUpdate();
+			// }
+			if (!updating && (total >= nearEnd) && lastRowIndex < data.length && lastRowIndex >= MAX_DISPLAY_ROW && (search.value == null || search.value == '')) {
 				beginUpdate();
 			}
 		}

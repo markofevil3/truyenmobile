@@ -518,4 +518,27 @@ Alloy.Globals.checkAudioExist = function(audioName) {
     return file.exists();
 };
 
+Alloy.Globals.convertTime = function(timer) {
+    if (0 >= timer) return "00:00:00";
+    var timeString = "";
+    if (timer > 3600) {
+        timeString += Math.floor(timer / 3600) + ":";
+        timer -= parseInt(3600 * Math.floor(timer / 3600));
+    } else timeString += "00:";
+    if (timer >= 60) {
+        timeString += Math.floor(timer / 60) + ":";
+        timer -= parseInt(60 * Math.floor(timer / 60));
+    } else timeString += "00:";
+    timeString += 10 > timer ? "0" + timer : timer;
+    return timeString;
+};
+
+var NappAppearance = require("dk.napp.appearance");
+
+NappAppearance.setGlobalStyling({
+    activityIndicator: {
+        color: "#CD1625"
+    }
+});
+
 Alloy.createController("index");

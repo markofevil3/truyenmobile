@@ -595,3 +595,43 @@ Alloy.Globals.checkAudioExist = function(audioName) {
   var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory +'/audioData/' + audioName);
   return file.exists();
 };
+
+Alloy.Globals.convertTime = function(timer) {
+	var tempVal;
+	if (timer <= 0) {
+		return "00:00:00";
+	}
+		
+	var timeString = "";
+	if (timer > 3600) {
+		tempVal = Math.floor(timer / 3600);
+		if (tempVal > 10) {
+			timeString += "0" + tempVal + ":";
+		} else {
+			timeString += tempVal + ":";
+		}
+		timer -= parseInt(Math.floor(timer / 3600) * 3600);
+	} else {
+		timeString += "00:";
+	}
+	
+	if (timer >= 60) {
+		tempVal = Math.floor(timer / 60);
+		if (tempVal > 10) {
+			timeString += "0" + tempVal + ":";
+		} else {
+			timeString += tempVal + ":";
+		}
+		timer -= parseInt(Math.floor(timer / 60) * 60);
+	} else {
+		timeString += "00:";
+	}
+	
+	if (timer < 10) {
+		timeString += "0" + timer;
+	} else {
+		timeString += timer;
+	}
+		
+	return timeString;
+};

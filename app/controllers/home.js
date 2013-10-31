@@ -1,6 +1,7 @@
 var homeTab = $.homeTab;
 function selectMenu(e) {
-	if (e.rowData.dataName == "funnyList" || e.rowData.dataName == "storyAudioList") {
+	// if (e.rowData.dataName == "funnyList" || e.rowData.dataName == "storyAudioList") {
+	if (e.rowData.dataName == "funnyList") {
 		alert("Coming Soon!");
 	} else {
 		var selectedMenuController = Alloy.createController(e.rowData.dataName);

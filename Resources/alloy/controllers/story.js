@@ -36,7 +36,7 @@ function Controller() {
                 });
             }
             lastRowIndex += MAX_DISPLAY_ROW;
-            "iPhone OS" == Alloy.Globals.getOSType() && tableView.scrollToIndex(lastRowIndex - Alloy.Globals.MAX_DISPLAY_ROW, {
+            "iPhone OS" == Alloy.Globals.getOSType() && tableView.scrollToIndex(lastRowIndex - MAX_DISPLAY_ROW, {
                 animated: true,
                 position: Ti.UI.iPhone.TableViewScrollPosition.BOTTOM
             });
@@ -62,7 +62,7 @@ function Controller() {
             var distance = theEnd - total;
             if (lastDistance > distance) {
                 var nearEnd = 1 * theEnd;
-                !updating && total >= nearEnd && data.length > lastRowIndex && tableView.data[0].rows[0].chapterId == data[0]._id && tableView.data[0].rows[1] && tableView.data[0].rows[1].chapterId == data[1]._id && tableView.data[0].rows[lastRowIndex - 1].chapterId != data[data.length - 1]._id && lastRowIndex >= MAX_DISPLAY_ROW && beginUpdate();
+                !updating && total >= nearEnd && data.length > lastRowIndex && lastRowIndex >= MAX_DISPLAY_ROW && (null == search.value || "" == search.value) && beginUpdate();
             }
             lastDistance = distance;
         });

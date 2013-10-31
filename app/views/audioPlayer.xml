@@ -3,9 +3,21 @@
     <View id="topBar">
       <Button id="closeButton" onClick="closeWindow" />
     </View>
+    <View id="audioDes">
+     <Label id="audioTitle">asda</Label>
+     <Label id="audioAuthor">Tac gia:</Label>
+     <Label id="audioSpeaker">Nguoi doc: sadsada</Label>
+     <ImageView id="coverLink" image="http://idoc.vn/images/books/5203a511db193a327f8bb47e/chuot-tui-lao-ba.png"/>
+    </View>
     <View id="playerView">
-      <Label id="audioTitle">asda</Label>
-      <ProgressBar id="audioProgress"/>
+      <View id="progressWrapper">
+        <Label id="currentTimeLabel" class="timeLabel" text="00:00:00"></Label>
+        <Slider id="audioProgress"/>
+        <Label id="maxTimeLabel" class="timeLabel"></Label>
+      </View>
+      <View id="buttons">
+        <Button id="playButton" onClick="eventPlay" />
+      </View>
     </View>
     <View id="advView" />
   </Window>

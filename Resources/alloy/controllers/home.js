@@ -1,6 +1,6 @@
 function Controller() {
     function selectMenu(e) {
-        if ("funnyList" == e.rowData.dataName || "storyAudioList" == e.rowData.dataName) alert("Coming Soon!"); else {
+        if ("funnyList" == e.rowData.dataName) alert("Coming Soon!"); else {
             var selectedMenuController = Alloy.createController(e.rowData.dataName);
             selectedMenuController.openMainWindow();
         }

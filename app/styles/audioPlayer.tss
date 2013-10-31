@@ -1,5 +1,5 @@
 "#audioPlayerWindow": {
-	backgroundImage: '/common/shellBg.png',
+	backgroundImage: '/common/playerBg.jpg',
 	layout: 'vertical'
 },
 "#topBar[formFactor=handheld]": {
@@ -14,52 +14,102 @@
 	backgroundColor: '#fff',
 	top: 0
 },
+"#audioDes": {
+	width: '100%',
+	height: Titanium.UI.SIZE,
+	layout: 'vertical',
+	left: 0
+},
+"#audioTitle": {
+	font: { fontSize: 20, fontFamily: 'Chalkboard SE' },
+	left: 10
+},
+"#audioAuthor": {
+	left: 10,
+	font: { fontSize: 15, fontStyle: 'italic', fontFamily: 'AmericanTypewriter' },
+},
+"#audioSpeaker": {
+	left: 10,
+	font: { fontSize: 15, fontStyle: 'italic', fontFamily: 'AmericanTypewriter' },
+},
+"#coverLink": {
+	width: '35%',
+	height: 'auto',
+	top: 5
+},
 "#playerView": {
 	width: '100%',
 	height: 'auto',
-	backgroundColor: 'red',
+	top: 20,
+	// backgroundColor: 'red',
 	layout: 'vertical'
 },
+"#progressWrapper": {
+	layout: "horizontal",
+	// backgroundImage: "/common/playerBg.jpg",
+	// height: Titanium.UI.SIZE
+	height: 40
+},
+".timeLabel": {
+	font: { fontWeight: 'bold', fontSize: 13 },
+},
+"#currentTimeLabel": {
+	left: 3
+},
+"#maxTimeLabel": {
+	left: 5
+},
 "#audioProgress": {
-	width : 200,
+	width : '60%',
+	left: 5,
 	min : 0,
 	value : 0,
-	height : 70,
-	color : '#fff',
-	message : 'Downloading 0 of 10',
-	font : {
-		fontSize : 14,
-		fontWeight : 'bold'
-	},
-	// style : Titanium.UI.iPhone.ProgressBarStyle.BAR,
+	thumbImage: "/common/slider_thumb.png",
+	leftTrackImage: "/common/slider_min.png",
+	rightTrackImage: "/common/slider_max.png"
+},
+"#buttons": {
+	width: '100%',
+	height: Titanium.UI.SIZE,
+	// backgroundImage: "/common/playerBg.jpg",
+},
+"#playButton": {
+	title: '',
+	width: 30,
+	height: 30,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/btn-play.png',
+	backgroundSelectedImage: '/common/btn-play-active.png',
 },
 "#closeButton[formFactor=handheld]": {
 	title: 'close',
 	width: 60,
 	height: 30,
 	right: 5,
-	borderRadius: 5,
-	borderWidth: 1,
-	borderColor: '#ffffff',
-	backgroundColor: '#222',
-	backgroundImage: 'NONE',
+	// borderRadius: 5,
+	// borderWidth: 1,
+	// borderColor: '#ffffff',
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/btn.png',
+	backgroundSelectedImage: '/common/btn-pressed.png',
 	font: { fontWeight: 'bold', fontSize: 14 },
-	selectedColor: '#333',
-	color: '#CCCCCC'
+	// selectedColor: '#333',
+	color: '#000'
 },
 "#closeButton[formFactor=tablet]": {
 	title: 'close',
 	width: 100,
 	height: 50,
 	right: 5,
-	borderRadius: 10,
-	borderWidth: 2,
-	borderColor: '#ffffff',
-	backgroundColor: '#222',
-	backgroundImage: 'NONE',
+	// borderRadius: 10,
+	// borderWidth: 2,
+	// borderColor: '#ffffff',
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/btn.png',
+	backgroundSelectedImage: '/common/btn-pressed.png',
 	font: { fontWeight: 'bold', fontSize: 26 },
-	selectedColor: '#fff',
-	color: '#cb0a00'
+	// selectedColor: '#fff',
+	color: '#000'
 },
 "#advView[formFactor=handheld]": {
 	width: '100%',
