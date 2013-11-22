@@ -15,6 +15,22 @@
 	font: { fontSize: 15, fontStyle: 'italic' },
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 },
+"#emailText[formFactor=handheld]": {
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	width: '95%',
+	hintText : 'Email',
+	keyboardType: Ti.UI.KEYBOARD_EMAIL,
+	top: 10,
+	font: {fontSize: 18},
+},
+"#emailText[formFactor=tablet]": {
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	width: '95%',
+	hintText : 'Email',
+	keyboardType: Ti.UI.KEYBOARD_EMAIL,
+	top: 10,
+	font: {fontSize: 25},
+},
 "#contentTextArea[formFactor=handheld]": {
 	borderWidth: 2,
 	borderColor: '#bbb',

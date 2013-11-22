@@ -1,11 +1,11 @@
 //## ADVERTISE
-var adview = $.adv;
-for (var d in adview.children) {
-  adview.remove(adview.children[d]);
-}
-Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-	adview.add(advImage);
-});
+// var adview = $.adv;
+// for (var d in adview.children) {
+  // adview.remove(adview.children[d]);
+// }
+// Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+	// adview.add(advImage);
+// });
 
 $.settingTab.addEventListener('focus', function(e) {
 	Alloy.Globals.CURRENT_TAB = $.settingTab;

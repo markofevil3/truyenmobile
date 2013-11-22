@@ -1,5 +1,12 @@
 function Controller() {
     function closeWindow() {
+        if (new Date().getTime() - openTime >= openPopupAdTime) {
+            Alloy.Globals.readingCount++;
+            if (0 == Alloy.Globals.readingCount % Alloy.Globals.popupAdNumb) {
+                revmob.showFullscreen();
+                Alloy.Globals.readingCount = 0;
+            }
+        }
         var smallDown = Titanium.UI.create2DMatrix();
         smallDown = smallDown.scale(0);
         $.storyReadingWindow.close({
@@ -239,6 +246,8 @@ function Controller() {
     _.extend($, $.__views);
     var args = arguments[0] || {};
     var webview = $.webview;
+    var openTime = new Date().getTime();
+    var openPopupAdTime = 3e4;
     exports.openMainWindow = function() {
         Alloy.Globals.adv(3, function(advImage) {
             $.advView.add(advImage);

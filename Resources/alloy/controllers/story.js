@@ -292,6 +292,7 @@ function Controller() {
     var search = $.searchButton;
     exports.openMainWindow = function() {
         Alloy.Globals.CURRENT_TAB.open($.storyWindow);
+        Alloy.Globals.track("Story", "Open Story", args.data.title);
         $.storyWindow.leftNavButton = Alloy.Globals.backButton($.storyWindow);
         Alloy.Globals.homeWindowStack.push($.storyWindow);
         $.storyWindow.addEventListener("close", function() {
@@ -332,6 +333,7 @@ function Controller() {
             });
         });
         var listChapters = args.data.chapters;
+        listChapters.sort(Alloy.Globals.dynamicSort("chapter", -1));
         $.storyWindow.rightNavButton = args.favorite ? favoritedButton : favoriteButton;
         $.storyWindow.title = args.data.title;
         $.bookCover.image = bookCover;
@@ -344,7 +346,7 @@ function Controller() {
         search.addEventListener("change", function(e) {
             var results = [];
             var regexValue = new RegExp(Alloy.Globals.removeUTF8(e.value), "i");
-            for (var i in listChapters) regexValue.test(listChapters[i].chapter) && results.push(listChapters[i]);
+            for (var i in listChapters) regexValue.test(listChapters[i].title) && results.push(listChapters[i]);
             tbl_data = setRowData(results, results.length);
             table.setData([]);
             table.setData(tbl_data);
@@ -369,11 +371,11 @@ function Controller() {
         dialog.addEventListener("click", function(e) {
             switch (e.index) {
               case 0:
-                listChapters.sort(Alloy.Globals.dynamicSortNumber("chapter", 1));
+                listChapters.sort(Alloy.Globals.dynamicSort("chapter", 1));
                 break;
 
               case 1:
-                listChapters.sort(Alloy.Globals.dynamicSortNumber("chapter", -1));
+                listChapters.sort(Alloy.Globals.dynamicSort("chapter", -1));
             }
             table.setData([]);
             table.setData(setRowData(listChapters, MAX_DISPLAY_ROW));

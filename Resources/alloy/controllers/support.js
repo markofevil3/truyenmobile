@@ -3,11 +3,13 @@ function Controller() {
         if (textArea.value.length > 20) {
             sendButton.enabled = false;
             Alloy.Globals.getAjax("/support", {
-                content: textArea.value
+                content: textArea.value,
+                email: emailText.value
             }, function() {
                 alert("Yêu cầu của bạn đã được gửi đi!");
                 sendButton.enabled = true;
                 textArea.value = "";
+                emailText.value = "";
             });
         } else alert("Nội dung quá ngắn!");
     }
@@ -63,6 +65,36 @@ function Controller() {
         return o;
     }());
     $.__views.wrapperView.add($.__views.textLabel);
+    $.__views.emailText = Ti.UI.createTextField(function() {
+        var o = {};
+        _.extend(o, {});
+        Alloy.isHandheld && _.extend(o, {
+            borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+            width: "95%",
+            hintText: "Email",
+            keyboardType: Ti.UI.KEYBOARD_EMAIL,
+            top: 10,
+            font: {
+                fontSize: 18
+            }
+        });
+        _.extend(o, {});
+        Alloy.isTablet && _.extend(o, {
+            borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+            width: "95%",
+            hintText: "Email",
+            keyboardType: Ti.UI.KEYBOARD_EMAIL,
+            top: 10,
+            font: {
+                fontSize: 25
+            }
+        });
+        _.extend(o, {
+            id: "emailText"
+        });
+        return o;
+    }());
+    $.__views.wrapperView.add($.__views.emailText);
     $.__views.contentTextArea = Ti.UI.createTextArea(function() {
         var o = {};
         _.extend(o, {});
@@ -149,6 +181,7 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var textArea = $.contentTextArea;
+    var emailText = $.emailText;
     var sendButton = $.sendButton;
     exports.openMainWindow = function() {
         $.supportWindow.leftNavButton = Alloy.Globals.backButton($.supportWindow);

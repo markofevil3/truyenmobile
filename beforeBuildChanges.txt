@@ -1,0 +1,15 @@
+Full Truyen Build:
+
+Info.plist:
+	thêm ở cuối file:
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>audio</string>
+    </array>
+    
+  change fulltruyện to fulltryen
+    <key>CFBundleURLName</key>
+		<string>com.buiphiquan.newtruyen</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<string>fulltruyện</string>

@@ -1,7 +1,55 @@
 function Controller() {
+    function purchaseUnlockFunction(userId, pTime) {
+        Alloy.Globals.track("Audio", "Unlock Audio", "From Home");
+        inAppPurchase.requestProduct("com.buiphiquan.newtruyen.unlockAudio", function(product) {
+            var confirmBox = Titanium.UI.createAlertDialog({
+                title: "Mở " + product.title + "?",
+                message: "Mở " + product.title + " chỉ với " + product.formattedPrice,
+                buttonNames: [ "Mở", "Huỷ" ],
+                cancel: 1
+            });
+            confirmBox.show();
+            confirmBox.addEventListener("click", function(e) {
+                0 == e.index && inAppPurchase.purchaseProduct(userId, product, pTime);
+            });
+        });
+    }
+    function openScreen(screenName) {
+        var selectedMenuController = Alloy.createController(screenName);
+        if ("storyAudioList" == screenName) {
+            Alloy.Globals.track("Audio", "Open Audio", "From Home");
+            Alloy.Globals.STORY_AUDIO_CONTROLLER = selectedMenuController;
+        }
+        Alloy.Globals.closeLoading(homeWindow);
+        selectedMenuController.openMainWindow();
+    }
     function selectMenu(e) {
-        if ("funnyList" == e.rowData.dataName) alert("Coming Soon!"); else {
+        Alloy.Globals.openLoading(homeWindow);
+        switch (e.rowData.dataName) {
+          case "funnyList":
+            alert("Coming Soon!");
+            break;
+
+          case "storyAudioList":
+            0 == Alloy.Globals.facebook.loggedIn ? Alloy.Globals.facebookLogin(function(fbRes) {
+                var user = fbRes.data;
+                Alloy.Globals.checkUnlockFunction("audio", user, function(data) {
+                    Alloy.Globals.closeLoading(homeWindow);
+                    data.isPurchased ? openScreen(e.rowData.dataName) : purchaseUnlockFunction(user.id, data.time);
+                });
+            }) : Alloy.Globals.facebook.requestWithGraphPath("/" + Alloy.Globals.facebook.getUid(), {}, "GET", function(response) {
+                user = JSON.parse(response.result);
+                Alloy.Globals.checkUnlockFunction("audio", user, function(data) {
+                    Alloy.Globals.closeLoading(homeWindow);
+                    data.isPurchased ? openScreen(e.rowData.dataName) : purchaseUnlockFunction(user.id, data.time);
+                });
+            });
+            break;
+
+          default:
             var selectedMenuController = Alloy.createController(e.rowData.dataName);
+            "storyAudioList" == e.rowData.dataName && (Alloy.Globals.STORY_AUDIO_CONTROLLER = selectedMenuController);
+            Alloy.Globals.closeLoading(homeWindow);
             selectedMenuController.openMainWindow();
         }
     }
@@ -49,14 +97,7 @@ function Controller() {
     function openStoreLink(data) {
         "iPhone OS" == Alloy.Globals.getOSType() ? Ti.Platform.openURL(data.iosLink) : Ti.Platform.openURL(data.androidLink);
     }
-    function startHome() {
-        var adview = $.advertise;
-        for (var d in adview.children) adview.remove(adview.children[d]);
-        Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-            $.advertise.add(advImage);
-            $.advertise.height = Alloy.Globals.getAdvHeight();
-        });
-    }
+    function startHome() {}
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "home";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
@@ -71,31 +112,6 @@ function Controller() {
         id: "homeWindow",
         title: "Home"
     });
-    $.__views.advertise = Ti.UI.createTableViewRow(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: "100%",
-            height: 50,
-            backgroundColor: "#fff",
-            selectedBackgroundColor: "transparent",
-            name: "Advertise"
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: "100%",
-            height: 66,
-            backgroundColor: "#fff",
-            selectedBackgroundColor: "transparent",
-            name: "Advertise"
-        });
-        _.extend(o, {
-            id: "advertise"
-        });
-        return o;
-    }());
-    var __alloyId4 = [];
-    __alloyId4.push($.__views.advertise);
     $.__views.MangaList = Ti.UI.createTableViewRow(function() {
         var o = {};
         _.extend(o, {});
@@ -116,6 +132,7 @@ function Controller() {
         });
         return o;
     }());
+    var __alloyId4 = [];
     __alloyId4.push($.__views.MangaList);
     selectMenu ? $.__views.MangaList.addEventListener("click", selectMenu) : __defers["$.__views.MangaList!click!selectMenu"] = true;
     $.__views.__alloyId5 = Ti.UI.createLabel(function() {
@@ -311,7 +328,7 @@ function Controller() {
             }
         });
         _.extend(o, {
-            text: "Truyện Audio",
+            text: "Radio Truyện",
             id: "__alloyId9"
         });
         return o;
@@ -336,86 +353,6 @@ function Controller() {
         return o;
     }());
     $.__views.StoryAudioList.add($.__views.__alloyId10);
-    $.__views.FunnyList = Ti.UI.createTableViewRow(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            height: 120,
-            backgroundColor: "transparent",
-            backgroundImage: "/common/bookshelfBackground.png"
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            height: 240,
-            backgroundColor: "transparent",
-            backgroundImage: "/common/bookshelfBackground.png"
-        });
-        _.extend(o, {
-            id: "FunnyList",
-            dataName: "funnyList"
-        });
-        return o;
-    }());
-    __alloyId4.push($.__views.FunnyList);
-    selectMenu ? $.__views.FunnyList.addEventListener("click", selectMenu) : __defers["$.__views.FunnyList!click!selectMenu"] = true;
-    $.__views.__alloyId11 = Ti.UI.createLabel(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            color: "#fff",
-            font: {
-                fontSize: 20,
-                fontWeight: "bold",
-                fontFamily: "Chalkboard SE"
-            },
-            zIndex: 2,
-            shadowColor: "#000",
-            shadowOffset: {
-                x: 1,
-                y: 1
-            }
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            color: "#fff",
-            font: {
-                fontSize: 40,
-                fontWeight: "bold",
-                fontFamily: "Chalkboard SE"
-            },
-            zIndex: 2,
-            shadowColor: "#000",
-            shadowOffset: {
-                x: 1,
-                y: 1
-            }
-        });
-        _.extend(o, {
-            text: "Truyện Cười",
-            id: "__alloyId11"
-        });
-        return o;
-    }());
-    $.__views.FunnyList.add($.__views.__alloyId11);
-    $.__views.__alloyId12 = Ti.UI.createImageView(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: 181,
-            height: 55
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: 362,
-            height: 110
-        });
-        _.extend(o, {
-            image: "/common/bg_green.png",
-            id: "__alloyId12"
-        });
-        return o;
-    }());
-    $.__views.FunnyList.add($.__views.__alloyId12);
     $.__views.homeTableView = Ti.UI.createTableView({
         backgroundColor: "transparent",
         separatorColor: "transparent",
@@ -433,7 +370,12 @@ function Controller() {
     $.__views.homeTab && $.addTopLevelView($.__views.homeTab);
     exports.destroy = function() {};
     _.extend($, $.__views);
+    Ti.include("/inAppPurchase.js");
     var homeTab = $.homeTab;
+    var homeWindow = $.homeWindow;
+    Ti.App.addEventListener("openScreen", function(e) {
+        openScreen(e.screenName);
+    });
     appStart();
     homeTab.addEventListener("focus", function() {
         Alloy.Globals.CURRENT_TAB = homeTab;
@@ -445,7 +387,6 @@ function Controller() {
     __defers["$.__views.MangaList!click!selectMenu"] && $.__views.MangaList.addEventListener("click", selectMenu);
     __defers["$.__views.StoryList!click!selectMenu"] && $.__views.StoryList.addEventListener("click", selectMenu);
     __defers["$.__views.StoryAudioList!click!selectMenu"] && $.__views.StoryAudioList.addEventListener("click", selectMenu);
-    __defers["$.__views.FunnyList!click!selectMenu"] && $.__views.FunnyList.addEventListener("click", selectMenu);
     _.extend($, exports);
 }
 

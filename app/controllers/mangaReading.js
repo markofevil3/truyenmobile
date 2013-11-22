@@ -98,6 +98,11 @@ function closeWindow() {
 function SaveReadingChapter() {
 	if (currentPage >= listImages.length / 2) {
 		Alloy.Globals.readingChapters[args.mangaId] = args.chapter;
+		Alloy.Globals.readingCount++;
+		if (Alloy.Globals.readingCount % Alloy.Globals.popupAdNumb == 0) {
+			revmob.showFullscreen();
+			Alloy.Globals.readingCount = 0;
+		}
 	} 
 };
 

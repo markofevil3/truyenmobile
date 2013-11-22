@@ -18,7 +18,11 @@
       <View id="buttons">
         <Button id="playButton" onClick="eventPlay" />
       </View>
+      <View id="volumeView">
+        <Button id="muteButton" onClick="eventMute" />
+        <Slider id="volumeProgress"/>
+      </View>
     </View>
-    <View id="advView" />
+    <!-- <View id="advView" /> -->
   </Window>
 </Alloy>

@@ -4,82 +4,15 @@
 },
 "#topBar[formFactor=handheld]": {
 	width: '100%',
-	height: 40,
+	height: 30,
 	backgroundColor: 'transparent',
 	top: 0
 },
 "#topBar[formFactor=tablet]": {
 	width: '100%',
-	height: 70,
-	backgroundColor: '#fff',
+	height: 60,
+	backgroundColor: '#transparent',
 	top: 0
-},
-"#audioDes": {
-	width: '100%',
-	height: Titanium.UI.SIZE,
-	layout: 'vertical',
-	left: 0
-},
-"#audioTitle": {
-	font: { fontSize: 20, fontFamily: 'Chalkboard SE' },
-	left: 10
-},
-"#audioAuthor": {
-	left: 10,
-	font: { fontSize: 15, fontStyle: 'italic', fontFamily: 'AmericanTypewriter' },
-},
-"#audioSpeaker": {
-	left: 10,
-	font: { fontSize: 15, fontStyle: 'italic', fontFamily: 'AmericanTypewriter' },
-},
-"#coverLink": {
-	width: '35%',
-	height: 'auto',
-	top: 5
-},
-"#playerView": {
-	width: '100%',
-	height: 'auto',
-	top: 20,
-	// backgroundColor: 'red',
-	layout: 'vertical'
-},
-"#progressWrapper": {
-	layout: "horizontal",
-	// backgroundImage: "/common/playerBg.jpg",
-	// height: Titanium.UI.SIZE
-	height: 40
-},
-".timeLabel": {
-	font: { fontWeight: 'bold', fontSize: 13 },
-},
-"#currentTimeLabel": {
-	left: 3
-},
-"#maxTimeLabel": {
-	left: 5
-},
-"#audioProgress": {
-	width : '60%',
-	left: 5,
-	min : 0,
-	value : 0,
-	thumbImage: "/common/slider_thumb.png",
-	leftTrackImage: "/common/slider_min.png",
-	rightTrackImage: "/common/slider_max.png"
-},
-"#buttons": {
-	width: '100%',
-	height: Titanium.UI.SIZE,
-	// backgroundImage: "/common/playerBg.jpg",
-},
-"#playButton": {
-	title: '',
-	width: 30,
-	height: 30,
-	backgroundColor: 'transparent',
-	backgroundImage: '/common/btn-play.png',
-	backgroundSelectedImage: '/common/btn-play-active.png',
 },
 "#closeButton[formFactor=handheld]": {
 	title: 'close',
@@ -110,6 +43,134 @@
 	font: { fontWeight: 'bold', fontSize: 26 },
 	// selectedColor: '#fff',
 	color: '#000'
+},
+"#audioDes": {
+	width: '100%',
+	height: Titanium.UI.SIZE,
+	layout: 'vertical',
+	left: 0
+},
+"#audioTitle[formFactor=handheld]": {
+	font: { fontSize: 18, fontFamily: 'Chalkboard SE' },
+	left: 10
+},
+"#audioTitle[formFactor=tablet]": {
+	font: { fontSize: 34, fontFamily: 'Chalkboard SE' },
+	left: 10
+},
+"#audioAuthor[formFactor=handheld]": {
+	left: 10,
+	font: { fontSize: 15, fontStyle: 'italic', fontFamily: 'AmericanTypewriter' },
+},
+"#audioAuthor[formFactor=tablet]": {
+	left: 10,
+	font: { fontSize: 28, fontStyle: 'italic', fontFamily: 'AmericanTypewriter' },
+},
+"#audioSpeaker[formFactor=handheld]": {
+	left: 10,
+	font: { fontSize: 15, fontStyle: 'italic', fontFamily: 'AmericanTypewriter' },
+},
+"#audioSpeaker[formFactor=tablet]": {
+	left: 10,
+	font: { fontSize: 28, fontStyle: 'italic', fontFamily: 'AmericanTypewriter' },
+},
+"#coverLink[formFactor=handheld]": {
+	width: '35%',
+	height: 'auto',
+	top: 5
+},
+"#coverLink[formFactor=tablet]": {
+	width: '35%',
+	height: 'auto',
+	top: 10
+},
+"#playerView": {
+	width: '100%',
+	height: 'auto',
+	top: 20,
+	// backgroundColor: 'red',
+	layout: 'vertical'
+},
+"#progressWrapper": {
+	layout: "horizontal",
+	// backgroundImage: "/common/playerBg.jpg",
+	// height: Titanium.UI.SIZE
+	height: 40
+},
+".timeLabel[formFactor=handheld]": {
+	font: { fontWeight: 'bold', fontSize: 13 },
+},
+".timeLabel[formFactor=tablet]": {
+	font: { fontWeight: 'bold', fontSize: 26 },
+},
+"#currentTimeLabel[formFactor=handheld]": {
+	left: 3
+},
+"#currentTimeLabel[formFactor=tablet]": {
+	left: 35
+},
+"#maxTimeLabel": {
+	left: 5
+},
+"#audioProgress": {
+	width : '60%',
+	left: 5,
+	min : 0,
+	value : 0,
+	height: 'auto',
+	// thumbImage: "/common/progress-thumb.png",
+	// leftTrackImage: "/common/progress-min.png",
+	// leftTrackLeftCap: 7,
+	// rightTrackImage: "/common/progress-max.png",
+	// rightTrackLeftCap: 7
+},
+"#buttons": {
+	width: '100%',
+	height: Titanium.UI.SIZE,
+	// backgroundImage: "/common/playerBg.jpg",
+},
+"#playButton[formFactor=handheld]": {
+	title: '',
+	width: 30,
+	height: 30,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/btn-play.png',
+	backgroundSelectedImage: '/common/btn-play-active.png',
+},
+"#playButton[formFactor=tablet]": {
+	title: '',
+	width: 60,
+	height: 60,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/btn-play.png',
+	backgroundSelectedImage: '/common/btn-play-active.png',
+},
+"#volumeView": {
+	layout: "horizontal",
+	top: 25
+},
+"#volumeProgress": {
+	width: '30%',
+	min : 0,
+	max: 1,
+	value : 0.5,
+	left: 3
+},
+"#muteButton[formFactor=handheld]": {
+	title: '',
+	width: 25,
+	height: 25,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/sound.png',
+	left: '30%'
+},
+"#muteButton[formFactor=tablet]": {
+	title: '',
+	width: 50,
+	height: 50,
+	backgroundColor: 'transparent',
+	backgroundImage: '/common/sound.png',
+	left: '30%'
 },
 "#advView[formFactor=handheld]": {
 	width: '100%',

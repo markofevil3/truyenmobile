@@ -1,5 +1,7 @@
 var args = arguments[0] || {};
 var webview = $.webview;
+var openTime = new Date().getTime();
+var openPopupAdTime = 30000; // millisecond
 exports.openMainWindow = function() {
 	Alloy.Globals.adv(3, function(advImage) {
 		$.advView.add(advImage);
@@ -23,6 +25,13 @@ exports.openMainWindow = function() {
 };
 
 function closeWindow() {
+	if (new Date().getTime() - openTime >= openPopupAdTime) {
+		Alloy.Globals.readingCount++;
+		if (Alloy.Globals.readingCount % Alloy.Globals.popupAdNumb == 0) {
+			revmob.showFullscreen();
+			Alloy.Globals.readingCount = 0;
+		}
+	}
 	var smallDown = Titanium.UI.create2DMatrix();
 	smallDown = smallDown.scale(0);
 	$.storyReadingWindow.close({ transform: smallDown, duration:300 });

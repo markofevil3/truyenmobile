@@ -10,40 +10,6 @@ function Controller() {
         }
         return dataSet;
     }
-    function createTabBar() {
-        var tabBar = Titanium.UI.iOS.createTabbedBar({
-            labels: [ "Tất cả", "Tr.ngắn", "Tr.dài" ],
-            index: 0,
-            color: "#fff",
-            font: {
-                fontWeight: "bold"
-            }
-        });
-        if ("iPhone OS" == Alloy.Globals.getOSType()) if (parseFloat(Ti.Platform.version) >= 7) tabBar.tintColor = "#CCCCCC"; else {
-            tabBar.backgroundColor = "#c69656";
-            tabBar.style = Titanium.UI.iPhone.SystemButtonStyle.BAR;
-        }
-        var cloneListStory = listStory.slice(0);
-        tabBar.addEventListener("click", function(e) {
-            switch (e.index) {
-              case 0:
-                listStory = cloneListStory.slice(0);
-                break;
-
-              case 1:
-                listStory = [];
-                for (var i = 0; cloneListStory.length > i; i++) 0 == cloneListStory[i].type && listStory.push(cloneListStory[i]);
-                break;
-
-              case 2:
-                listStory = [];
-                for (var i = 0; cloneListStory.length > i; i++) 1 == cloneListStory[i].type && listStory.push(cloneListStory[i]);
-            }
-            table.setData([]);
-            table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
-        });
-        return tabBar;
-    }
     function dynamicLoad(tableView) {
         function beginUpdate() {
             updating = true;
@@ -103,7 +69,7 @@ function Controller() {
         backgroundImage: "/common/shellBg.png",
         barImage: "/common/top.png",
         id: "storyAudioListWindow",
-        title: "Nghe Truyện"
+        title: "Radio Truyện"
     });
     $.__views.storyAudioListWindow && $.addTopLevelView($.__views.storyAudioListWindow);
     $.__views.loading = Alloy.createWidget("com.appcelerator.loading", "widget", {
@@ -140,26 +106,23 @@ function Controller() {
         id: "sortButton"
     });
     $.__views.searchView.add($.__views.sortButton);
-    $.__views.advView = Ti.UI.createView(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            width: "100%",
-            height: 50,
-            top: 40
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            width: "100%",
-            height: 66,
-            top: 40
-        });
-        _.extend(o, {
-            id: "advView"
-        });
-        return o;
-    }());
-    $.__views.storyAudioListWindow.add($.__views.advView);
+    $.__views.downloadProgressView = Ti.UI.createView({
+        width: "100%",
+        height: 20,
+        top: 40,
+        id: "downloadProgressView"
+    });
+    $.__views.storyAudioListWindow.add($.__views.downloadProgressView);
+    $.__views.downloadProgress = Ti.UI.createProgressBar({
+        width: "50%",
+        height: 20,
+        min: 0,
+        max: 1,
+        value: 0,
+        style: Titanium.UI.iPhone.ProgressBarStyle.DEFAULT,
+        id: "downloadProgress"
+    });
+    $.__views.downloadProgressView.add($.__views.downloadProgress);
     $.__views.bookShellTable = Ti.UI.createTableView(function() {
         var o = {};
         _.extend(o, {});
@@ -168,7 +131,7 @@ function Controller() {
             separatorColor: "transparent",
             style: Ti.UI.iPhone.TableViewStyle.PLAIN,
             separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-            top: 90
+            top: 60
         });
         _.extend(o, {});
         Alloy.isTablet && _.extend(o, {
@@ -176,7 +139,7 @@ function Controller() {
             separatorColor: "transparent",
             style: Ti.UI.iPhone.TableViewStyle.PLAIN,
             separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-            top: 130
+            top: 60
         });
         _.extend(o, {
             id: "bookShellTable"
@@ -186,10 +149,22 @@ function Controller() {
     $.__views.storyAudioListWindow.add($.__views.bookShellTable);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 10; else var MAX_DISPLAY_ROW = 5;
+    if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 20; else var MAX_DISPLAY_ROW = 15;
     var search = $.searchButton;
     var table = $.bookShellTable;
     var listStory;
+    var listDownloaded = [];
+    var downloadProgressBar = $.downloadProgress;
+    exports.updateDownloadProgress = function(value) {
+        downloadProgressBar.visible || downloadProgressBar.show();
+        downloadProgressBar.value = value;
+    };
+    exports.hideDownloadProgress = function() {
+        downloadProgressBar.hide();
+    };
+    exports.finishDownload = function() {
+        downloadProgressBar.hide();
+    };
     exports.openMainWindow = function() {
         Alloy.Globals.CURRENT_TAB.open($.storyAudioListWindow);
         $.storyAudioListWindow.leftNavButton = Alloy.Globals.backButton($.storyAudioListWindow);
@@ -198,12 +173,9 @@ function Controller() {
             Alloy.Globals.homeWindowStack.pop();
             Ti.App.fireEvent("app:reload");
         });
-        Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-            $.advView.add(advImage);
-            $.advView.height = Alloy.Globals.getAdvHeight();
-        });
-        Alloy.Globals.getAjax("/storyList", {
-            "null": null
+        Alloy.Globals.isDownloadingAudio || downloadProgressBar.hide();
+        Alloy.Globals.getAjax("/storyAudioList", {
+            v: Titanium.App.version.toString()
         }, function(response) {
             if (void 0 == response || JSON.parse(response).error) {
                 alert("Không có kết nối Internet!");
@@ -214,7 +186,6 @@ function Controller() {
             table.data = tbl_data;
             dynamicLoad(table);
             $.loading.setOpacity(0);
-            $.storyAudioListWindow.setTitleControl(createTabBar());
         });
         search.addEventListener("return", function(e) {
             var results = [];
@@ -239,7 +210,7 @@ function Controller() {
             table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
         });
         var optionsDialogOpts = {
-            options: [ "A -> Z", "Most View", "Newest", "Z -> A" ],
+            options: [ "A -> Z", "Hot!", "Mới Nhất", "Z -> A", "Đã Tải" ],
             selectedIndex: 0,
             title: "SORT BY"
         };
@@ -248,21 +219,34 @@ function Controller() {
             switch (e.index) {
               case 0:
                 listStory.sort(Alloy.Globals.dynamicSort("title", 1));
+                table.setData([]);
+                table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
                 break;
 
               case 1:
                 listStory.sort(Alloy.Globals.dynamicSortNumber("numView", -1));
+                table.setData([]);
+                table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
                 break;
 
               case 2:
                 listStory.sort(Alloy.Globals.dynamicSort("datePost", -1));
+                table.setData([]);
+                table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
                 break;
 
               case 3:
                 listStory.sort(Alloy.Globals.dynamicSort("title", -1));
+                table.setData([]);
+                table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
+                break;
+
+              case 4:
+                listDownloaded = [];
+                for (var i = 0; listStory.length > i; i++) Alloy.Globals.checkAudioExist(listStory[i].fileName) && listDownloaded.push(listStory[i]);
+                table.setData([]);
+                table.setData(setRowData(listDownloaded));
             }
-            table.setData([]);
-            table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
         });
         $.sortButton.addEventListener("singletap", function() {
             dialog.show();

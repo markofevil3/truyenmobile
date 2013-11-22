@@ -18,7 +18,7 @@ Alloy.Globals.isTablet = function() {
 	}
 };
 // Alloy.Globals.SERVER = 'http://www.fulltruyen.com';
-Alloy.Globals.SERVER = 'http://113.190.1.107:3000';
+Alloy.Globals.SERVER = 'http://113.190.0.110:3000';
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 Alloy.Globals.NEW_TIME_MILLISECONDS = 259200000;
 Alloy.Globals.RATIO = 1;
@@ -33,15 +33,18 @@ Alloy.Globals.facebook.permissions = ['read_stream'];
 Alloy.Globals.facebook.forceDialogAuth = false;
 Alloy.Globals.DEFAULT_PASSWORD = "truyenAlloy";
 Alloy.Globals.DEFAULT_PUSH_CHANNEL = "news"; 
-Alloy.Globals.listener = null;
+Alloy.Globals.fbLoginListener = false;
 Alloy.Globals.FB_USERNAME = null;
 Alloy.Globals.homeWindowStack = [];
 Alloy.Globals.readingChapters = {};
+Alloy.Globals.readingCount = 0;
+Alloy.Globals.popupAdNumb = 3;
+Alloy.Globals.localAudioFolder = Titanium.Filesystem.applicationDataDirectory +'/truyenAudio';
 Alloy.Globals.readingFontSize = Alloy.Globals.isTablet() ? 26 : 16;
 Alloy.Globals.advPublisher = 0; // 0: iad - 1: admob
 Alloy.Globals.admobPublisher = { "android": "a1524cf9df9881d",
-																 "iphone": "a15242fc9991b03",
-																 "ipad": "a15242fe704686c"
+                      					 "iphone": "a15283aa0b43c3f",
+																 "ipad": "a15283aa5be9001"
 															 };
 
 function RevMob(appIds) {
@@ -52,6 +55,67 @@ function RevMob(appIds) {
 }
 
 var revmob = new RevMob({ 'iPhone OS': '52443a8f95b82813ab000035',  'android': 'copy your RevMob Android App ID here' });
+
+var Inmobi = require('ti.inmobi');
+var inmobiAppId = "35d83d6ca730455780ae455dbf12091a";
+Inmobi.initWithParams(inmobiAppId, {
+	/* Set User Information - Optional (for better Ad Targeting) */
+	"logLevel": Inmobi.CONSTANTS.LOGLEVEL_DEBUG,
+	"gender": Inmobi.CONSTANTS.GENDER_MALE,
+	"education": Inmobi.CONSTANTS.EDUCATION_HIGHSCHOOLORLESS,
+	"ethnicity": Inmobi.CONSTANTS.ETHNICITY_ASIAN, 
+	"dob": "29-11-1984",
+	"income": "10000",
+	"age": "30",
+	"maritalStatus": Inmobi.CONSTANTS.MARITAL_STATUS_SINGLE,
+	"hasChildren": Inmobi.CONSTANTS.TRUE,
+	"sexualOrientation": Inmobi.CONSTANTS.SEXUAL_ORIENTATION_STRAIGHT,
+	"language": "eng",
+	"postalCode": "10000",
+	"areaCode": "435",
+	"interests": "swimming, adventure sports",
+	"deviceIdMasks": [Inmobi.CONSTANTS.EXCLUDE_ADVERTISER_ID, Inmobi.CONSTANTS.EXCLUDE_ODIN1, Inmobi.CONSTANTS.EXCLUDE_UDID]
+});
+
+log("## " + Inmobi.CONSTANTS.ADSIZE_320X50);
+
+Alloy.Globals.createInmobiBannerAdd = function() {
+	var bannerAd = Inmobi.createBannerAd({
+	  "backgroundColor":"transparent",
+	  "top": 0,
+	  "left": 0,
+	  "width":320,
+	  "height":50,
+	  "adSize": 15,
+	  "refreshInterval": "30",
+	  // "keywords": "games, chess, magazines",
+	  // "additionalParams": { "myname": "nkapser" },
+	  // "refTagKey": "from",
+	  // "refTagValue": "inmobi"
+	});
+	bannerAd.addEventListener('onAdRequestCompleted', function(){
+	Ti.API.info("banner Ad Request Completed!");
+	});
+	bannerAd.addEventListener('onAdRequestFailed', function(e){
+		Ti.API.info("banner Ad Request Failed! "+e.message);
+	});
+	bannerAd.addEventListener('onClick', function(){
+		Ti.API.info("Banner was clicked!");
+	});
+	bannerAd.addEventListener('beforePresentScreen', function(){
+		Ti.API.info("Banner will go fullscreen!");
+	});
+	bannerAd.addEventListener('beforeDismissScreen', function(){
+		Ti.API.info("Banner Ad will dismiss fullscreen!");
+	});
+	bannerAd.addEventListener('onDismissScreen', function(){
+		Ti.API.info("Banner Ad dismissed fullscreen!");
+	});
+	bannerAd.addEventListener('onLeaveApplication', function(){
+		Ti.API.info("Banner Ad will leave application!");
+	});
+	return bannerAd;
+};
 
 Alloy.Globals.setAdmobPublisher = function(publisher, admobPublishers) {
 	Alloy.Globals.advPublisher = publisher;
@@ -76,27 +140,38 @@ Alloy.Globals.track = function(cate, action, label) {
 	});
 };
 
-Alloy.Globals.listener = function(e, callback) {
+Alloy.Globals.listeners = function(e, callback) {
 	if (e.success) {
 		if (Ti.Network.remoteDeviceUUID == undefined) {
 			Alloy.Globals.loginUser(Titanium.Platform.id);
 		}
 		Alloy.Globals.FB_USERNAME = e.data.username;
-  	callback(e);
+		if (callback != null) {
+	  	callback(e);
+		}
   } else if (e.error) {
 		log(e.error);
   } else if (e.cancelled) {
 		// cancel
   }
   //#### remove listener after finish
-  Alloy.Globals.facebook.removeEventListener('click', Alloy.Globals.listener);
+  // if (Alloy.Globals.listener != null) {
+	  // Alloy.Globals.facebook.removeEventListener('click', Alloy.Globals.listener);
+  // }
 };
+
+Alloy.Globals.fbLoginCallback = null;
 
 Alloy.Globals.facebookLogin = function(callback) {
 	Alloy.Globals.facebook.authorize();
-	Alloy.Globals.facebook.addEventListener('login', function(e) {
-	  Alloy.Globals.listener(e, callback);
-	});
+	Alloy.Globals.fbLoginCallback = callback;
+	if (!Alloy.Globals.fbLoginListener) {
+		Alloy.Globals.fbLoginListener = true;
+		Alloy.Globals.listener = Alloy.Globals.facebook.addEventListener('login', function(e) {
+	  	Alloy.Globals.listeners(e, Alloy.Globals.fbLoginCallback);
+	  	Alloy.Globals.fbLoginCallback = null;
+		});
+	}
 };
 
 Alloy.Globals.facebookGetUsername = function(callback) {
@@ -254,8 +329,10 @@ Alloy.Globals.openLoading = function(window) {
 };
 
 Alloy.Globals.closeLoading = function(window) {
-	window.remove(Alloy.Globals.currentLoadingView);
-	Alloy.Globals.currentLoadingView = null;
+	if (Alloy.Globals.currentLoadingView !=null) {
+		window.remove(Alloy.Globals.currentLoadingView);
+		Alloy.Globals.currentLoadingView = null;
+	}
 };
 
 Alloy.Globals.isNew = function(checkDate) {
@@ -343,6 +420,14 @@ Alloy.Globals.dynamicSortNumber = function(property, type) {
   };
 };
 
+Alloy.Globals.dynamicSortDate = function(property, type) {
+  return function (a,b) {
+	  a = new Date(a[property]);
+  	b = new Date(b[property]);
+    return (a < b) ? (-1 * type) : (a > b) ? (1 * type) : 0;
+  };
+};
+
 Alloy.Globals.dynamicLoad = function(tableView, data) {
 	var loadingIcon = Titanium.UI.createActivityIndicator({
 		style: Ti.Platform.name == 'iPhone OS' ? Ti.UI.iPhone.ActivityIndicatorStyle.DARK : Ti.UI.ActivityIndicatorStyle.DARK,
@@ -424,6 +509,29 @@ Alloy.Globals.dynamicLoad = function(tableView, data) {
 	});
 };
 
+Alloy.Globals.checkUnlockFunction = function(type, user, callback) {
+	Alloy.Globals.getAjax('/checkUnlockFunction', {
+		userId: user.id,
+		username: user.username,
+		fullName: user.name,
+		type: type,
+	},
+	function(response) {
+		var data = JSON.parse(response).data;
+		callback(data);
+	});
+};
+
+Alloy.Globals.sendUnlockRequest = function(type, userId, pTime) {
+	Alloy.Globals.getAjax('/unlockFunction', {
+		userId: user.id,
+		type: type,
+		time: pTime
+	},
+	function(response) {
+	});
+};
+
 Alloy.Globals.addFavorite = function(itemId, itemType, user, title, imageLink, callback) {
 	Alloy.Globals.getAjax('/addFavorite', {
 		userId: user.id,
@@ -500,6 +608,9 @@ Alloy.Globals.getAdvHeight = function() {
 };
 
 Alloy.Globals.adv = function(type, callback) {
+	alert(Titanium.Locale.currentLocale);
+	callback(Alloy.Globals.createInmobiBannerAdd());
+	return;
 	if (Alloy.Globals.advPublisher == 0) {
 	  var advImage = Ti.UI.iOS.createAdView({
 		 width: 'auto',
@@ -592,8 +703,66 @@ Alloy.Globals.getNewestChapter = function(chapters) {
 };
 
 Alloy.Globals.checkAudioExist = function(audioName) {
-  var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory +'/audioData/' + audioName);
+  var file = Titanium.Filesystem.getFile(Alloy.Globals.localAudioFolder, audioName);
   return file.exists();
+};
+
+Alloy.Globals.removeAudioFile = function(audioName) {
+  var file = Titanium.Filesystem.getFile(Alloy.Globals.localAudioFolder, audioName);
+  if (file.exists()) {
+  	file.deleteFile();
+  }
+};
+
+Alloy.Globals.isDownloadingAudio = false;
+Alloy.Globals.downloadingAudioName = null;
+Alloy.Globals.downloadAudioRequest;
+Alloy.Globals.STORY_AUDIO_CONTROLLER;
+Alloy.Globals.MAX_DOWNLOADED_FILE = 10;
+
+Alloy.Globals.isMaxDownloadFile = function() {
+	return Titanium.Filesystem.getFile(Alloy.Globals.localAudioFolder).getDirectoryListing().length > Alloy.Globals.MAX_DOWNLOADED_FILE;
+};
+
+Alloy.Globals.downloadAudio = function(fileName, downloadLink, progressBar) {
+  var folder = Titanium.Filesystem.getFile(Alloy.Globals.localAudioFolder);
+  if (!folder.exists()){
+      folder.createDirectory(); 
+  }
+	if (Alloy.Globals.isMaxDownloadFile()) {
+		alert("Đã tải quá " + Alloy.Globals.MAX_DOWNLOADED_FILE + " truyện. Xoá bớt để tải tiếp!");
+		return false;
+	}
+	Alloy.Globals.isDownloadingAudio = true;
+	Alloy.Globals.downloadingAudioName = fileName;
+  log(folder.getDirectoryListing());
+	Alloy.Globals.downloadAudioRequest = Titanium.Network.createHTTPClient({
+    onload: function() {
+      var f = Ti.Filesystem.getFile(Alloy.Globals.localAudioFolder, fileName);
+      f.write(this.responseData); // write to the file
+      Alloy.Globals.isDownloadingAudio = false;
+    	Alloy.Globals.downloadingAudioName = null;
+  		Alloy.Globals.STORY_AUDIO_CONTROLLER.finishDownload(fileName);
+  		Ti.App.fireEvent('audioDownloaded', {fileName: fileName});
+    },
+    timeout: 10000
+	});
+	Alloy.Globals.downloadAudioRequest.ondatastream = function(e) {
+    Alloy.Globals.STORY_AUDIO_CONTROLLER.updateDownloadProgress(e.progress);
+    // Ti.API.info('Progess - ' + fileName + ': ' + (e.progress * 100));
+	};
+	Alloy.Globals.downloadAudioRequest.open('GET', downloadLink);
+	Alloy.Globals.downloadAudioRequest.send();
+	return true;
+};
+
+Alloy.Globals.cancelDownloadAudio = function() {
+  Alloy.Globals.isDownloadingAudio = false;
+	Alloy.Globals.downloadingAudioName = null;
+	if (Alloy.Globals.downloadAudioRequest != null) {
+		Alloy.Globals.downloadAudioRequest.abort();
+	}
+	Alloy.Globals.STORY_AUDIO_CONTROLLER.hideDownloadProgress();
 };
 
 Alloy.Globals.convertTime = function(timer) {
@@ -605,7 +774,7 @@ Alloy.Globals.convertTime = function(timer) {
 	var timeString = "";
 	if (timer > 3600) {
 		tempVal = Math.floor(timer / 3600);
-		if (tempVal > 10) {
+		if (tempVal < 10) {
 			timeString += "0" + tempVal + ":";
 		} else {
 			timeString += tempVal + ":";
@@ -617,7 +786,7 @@ Alloy.Globals.convertTime = function(timer) {
 	
 	if (timer >= 60) {
 		tempVal = Math.floor(timer / 60);
-		if (tempVal > 10) {
+		if (tempVal < 10) {
 			timeString += "0" + tempVal + ":";
 		} else {
 			timeString += tempVal + ":";

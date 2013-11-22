@@ -62,7 +62,14 @@ function Controller() {
         });
     }
     function SaveReadingChapter() {
-        currentPage >= listImages.length / 2 && (Alloy.Globals.readingChapters[args.mangaId] = args.chapter);
+        if (currentPage >= listImages.length / 2) {
+            Alloy.Globals.readingChapters[args.mangaId] = args.chapter;
+            Alloy.Globals.readingCount++;
+            if (0 == Alloy.Globals.readingCount % Alloy.Globals.popupAdNumb) {
+                revmob.showFullscreen();
+                Alloy.Globals.readingCount = 0;
+            }
+        }
     }
     function addImageView() {
         for (var i = 0; listImages.length > i; i++) {
@@ -341,11 +348,11 @@ function Controller() {
     }());
     $.__views.buttonBar.add($.__views.nextButton);
     changeChapter ? $.__views.nextButton.addEventListener("click", changeChapter) : __defers["$.__views.nextButton!click!changeChapter"] = true;
-    var __alloyId18 = [];
+    var __alloyId16 = [];
     $.__views.imageHolderView = Ti.UI.createScrollableView({
         width: "100%",
         height: "100%",
-        views: __alloyId18,
+        views: __alloyId16,
         id: "imageHolderView"
     });
     $.__views.mangaReadingWindow.add($.__views.imageHolderView);

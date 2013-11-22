@@ -186,7 +186,7 @@ function Controller() {
     $.__views.storyListWindow.add($.__views.bookShellTable);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 10; else var MAX_DISPLAY_ROW = 5;
+    if (Alloy.Globals.isTablet()) var MAX_DISPLAY_ROW = 20; else var MAX_DISPLAY_ROW = 15;
     var search = $.searchButton;
     var table = $.bookShellTable;
     var listStory;
@@ -255,7 +255,7 @@ function Controller() {
                 break;
 
               case 2:
-                listStory.sort(Alloy.Globals.dynamicSort("datePost", -1));
+                listStory.sort(Alloy.Globals.dynamicSortDate("datePost", -1));
                 break;
 
               case 3:

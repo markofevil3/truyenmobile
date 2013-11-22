@@ -25,7 +25,7 @@ Alloy.Globals.isTablet = function() {
     return osname.search(/iphone/i) > -1 ? false : true;
 };
 
-Alloy.Globals.SERVER = "http://113.190.1.107:3000";
+Alloy.Globals.SERVER = "http://113.190.0.110:3000";
 
 Alloy.Globals.MAX_DISPLAY_ROW = 30;
 
@@ -53,7 +53,7 @@ Alloy.Globals.DEFAULT_PASSWORD = "truyenAlloy";
 
 Alloy.Globals.DEFAULT_PUSH_CHANNEL = "news";
 
-Alloy.Globals.listener = null;
+Alloy.Globals.fbLoginListener = false;
 
 Alloy.Globals.FB_USERNAME = null;
 
@@ -61,20 +61,84 @@ Alloy.Globals.homeWindowStack = [];
 
 Alloy.Globals.readingChapters = {};
 
+Alloy.Globals.readingCount = 0;
+
+Alloy.Globals.popupAdNumb = 3;
+
+Alloy.Globals.localAudioFolder = Titanium.Filesystem.applicationDataDirectory + "/truyenAudio";
+
 Alloy.Globals.readingFontSize = Alloy.Globals.isTablet() ? 26 : 16;
 
 Alloy.Globals.advPublisher = 0;
 
 Alloy.Globals.admobPublisher = {
     android: "a1524cf9df9881d",
-    iphone: "a15242fc9991b03",
-    ipad: "a15242fe704686c"
+    iphone: "a15283aa0b43c3f",
+    ipad: "a15283aa5be9001"
 };
 
 var revmob = new RevMob({
     "iPhone OS": "52443a8f95b82813ab000035",
     android: "copy your RevMob Android App ID here"
 });
+
+var Inmobi = require("ti.inmobi");
+
+var inmobiAppId = "35d83d6ca730455780ae455dbf12091a";
+
+Inmobi.initWithParams(inmobiAppId, {
+    logLevel: Inmobi.CONSTANTS.LOGLEVEL_DEBUG,
+    gender: Inmobi.CONSTANTS.GENDER_MALE,
+    education: Inmobi.CONSTANTS.EDUCATION_HIGHSCHOOLORLESS,
+    ethnicity: Inmobi.CONSTANTS.ETHNICITY_ASIAN,
+    dob: "29-11-1984",
+    income: "10000",
+    age: "30",
+    maritalStatus: Inmobi.CONSTANTS.MARITAL_STATUS_SINGLE,
+    hasChildren: Inmobi.CONSTANTS.TRUE,
+    sexualOrientation: Inmobi.CONSTANTS.SEXUAL_ORIENTATION_STRAIGHT,
+    language: "eng",
+    postalCode: "10000",
+    areaCode: "435",
+    interests: "swimming, adventure sports",
+    deviceIdMasks: [ Inmobi.CONSTANTS.EXCLUDE_ADVERTISER_ID, Inmobi.CONSTANTS.EXCLUDE_ODIN1, Inmobi.CONSTANTS.EXCLUDE_UDID ]
+});
+
+log("## " + Inmobi.CONSTANTS.ADSIZE_320X50);
+
+Alloy.Globals.createInmobiBannerAdd = function() {
+    var bannerAd = Inmobi.createBannerAd({
+        backgroundColor: "transparent",
+        top: 0,
+        left: 0,
+        width: 320,
+        height: 50,
+        adSize: 15,
+        refreshInterval: "30"
+    });
+    bannerAd.addEventListener("onAdRequestCompleted", function() {
+        Ti.API.info("banner Ad Request Completed!");
+    });
+    bannerAd.addEventListener("onAdRequestFailed", function(e) {
+        Ti.API.info("banner Ad Request Failed! " + e.message);
+    });
+    bannerAd.addEventListener("onClick", function() {
+        Ti.API.info("Banner was clicked!");
+    });
+    bannerAd.addEventListener("beforePresentScreen", function() {
+        Ti.API.info("Banner will go fullscreen!");
+    });
+    bannerAd.addEventListener("beforeDismissScreen", function() {
+        Ti.API.info("Banner Ad will dismiss fullscreen!");
+    });
+    bannerAd.addEventListener("onDismissScreen", function() {
+        Ti.API.info("Banner Ad dismissed fullscreen!");
+    });
+    bannerAd.addEventListener("onLeaveApplication", function() {
+        Ti.API.info("Banner Ad will leave application!");
+    });
+    return bannerAd;
+};
 
 Alloy.Globals.setAdmobPublisher = function(publisher, admobPublishers) {
     Alloy.Globals.advPublisher = publisher;
@@ -101,20 +165,26 @@ Alloy.Globals.track = function(cate, action, label) {
     });
 };
 
-Alloy.Globals.listener = function(e, callback) {
+Alloy.Globals.listeners = function(e, callback) {
     if (e.success) {
         void 0 == Ti.Network.remoteDeviceUUID && Alloy.Globals.loginUser(Titanium.Platform.id);
         Alloy.Globals.FB_USERNAME = e.data.username;
-        callback(e);
+        null != callback && callback(e);
     } else e.error ? log(e.error) : e.cancelled;
-    Alloy.Globals.facebook.removeEventListener("click", Alloy.Globals.listener);
 };
+
+Alloy.Globals.fbLoginCallback = null;
 
 Alloy.Globals.facebookLogin = function(callback) {
     Alloy.Globals.facebook.authorize();
-    Alloy.Globals.facebook.addEventListener("login", function(e) {
-        Alloy.Globals.listener(e, callback);
-    });
+    Alloy.Globals.fbLoginCallback = callback;
+    if (!Alloy.Globals.fbLoginListener) {
+        Alloy.Globals.fbLoginListener = true;
+        Alloy.Globals.listener = Alloy.Globals.facebook.addEventListener("login", function(e) {
+            Alloy.Globals.listeners(e, Alloy.Globals.fbLoginCallback);
+            Alloy.Globals.fbLoginCallback = null;
+        });
+    }
 };
 
 Alloy.Globals.facebookGetUsername = function(callback) {
@@ -239,8 +309,10 @@ Alloy.Globals.openLoading = function(window) {
 };
 
 Alloy.Globals.closeLoading = function(window) {
-    window.remove(Alloy.Globals.currentLoadingView);
-    Alloy.Globals.currentLoadingView = null;
+    if (null != Alloy.Globals.currentLoadingView) {
+        window.remove(Alloy.Globals.currentLoadingView);
+        Alloy.Globals.currentLoadingView = null;
+    }
 };
 
 Alloy.Globals.isNew = function(checkDate) {
@@ -310,6 +382,14 @@ Alloy.Globals.dynamicSort = function(property, type) {
 Alloy.Globals.dynamicSortNumber = function(property, type) {
     return function(a, b) {
         return parseFloat(a[property]) < parseFloat(b[property]) ? -1 * type : parseFloat(a[property]) > parseFloat(b[property]) ? 1 * type : 0;
+    };
+};
+
+Alloy.Globals.dynamicSortDate = function(property, type) {
+    return function(a, b) {
+        a = new Date(a[property]);
+        b = new Date(b[property]);
+        return b > a ? -1 * type : a > b ? 1 * type : 0;
     };
 };
 
@@ -389,6 +469,26 @@ Alloy.Globals.dynamicLoad = function(tableView, data) {
     });
 };
 
+Alloy.Globals.checkUnlockFunction = function(type, user, callback) {
+    Alloy.Globals.getAjax("/checkUnlockFunction", {
+        userId: user.id,
+        username: user.username,
+        fullName: user.name,
+        type: type
+    }, function(response) {
+        var data = JSON.parse(response).data;
+        callback(data);
+    });
+};
+
+Alloy.Globals.sendUnlockRequest = function(type, userId, pTime) {
+    Alloy.Globals.getAjax("/unlockFunction", {
+        userId: user.id,
+        type: type,
+        time: pTime
+    }, function() {});
+};
+
 Alloy.Globals.addFavorite = function(itemId, itemType, user, title, imageLink, callback) {
     Alloy.Globals.getAjax("/addFavorite", {
         userId: user.id,
@@ -440,51 +540,9 @@ Alloy.Globals.getAdvHeight = function() {
 };
 
 Alloy.Globals.adv = function(type, callback) {
-    if (0 == Alloy.Globals.advPublisher) {
-        var advImage = Ti.UI.iOS.createAdView({
-            width: "auto",
-            height: "auto"
-        });
-        advImage.addEventListener("error", function(e) {
-            2 != e.code;
-        });
-        callback(advImage);
-    } else {
-        var advImage = Admob.createView({
-            width: Ti.Platform.displayCaps.platformWidth,
-            height: Alloy.Globals.getAdvHeight(),
-            publisherId: Alloy.Globals.getAdvPublisherId(),
-            testing: false,
-            dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
-            gender: "male",
-            keywords: ""
-        });
-        Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
-        Ti.Geolocation.distanceFilter = 0;
-        Ti.Geolocation.purpose = "To show you local ads, of course!";
-        Ti.Geolocation.getCurrentPosition(function(e) {
-            var advImage;
-            advImage = !e.success || e.error ? Admob.createView({
-                width: Ti.Platform.displayCaps.platformWidth,
-                height: Alloy.Globals.getAdvHeight(),
-                publisherId: Alloy.Globals.getAdvPublisherId(),
-                testing: false,
-                dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
-                gender: "male",
-                keywords: ""
-            }) : Admob.createView({
-                width: Ti.Platform.displayCaps.platformWidth,
-                height: Alloy.Globals.getAdvHeight(),
-                publisherId: Alloy.Globals.getAdvPublisherId(),
-                testing: false,
-                dateOfBirth: new Date(1988, 5, 20, 12, 1, 1),
-                gender: "male",
-                keywords: "",
-                location: e.coords
-            });
-            callback(advImage);
-        });
-    }
+    alert(Titanium.Locale.currentLocale);
+    callback(Alloy.Globals.createInmobiBannerAdd());
+    return;
 };
 
 Alloy.Globals.loadImage = function(imageView, url) {
@@ -514,31 +572,83 @@ Alloy.Globals.getNewestChapter = function(chapters) {
 };
 
 Alloy.Globals.checkAudioExist = function(audioName) {
-    var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory + "/audioData/" + audioName);
+    var file = Titanium.Filesystem.getFile(Alloy.Globals.localAudioFolder, audioName);
     return file.exists();
 };
 
+Alloy.Globals.removeAudioFile = function(audioName) {
+    var file = Titanium.Filesystem.getFile(Alloy.Globals.localAudioFolder, audioName);
+    file.exists() && file.deleteFile();
+};
+
+Alloy.Globals.isDownloadingAudio = false;
+
+Alloy.Globals.downloadingAudioName = null;
+
+Alloy.Globals.downloadAudioRequest;
+
+Alloy.Globals.STORY_AUDIO_CONTROLLER;
+
+Alloy.Globals.MAX_DOWNLOADED_FILE = 10;
+
+Alloy.Globals.isMaxDownloadFile = function() {
+    return Titanium.Filesystem.getFile(Alloy.Globals.localAudioFolder).getDirectoryListing().length > Alloy.Globals.MAX_DOWNLOADED_FILE;
+};
+
+Alloy.Globals.downloadAudio = function(fileName, downloadLink) {
+    var folder = Titanium.Filesystem.getFile(Alloy.Globals.localAudioFolder);
+    folder.exists() || folder.createDirectory();
+    if (Alloy.Globals.isMaxDownloadFile()) {
+        alert("Đã tải quá " + Alloy.Globals.MAX_DOWNLOADED_FILE + " truyện. Xoá bớt để tải tiếp!");
+        return false;
+    }
+    Alloy.Globals.isDownloadingAudio = true;
+    Alloy.Globals.downloadingAudioName = fileName;
+    log(folder.getDirectoryListing());
+    Alloy.Globals.downloadAudioRequest = Titanium.Network.createHTTPClient({
+        onload: function() {
+            var f = Ti.Filesystem.getFile(Alloy.Globals.localAudioFolder, fileName);
+            f.write(this.responseData);
+            Alloy.Globals.isDownloadingAudio = false;
+            Alloy.Globals.downloadingAudioName = null;
+            Alloy.Globals.STORY_AUDIO_CONTROLLER.finishDownload(fileName);
+            Ti.App.fireEvent("audioDownloaded", {
+                fileName: fileName
+            });
+        },
+        timeout: 1e4
+    });
+    Alloy.Globals.downloadAudioRequest.ondatastream = function(e) {
+        Alloy.Globals.STORY_AUDIO_CONTROLLER.updateDownloadProgress(e.progress);
+    };
+    Alloy.Globals.downloadAudioRequest.open("GET", downloadLink);
+    Alloy.Globals.downloadAudioRequest.send();
+    return true;
+};
+
+Alloy.Globals.cancelDownloadAudio = function() {
+    Alloy.Globals.isDownloadingAudio = false;
+    Alloy.Globals.downloadingAudioName = null;
+    null != Alloy.Globals.downloadAudioRequest && Alloy.Globals.downloadAudioRequest.abort();
+    Alloy.Globals.STORY_AUDIO_CONTROLLER.hideDownloadProgress();
+};
+
 Alloy.Globals.convertTime = function(timer) {
+    var tempVal;
     if (0 >= timer) return "00:00:00";
     var timeString = "";
     if (timer > 3600) {
-        timeString += Math.floor(timer / 3600) + ":";
+        tempVal = Math.floor(timer / 3600);
+        timeString += 10 > tempVal ? "0" + tempVal + ":" : tempVal + ":";
         timer -= parseInt(3600 * Math.floor(timer / 3600));
     } else timeString += "00:";
     if (timer >= 60) {
-        timeString += Math.floor(timer / 60) + ":";
+        tempVal = Math.floor(timer / 60);
+        timeString += 10 > tempVal ? "0" + tempVal + ":" : tempVal + ":";
         timer -= parseInt(60 * Math.floor(timer / 60));
     } else timeString += "00:";
     timeString += 10 > timer ? "0" + timer : timer;
     return timeString;
 };
-
-var NappAppearance = require("dk.napp.appearance");
-
-NappAppearance.setGlobalStyling({
-    activityIndicator: {
-        color: "#CD1625"
-    }
-});
 
 Alloy.createController("index");

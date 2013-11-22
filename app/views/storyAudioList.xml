@@ -1,12 +1,15 @@
 <Alloy>
-  <Window id="storyAudioListWindow" title="Nghe Truyện">
+  <Window id="storyAudioListWindow" title="Radio Truyện">
     <Require id="loading" type="widget" src="com.appcelerator.loading"/>
     <View id="searchView" class="searchView">
       <SearchBar id="searchButton" class="search"/>
       <Button id="sortButton" class="sort" />
     </View>
-    <View id="advView" />
+    <View id="downloadProgressView">
+      <ProgressBar id="downloadProgress"/>
+    </View>
     <TableView id="bookShellTable">
     </TableView>
+    <!-- <View id="advView" /> -->
   </Window>
 </Alloy>

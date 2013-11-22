@@ -1,4 +1,5 @@
 var textArea = $.contentTextArea;
+var emailText = $.emailText;
 var sendButton = $.sendButton;
 
 exports.openMainWindow = function() {
@@ -13,12 +14,14 @@ function sendSupport() {
 	if (textArea.value.length > 20) {
 		sendButton.enabled = false;
 		Alloy.Globals.getAjax('/support', {
-			content: textArea.value
+			content: textArea.value,
+			email: emailText.value
 		},
 		function(response) {
 			alert('Yêu cầu của bạn đã được gửi đi!');
 			sendButton.enabled = true;
 			textArea.value = '';
+			emailText.value = '';
 		});
 	} else {
 		alert('Nội dung quá ngắn!');

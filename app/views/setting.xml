@@ -8,8 +8,6 @@
         </TableViewRow>
         <TableViewRow id="aboutUs" class="settingRow" title="Giới Thiệu" onClick="selectMenu">
         </TableViewRow>
-        <TableViewRow id="adv">
-        </TableViewRow>
       </TableView>
       <WebView id="facebookLikeBox">
       </WebView>

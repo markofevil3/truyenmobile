@@ -5,6 +5,7 @@ var search = $.searchButton;
 
 exports.openMainWindow = function() {
 	Alloy.Globals.CURRENT_TAB.open($.storyWindow);
+	Alloy.Globals.track("Story", "Open Story", args.data.title);
 	//#### back button
 	$.storyWindow.leftNavButton = Alloy.Globals.backButton($.storyWindow);
 	Alloy.Globals.homeWindowStack.push($.storyWindow);
@@ -56,6 +57,7 @@ exports.openMainWindow = function() {
 		}
 	});
 	var listChapters = args.data.chapters;
+	listChapters.sort(Alloy.Globals.dynamicSort('chapter', -1));
 	if (args.favorite) {
 		$.storyWindow.rightNavButton = favoritedButton;
 	} else {
@@ -76,7 +78,7 @@ exports.openMainWindow = function() {
 		var results = [];
 		var regexValue = new RegExp(Alloy.Globals.removeUTF8(e.value), 'i');
 		for (var i in listChapters) {
-			if (regexValue.test(listChapters[i].chapter)) {
+			if (regexValue.test(listChapters[i].title)) {
 				results.push(listChapters[i]);
 			}
 		}
@@ -105,10 +107,10 @@ exports.openMainWindow = function() {
 	dialog.addEventListener('click',function(e) {
 		switch (e.index) {
 			case 0:
-				listChapters.sort(Alloy.Globals.dynamicSortNumber('chapter', 1));
+				listChapters.sort(Alloy.Globals.dynamicSort('chapter', 1));
 				break;
 			case 1:
-				listChapters.sort(Alloy.Globals.dynamicSortNumber('chapter', -1));
+				listChapters.sort(Alloy.Globals.dynamicSort('chapter', -1));
 				break;
 		}
 		table.setData([]);

@@ -1,12 +1,29 @@
 if (Alloy.Globals.isTablet()) {
-	var MAX_DISPLAY_ROW = 10;
+	var MAX_DISPLAY_ROW = 20;
 } else {
-	var MAX_DISPLAY_ROW = 5;
+	var MAX_DISPLAY_ROW = 15;
 }
 
 var search = $.searchButton;
 var table = $.bookShellTable;
 var listStory;
+var listDownloaded = [];
+var downloadProgressBar = $.downloadProgress;
+
+exports.updateDownloadProgress = function(value) {
+	if (!downloadProgressBar.visible) {
+		downloadProgressBar.show();
+	}
+	downloadProgressBar.value = value;
+};
+
+exports.hideDownloadProgress = function() {
+	downloadProgressBar.hide();
+};
+
+exports.finishDownload = function(fileName) {
+	downloadProgressBar.hide();
+};
 
 exports.openMainWindow = function() {
 	Alloy.Globals.CURRENT_TAB.open($.storyAudioListWindow);
@@ -18,12 +35,17 @@ exports.openMainWindow = function() {
 		Ti.App.fireEvent('app:reload');
 	});
 	//#### advertise view
-	Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-		$.advView.add(advImage);
-		$.advView.height = Alloy.Globals.getAdvHeight();
-	});
-	Alloy.Globals.getAjax('/storyList', {
-		'null': null
+	// Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+		// $.advView.add(advImage);
+		// $.advView.height = Alloy.Globals.getAdvHeight();
+	// });
+	
+	// ### update progress
+	if (!Alloy.Globals.isDownloadingAudio) {
+		downloadProgressBar.hide();
+	}
+	Alloy.Globals.getAjax('/storyAudioList', {
+		'v': Titanium.App.version.toString()
 	},
 	function(response) {
 		if (response == undefined || JSON.parse(response).error) {
@@ -35,7 +57,7 @@ exports.openMainWindow = function() {
 		table.data = tbl_data;
 		dynamicLoad(table);
 		$.loading.setOpacity(0.0);
-		$.storyAudioListWindow.setTitleControl(createTabBar());
+		// $.storyAudioListWindow.setTitleControl(createTabBar());
 	});
 	//#### search bar
 	search.addEventListener('return', function(e) {
@@ -64,7 +86,7 @@ exports.openMainWindow = function() {
 	});
 	//#### sort button
 	var optionsDialogOpts = {
-		options:['A -> Z', 'Most View', 'Newest', 'Z -> A'],
+		options:['A -> Z', 'Hot!', 'Mới Nhất', 'Z -> A', 'Đã Tải'],
 		selectedIndex: 0,
 		title:'SORT BY'
 	};
@@ -73,19 +95,35 @@ exports.openMainWindow = function() {
 		switch (e.index) {
 			case 0:
 				listStory.sort(Alloy.Globals.dynamicSort('title', 1));
+				table.setData([]);
+				table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
 				break;
 			case 1:
 				listStory.sort(Alloy.Globals.dynamicSortNumber('numView', -1));
+				table.setData([]);
+				table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
 				break;
 			case 2:
 				listStory.sort(Alloy.Globals.dynamicSort('datePost', -1));
+				table.setData([]);
+				table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
 				break;
 			case 3:
 				listStory.sort(Alloy.Globals.dynamicSort('title', -1));
+				table.setData([]);
+				table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
+				break;
+			case 4:
+				listDownloaded = [];
+				for (var i = 0; i < listStory.length; i++) {
+					if (Alloy.Globals.checkAudioExist(listStory[i].fileName)) {
+						listDownloaded.push(listStory[i]);
+					}
+				}
+				table.setData([]);
+				table.setData(setRowData(listDownloaded));
 				break;
 		}
-		table.setData([]);
-		table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
 	});
 	$.sortButton.addEventListener('singletap', function(e) {
 		dialog.show();
@@ -99,51 +137,6 @@ function setRowData(data) {
 		dataSet.push(row);
 	}
 	return dataSet;
-};
-
-function createTabBar() {
-	//### filter
-	var tabBar = Titanium.UI.iOS.createTabbedBar({
-		labels:['Tất cả', 'Tr.ngắn', 'Tr.dài'],
-		index:0,
-		color: '#fff',
-		font: { fontWeight: 'bold' }
-	});
-	if (Alloy.Globals.getOSType() == "iPhone OS") {
-		if (parseFloat(Ti.Platform.version) >= 7) {
-			tabBar.tintColor = '#CCCCCC';
-		} else {
-			tabBar.backgroundColor = '#c69656';
-			tabBar.style = Titanium.UI.iPhone.SystemButtonStyle.BAR;
-		}
-	}
-	var cloneListStory = listStory.slice(0);
-	tabBar.addEventListener('click', function(e) {
-		switch (e.index) {
-			case 0:
-				listStory = cloneListStory.slice(0);
-				break;
-			case 1:
-				listStory = [];
-				for (var i = 0; i < cloneListStory.length; i++) {
-					if (cloneListStory[i].type == 0) {
-						listStory.push(cloneListStory[i]);
-					}
-				}
-				break;
-			case 2:
-				listStory = [];
-				for (var i = 0; i < cloneListStory.length; i++) {
-					if (cloneListStory[i].type == 1) {
-						listStory.push(cloneListStory[i]);
-					}
-				}
-				break;
-		}
-		table.setData([]);
-		table.setData(setRowData(listStory.slice(0, MAX_DISPLAY_ROW)));
-	});
-	return tabBar;
 };
 
 function dynamicLoad(tableView) {

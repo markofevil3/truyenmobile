@@ -9,10 +9,10 @@
     <property name="ti.facebook.appid">517068261714145</property>
     <id>com.buiphiquan.newtruyen</id>
     <name>Full Truyện</name>
-    <version>1.1.1</version>
+    <version>1.2</version>
     <publisher>rongxanh2052004</publisher>
-    <url>http://buiphiquan.com</url>
-    <description>Truyện tranh, truyện ngắn, truyện cười</description>
+    <url>http://www.fulltruyen.com</url>
+    <description>Truyện tranh, truyện ngắn, truyện cười, truyện radio, truyện audio</description>
     <copyright>2013 by rongxanh2052004</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
@@ -55,6 +55,8 @@
         <module platform="android">ti.admob</module>
         <module platform="iphone">ti.admob</module>
         <module platform="android">com.revmob.ti.android</module>
+        <module platform="iphone">ti.storekit</module>
+        <module platform="iphone">ti.inmobi</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

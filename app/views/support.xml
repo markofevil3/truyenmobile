@@ -2,6 +2,7 @@
   <Window id="supportWindow" title="Yêu Cầu Truyện">
     <ScrollView id="wrapperView">
       <Label id="textLabel" />
+      <TextField id="emailText"/>
       <TextArea id="contentTextArea"/>
       <Button id="sendButton" onClick="sendSupport"/>
     </ScrollView>

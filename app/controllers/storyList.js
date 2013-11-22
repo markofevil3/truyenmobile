@@ -1,7 +1,7 @@
 if (Alloy.Globals.isTablet()) {
-	var MAX_DISPLAY_ROW = 10;
+	var MAX_DISPLAY_ROW = 20;
 } else {
-	var MAX_DISPLAY_ROW = 5;
+	var MAX_DISPLAY_ROW = 15;
 }
 
 var search = $.searchButton;
@@ -9,6 +9,7 @@ var table = $.bookShellTable;
 var listStory;
 
 exports.openMainWindow = function() {
+	
 	Alloy.Globals.CURRENT_TAB.open($.storyListWindow);
 	//#### back button
 	$.storyListWindow.leftNavButton = Alloy.Globals.backButton($.storyListWindow);
@@ -25,6 +26,8 @@ exports.openMainWindow = function() {
 		}
 		var jsonData = JSON.parse(response);
 		Alloy.Globals.setAdmobPublisher(jsonData.advPublisher, jsonData.admobPublisher);
+		// var banner = Alloy.Globals.createInmobiBannerAdd();
+		// $.storyListWindow.add(Alloy.Globals.createInmobiBannerAdd());
 		//#### advertise view
 		Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
 			$.advView.add(advImage);
@@ -78,7 +81,7 @@ exports.openMainWindow = function() {
 				listStory.sort(Alloy.Globals.dynamicSortNumber('numView', -1));
 				break;
 			case 2:
-				listStory.sort(Alloy.Globals.dynamicSort('datePost', -1));
+				listStory.sort(Alloy.Globals.dynamicSortDate('datePost', -1));
 				break;
 			case 3:
 				listStory.sort(Alloy.Globals.dynamicSort('title', -1));

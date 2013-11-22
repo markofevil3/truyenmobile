@@ -1,9 +1,18 @@
 <Alloy>
   <TableViewRow id="row" class="rows">
+    <View id="bookCoverView" class="bookCoverViews">
+      <ImageView id="bookCover" class="bookCovers"/>
+    </View>
     <View id="detailView" class="detailViews">
       <Label id="storyAudioTitle" class="storyAudioTitles" />
       <Label id="storyAudioAuthor" class="storyAudioAuthors" />
       <Label id="storyAudioType" class="storyAudioTypes" />
+    </View>
+    <View id="buttonView" class="buttonView">
+      <Button id="downloadButton" onClick="eventClickBtn" />
+      <!-- <Button id="cancelDownloadButton" onClick="eventCancelDownload" />
+      <Button id="removeAudioButton" onClick="eventRemoveAudio" /> -->
+      <Button id="playButton" onClick="eventPlay" />
     </View>
   </TableViewRow>
 </Alloy>

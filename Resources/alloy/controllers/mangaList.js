@@ -242,7 +242,7 @@ function Controller() {
                 break;
 
               case 2:
-                listManga.sort(Alloy.Globals.dynamicSort("datePost", -1));
+                listManga.sort(Alloy.Globals.dynamicSortDate("updatedAt", -1));
                 break;
 
               case 3:

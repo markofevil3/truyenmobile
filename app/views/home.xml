@@ -2,8 +2,8 @@
 	<Tab id="homeTab" icon="/common/home.png">
 		<Window id="homeWindow" class="tabs" title="Home">
 			<TableView id="homeTableView">
-			  <TableViewRow id="advertise">
-			  </TableViewRow>
+			  <!-- <TableViewRow id="advertise">
+			  </TableViewRow> -->
 			  <TableViewRow id="MangaList" class="homeRow" dataName="mangaList" onClick="selectMenu">
 			    <!-- <View class="homeRowBackground"> -->
             <Label class="homeMenuName"> Truyện Tranh </Label>
@@ -15,13 +15,13 @@
 			    <ImageView class="homeBackgroundPanel" image="/common/bg_pink.png"/>
 			  </TableViewRow>
        <TableViewRow id="StoryAudioList" class="homeRow" dataName="storyAudioList" onClick="selectMenu">
-          <Label class="homeMenuName"> Truyện Audio </Label>
+          <Label class="homeMenuName"> Radio Truyện </Label>
           <ImageView class="homeBackgroundPanel" image="/common/bg_green.png"/>
         </TableViewRow>
-			  <TableViewRow id="FunnyList" class="homeRow" dataName="funnyList" onClick="selectMenu">
+			  <!-- <TableViewRow id="FunnyList" class="homeRow" dataName="funnyList" onClick="selectMenu">
 			    <Label class="homeMenuName"> Truyện Cười </Label>
 			    <ImageView class="homeBackgroundPanel" image="/common/bg_green.png"/>
-			  </TableViewRow>
+			  </TableViewRow> -->
 			</TableView>
 		</Window>
 	</Tab>

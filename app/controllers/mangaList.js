@@ -102,7 +102,7 @@ exports.openMainWindow = function() {
 				listManga.sort(Alloy.Globals.dynamicSortNumber('numView', -1));
 				break;
 			case 2:
-				listManga.sort(Alloy.Globals.dynamicSort('datePost', -1));
+				listManga.sort(Alloy.Globals.dynamicSortDate('updatedAt', -1));
 				break;
 			case 3:
 				listManga.sort(Alloy.Globals.dynamicSort('title', -1));

@@ -47,8 +47,8 @@ function Controller() {
         });
         return o;
     }());
-    var __alloyId19 = [];
-    __alloyId19.push($.__views.account);
+    var __alloyId17 = [];
+    __alloyId17.push($.__views.account);
     selectMenu ? $.__views.account.addEventListener("click", selectMenu) : __defers["$.__views.account!click!selectMenu"] = true;
     $.__views.support = Ti.UI.createTableViewRow(function() {
         var o = {};
@@ -80,7 +80,7 @@ function Controller() {
         });
         return o;
     }());
-    __alloyId19.push($.__views.support);
+    __alloyId17.push($.__views.support);
     selectMenu ? $.__views.support.addEventListener("click", selectMenu) : __defers["$.__views.support!click!selectMenu"] = true;
     $.__views.aboutUs = Ti.UI.createTableViewRow(function() {
         var o = {};
@@ -112,30 +112,14 @@ function Controller() {
         });
         return o;
     }());
-    __alloyId19.push($.__views.aboutUs);
+    __alloyId17.push($.__views.aboutUs);
     selectMenu ? $.__views.aboutUs.addEventListener("click", selectMenu) : __defers["$.__views.aboutUs!click!selectMenu"] = true;
-    $.__views.adv = Ti.UI.createTableViewRow(function() {
-        var o = {};
-        _.extend(o, {});
-        Alloy.isHandheld && _.extend(o, {
-            height: 50
-        });
-        _.extend(o, {});
-        Alloy.isTablet && _.extend(o, {
-            height: 90
-        });
-        _.extend(o, {
-            id: "adv"
-        });
-        return o;
-    }());
-    __alloyId19.push($.__views.adv);
     $.__views.settingTableView = Ti.UI.createTableView({
         height: Titanium.UI.SIZE,
         scrollable: false,
         backgroundColor: "transparent",
         top: 0,
-        data: __alloyId19,
+        data: __alloyId17,
         id: "settingTableView"
     });
     $.__views.settingWindow.add($.__views.settingTableView);
@@ -156,11 +140,6 @@ function Controller() {
     $.__views.settingTab && $.addTopLevelView($.__views.settingTab);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    var adview = $.adv;
-    for (var d in adview.children) adview.remove(adview.children[d]);
-    Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-        adview.add(advImage);
-    });
     $.settingTab.addEventListener("focus", function() {
         Alloy.Globals.CURRENT_TAB = $.settingTab;
         $.facebookLikeBox.url = Alloy.Globals.SERVER + "/facebook?type=" + Alloy.Globals.getDeviceType();

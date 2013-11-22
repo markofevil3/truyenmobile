@@ -1,12 +1,92 @@
+// var inAppPurchase = require("inAppPurchase");
+Ti.include('/inAppPurchase.js');
+
 var homeTab = $.homeTab;
-function selectMenu(e) {
-	// if (e.rowData.dataName == "funnyList" || e.rowData.dataName == "storyAudioList") {
-	if (e.rowData.dataName == "funnyList") {
-		alert("Coming Soon!");
-	} else {
-		var selectedMenuController = Alloy.createController(e.rowData.dataName);
-		selectedMenuController.openMainWindow();
+var homeWindow = $.homeWindow;
+
+Ti.App.addEventListener('openScreen', function(e) {
+	openScreen(e.screenName);
+});
+
+function purchaseUnlockFunction(userId, pTime) {
+	Alloy.Globals.track("Audio", "Unlock Audio", "From Home");
+	inAppPurchase.requestProduct('com.buiphiquan.newtruyen.unlockAudio', function (product) {
+		var confirmBox = Titanium.UI.createAlertDialog({
+			title: "Mở " + product.title + "?",
+			message: "Mở " + product.title + ' chỉ với ' + product.formattedPrice,
+			buttonNames: ['Mở','Huỷ'],
+			cancel: 1,
+		});
+		confirmBox.show();
+		confirmBox.addEventListener('click', function(e) {
+			if (e.index == 0) {
+				inAppPurchase.purchaseProduct(userId, product, pTime);
+			}
+		});
+	});
+}
+
+function openScreen(screenName) {
+	var selectedMenuController = Alloy.createController(screenName);
+	if (screenName == "storyAudioList") {
+		Alloy.Globals.track("Audio", "Open Audio", "From Home");
+		Alloy.Globals.STORY_AUDIO_CONTROLLER = selectedMenuController;
 	}
+	Alloy.Globals.closeLoading(homeWindow);
+	selectedMenuController.openMainWindow();
+};
+
+function selectMenu(e) {
+	Alloy.Globals.openLoading(homeWindow);
+	switch(e.rowData.dataName) {
+		case "funnyList":
+			alert("Coming Soon!");
+		break;
+		case "storyAudioList":
+			if (Alloy.Globals.facebook.loggedIn == 0) {
+				Alloy.Globals.facebookLogin(function(fbRes) {
+					var user = fbRes.data;
+					Alloy.Globals.checkUnlockFunction("audio", user, function(data) {
+						Alloy.Globals.closeLoading(homeWindow);
+						if (data.isPurchased) {
+							openScreen(e.rowData.dataName);
+						} else {
+							purchaseUnlockFunction(user.id, data.time);
+						}
+					});
+				});
+			} else {
+				Alloy.Globals.facebook.requestWithGraphPath('/' + Alloy.Globals.facebook.getUid(), {}, 'GET', function(response) {
+					user = JSON.parse(response.result);
+					Alloy.Globals.checkUnlockFunction("audio", user, function(data) {
+						Alloy.Globals.closeLoading(homeWindow);
+						if (data.isPurchased) {
+							openScreen(e.rowData.dataName);
+						} else {
+							purchaseUnlockFunction(user.id, data.time);
+						}
+					});
+				});
+			}
+		break;
+		default:
+			var selectedMenuController = Alloy.createController(e.rowData.dataName);
+			if (e.rowData.dataName == "storyAudioList") {
+				Alloy.Globals.STORY_AUDIO_CONTROLLER = selectedMenuController;
+			}
+			Alloy.Globals.closeLoading(homeWindow);
+			selectedMenuController.openMainWindow();
+	}
+	// if (e.rowData.dataName == "funnyList" || e.rowData.dataName == "storyAudioList") {
+	// if (e.rowData.dataName == "funnyList") {
+		// alert("Coming Soon!");
+	// } else {
+		// var selectedMenuController = Alloy.createController(e.rowData.dataName);
+		// if (e.rowData.dataName == "storyAudioList") {
+			// Alloy.Globals.STORY_AUDIO_CONTROLLER = selectedMenuController;
+		// }
+		// selectedMenuController.openMainWindow();
+	// }
 };
 
 function appStart() {
@@ -74,15 +154,15 @@ function openStoreLink(data) {
 };
 
 function startHome() {
-	//## ADVERTISE
-	var adview = $.advertise;
-	for (var d in adview.children) {
-    adview.remove(adview.children[d]);
-	}
-	Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
-		$.advertise.add(advImage);
-		$.advertise.height = Alloy.Globals.getAdvHeight();
-	});
+	// //## ADVERTISE
+	// var adview = $.advertise;
+	// for (var d in adview.children) {
+    // adview.remove(adview.children[d]);
+	// }
+	// Alloy.Globals.adv(Alloy.Globals.getDeviceType(), function(advImage) {
+		// $.advertise.add(advImage);
+		// $.advertise.height = Alloy.Globals.getAdvHeight();
+	// });
 };
 appStart();
 homeTab.addEventListener('focus', function(e) {
